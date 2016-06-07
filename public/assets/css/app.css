@@ -60,11 +60,6 @@ body {
   float: right;
 }
 
-.mdl-card__title {
-  background-color: rgb(96,125,139);
-  color: white;
-}
-
 #new-user-dialog {
   width: 600px;
 }
@@ -73,20 +68,33 @@ body {
   width: 600px;
 }
 
-.garage-status-content {
-  margin-top: 80px;
-}
 
-.garage-status-card.mdl-card {
-  width: 500px;
-  height: 320px;
-}
 
-.garage-status-card > .mdl-card__title {
-  color: #fff;
-  background-color: #fff;
+.widget-card.mdl-card {
+  width: 300px;
+  height: 300px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
-
-.mdl-card__actions {
-  margin-bottom: 10px;
+.widget-card > .mdl-card__actions {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.widget-card > .mdl-card__title {
+  align-items: flex-start;
+}
+.widget-card > .mdl-card__title > h4 {
+  margin-top: 0;
+}
+.widget-card > .mdl-card__actions {
+  display: flex;
+  box-sizing:border-box;
+  align-items: center;
+}
+.widget-card > .mdl-card__actions > .material-icons {
+  padding-right: 10px;
+}
+.widget-card > .mdl-card__title,
+.widget-card > .mdl-card__actions,
+.widget-card > .mdl-card__actions > .mdl-button {
+  color: #000;
 }

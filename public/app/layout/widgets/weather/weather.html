@@ -1,0 +1,20 @@
+<div class="widget-card mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand">
+    <h4>
+      {{weatherVm.timePeriod}}'s Weather: {{weatherVm.temperature}}&deg;
+      <br/><br/>
+      <img ng-src="{{weatherVm.icon}}" height="100" width="100">
+    </h4>
+  </div>
+  <div class="mdl-card__supporting-text">
+    {{weatherVm.forecast}}
+    <br/><br/>
+    <strong>{{weatherVm.currentTime}}</strong>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <div class="mdl-layout-spacer"></div>
+    <a class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">settings</i>
+    </a>
+  </div>
+</div>
