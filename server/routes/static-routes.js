@@ -45,6 +45,9 @@ module.exports = function(app) {
 	staticRoutes.get('/weather-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/weather/weather.html');
 	});
+	staticRoutes.get('/stocks-widget', function(req,res){
+		res.sendFile(base + '/public/app/layout/widgets/stocks/stocks.html');
+	});
 
 	app.use('/',staticRoutes);
 };

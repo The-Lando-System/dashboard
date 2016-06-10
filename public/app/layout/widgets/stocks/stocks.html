@@ -1,21 +1,17 @@
 <div class="widget-card mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title mdl-card--expand">
-    <div ng-hide="weatherVm.loading">
+    <div ng-hide="stocksVm.loading">
       <h4>
-        {{weatherVm.timePeriod}}'s Weather: {{weatherVm.temperature}}&deg;
-        <br/>
-        <img ng-src="{{weatherVm.icon}}" height="100" width="100">
+        Stock Code: {{stocksVm.stockCode}}
       </h4>
     </div>
   </div>
   <div class="mdl-card__supporting-text">
-    <div ng-show="weatherVm.loading">
+    <div ng-show="stocksVm.loading">
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
-    <div ng-hide="weatherVm.loading">
-      {{weatherVm.forecast}}
-      <br/><br/>
-      <strong>{{weatherVm.currentTime}}</strong>
+    <div ng-hide="stocksVm.loading">
+      Price: {{stocksVm.latestPrice}}
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">
