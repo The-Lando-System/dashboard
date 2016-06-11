@@ -2,7 +2,13 @@
   <div class="mdl-card__title mdl-card--expand">
     <div ng-hide="stocksVm.loading">
       <h4>
-        Stock Code: {{stocksVm.stockCode}}
+        {{stocksVm.stockCode}} : {{stocksVm.stockName}}
+        <div ng-show="stocksVm.increase">
+          <img src="/assets/images/up-arrow.png" height="180" width="250">
+        </div>
+        <div ng-hide="stocksVm.increase">
+          <img src="/assets/images/down-arrow.jpg" height="200" width="250">
+        </div>
       </h4>
     </div>
   </div>
@@ -11,13 +17,28 @@
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
     <div ng-hide="stocksVm.loading">
-      Price: {{stocksVm.latestPrice}}
+      Price: ${{stocksVm.latestPrice}}
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">
     <div class="mdl-layout-spacer"></div>
-    <a class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
+    <a ng-click="stocksVm.openSettings()" class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
       <i class="material-icons">settings</i>
     </a>
   </div>
 </div>
+
+<!-- Configuration Dialog -->
+<dialog id="settings-dialog-stocks" class="mdl-dialog">
+  <h3 class="mdl-dialog__title">Stock Ticker</h3>
+  <div class="mdl-dialog__content">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input id="stock-id" type="text" class="mdl-textfield__input" ng-model="stocksVm.newStockId">
+      <label class="mdl-textfield__label" for="stock-id">Stock ID</label>
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button ng-click="stocksVm.applyChanges(stocksVm.newStockId)" type="button" class="mdl-button">Apply</button>
+    <button ng-click="stocksVm.cancel()" type="button" class="mdl-button">Cancel</button>
+  </div>
+</dialog>
