@@ -49,5 +49,10 @@ module.exports = function(app) {
 		res.sendFile(base + '/public/app/layout/widgets/stocks/stocks.html');
 	});
 
+	// Other static files
+	staticRoutes.get('/zipcodes', function(req,res){
+		res.sendFile(base + '/public/resources/zipcode.csv');
+	});
+
 	app.use('/',staticRoutes);
 };

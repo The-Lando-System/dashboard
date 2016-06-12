@@ -15,13 +15,30 @@
     <div ng-hide="weatherVm.loading">
       {{weatherVm.forecast}}
       <br/><br/>
-      <strong>{{weatherVm.currentTime}}</strong>
+      <strong>{{weatherVm.city}}</strong>
+      <br/>
+      {{weatherVm.currentTime}}
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">
     <div class="mdl-layout-spacer"></div>
-    <a class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
+    <a ng-click="weatherVm.showSettingsDialog()" class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
       <i class="material-icons">settings</i>
     </a>
   </div>
 </div>
+
+<!-- Configuration Dialog -->
+<dialog id="settings-dialog-weather" class="mdl-dialog">
+  <h3 class="mdl-dialog__title">Change Location</h3>
+  <div class="mdl-dialog__content">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input id="zipcode-id" type="text" class="mdl-textfield__input" ng-model="weatherVm.zipcode">
+      <label class="mdl-textfield__label" for="zipcode-id">Enter New Zipcode</label>
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button ng-click="weatherVm.changeZipcode()" type="button" class="mdl-button">Apply</button>
+    <button ng-click="weatherVm.hideSettingsDialog()" type="button" class="mdl-button">Cancel</button>
+  </div>
+</dialog>
