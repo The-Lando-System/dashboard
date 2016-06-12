@@ -11,14 +11,12 @@
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
     <div ng-hide="calendarVm.loading">
-      <div id="authorize-div" style="display: none">
-        <span>Authorize access to Google Calendar API</span>
-        <!--Button for the user to click to initiate auth sequence -->
-        <button id="authorize-button" onclick="handleAuthClick(event)">
-          Authorize
-        </button>
+      <div ng-hide="calendarVm.hasGoogleAuth">
+        <button ng-click="calendarVm.handleAuthClick(event)" type="button" class="mdl-button">Authenticate</button>
       </div>
-      <pre id="output"></pre>
+      <div ng-show="calendarVm.hasGoogleAuth">
+        <pre id="output"></pre>
+      </div>
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">
