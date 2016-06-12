@@ -24,7 +24,8 @@ function StocksWidgetController($http) {
 	  	requestDate = today.toISOString().slice(0, 10);
   	} 
   	
-  	var stocksUrl = "https://www.quandl.com/api/v3/datasets/EOD/" + stocksVm.stockId + ".json?api_key=s3pgWPGqafd8EmDtVyCo&start_date=" + requestDate;
+    //var stocksUrl = "https://www.quandl.com/api/v3/datasets/EOD/" + stocksVm.stockId + ".json?start_date=" + requestDate;
+  	var stocksUrl = "https://www.quandl.com/api/v3/datasets/WIKI/" + stocksVm.stockId + ".json?api_key=s3pgWPGqafd8EmDtVyCo&start_date=" + requestDate;
   	stocksVm.loading = true;
   	$http.get(stocksUrl)
     .success(function(data){

@@ -32,6 +32,8 @@ function CalendarWidgetController($http) {
   	componentHandler.upgradeAllRegistered();
   });
 
+
+
 };
 
 })();
