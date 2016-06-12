@@ -61,14 +61,18 @@ function WeatherWidgetController($http) {
 
     weatherVm.loading = true;
 
-		$http.jsonp(getNoaaUrl()).success(function(data) {
+		$http.jsonp(getNoaaUrl())
+    .success(function(data) {
       weatherVm.timePeriod = data.time.startPeriodName[0];
       weatherVm.forecast = data.data.weather[0];
       weatherVm.temperature = data.data.temperature[0];
       weatherVm.currentTime = data.creationDateLocal;
       weatherVm.icon = data.data.iconLink[0];
       weatherVm.loading = false;
-		});
+		})
+    .error(function(data){
+      console.log(data);
+    });
 
 	};
 

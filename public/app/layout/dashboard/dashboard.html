@@ -1,7 +1,8 @@
 <!-- The drawer is always open in large screens. The header is always shown,
   even in small screens. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-  <div class="mdl-layout__drawer">
+<!--<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">-->
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <!-- <div class="mdl-layout__drawer">
     <span class="mdl-layout-title">Title</span>
     <nav class="mdl-navigation">
       <a class="mdl-navigation__link" href="">Link</a>
@@ -9,13 +10,14 @@
       <a class="mdl-navigation__link" href="">Link</a>
       <a class="mdl-navigation__link" href="">Link</a>
     </nav>
-  </div>
-  <main class="mdl-layout__content">
+  </div> -->
+  <main class="mdl-layout__content dashboard">
     <div class="page-content">
       <br/><br/><br/>
       <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--4-col"><weather-widget /></div>
         <div class="mdl-cell mdl-cell--4-col"><stocks-widget /></div>
+        <div class="mdl-cell mdl-cell--4-col"><calendar-widget /></div>
 	    </div>
     </div>
   </main>
