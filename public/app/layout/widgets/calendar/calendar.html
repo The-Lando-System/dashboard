@@ -7,16 +7,18 @@
     </div>
   </div>
   <div class="mdl-card__supporting-text">
-    <div ng-show="calendarVm.loading">
-      <img src="/assets/images/loading.gif" height="200" width="250">
-    </div>
     <div ng-hide="calendarVm.loading">
+      <div ng-show="calendarVm.hasGoogleAuth" class="calendar-items">
+        <ul ng-repeat="event in calendarVm.events" class="list-group">
+          <li class="list-group-item"><strong>{{event.summary}}</strong><br/>{{event.time}}</li>
+        </ul>
+      </div>
       <div ng-hide="calendarVm.hasGoogleAuth">
         <button ng-click="calendarVm.handleAuthClick(event)" type="button" class="mdl-button">Authenticate</button>
       </div>
-      <div ng-show="calendarVm.hasGoogleAuth">
-        <pre id="output"></pre>
-      </div>
+    </div>
+    <div ng-show="calendarVm.loading">
+      <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">
@@ -29,15 +31,15 @@
 
 <!-- Configuration Dialog -->
 <dialog id="settings-dialog-calendar" class="mdl-dialog">
-  <h3 class="mdl-dialog__title">Calendar Configuration</h3>
+  <h3 class="mdl-dialog__title">Events</h3>
   <div class="mdl-dialog__content">
-    <!-- <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input id="zipcode-id" type="text" class="mdl-textfield__input" ng-model="weatherVm.zipcode">
-      <label class="mdl-textfield__label" for="zipcode-id">Enter New Zipcode</label>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input id="events-id" type="number" class="mdl-textfield__input" ng-model="calendarVm.numEvents">
+      <label class="mdl-textfield__label" for="events-id">Number of events to display</label>
     </div>
-  </div> -->
+  </div>
   <div class="mdl-dialog__actions">
-    <!-- <button ng-click="calendarVm.changeZipcode()" type="button" class="mdl-button">Apply</button> -->
+    <button ng-click="calendarVm.listUpcomingEvents(calendarVm.numEvents); calendarVm.hideSettingsDialog();" type="button" class="mdl-button">Apply</button>
     <button ng-click="calendarVm.hideSettingsDialog()" type="button" class="mdl-button">Cancel</button>
   </div>
 </dialog>

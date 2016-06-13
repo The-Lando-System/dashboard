@@ -2,9 +2,10 @@
   <div class="mdl-card__title mdl-card--expand">
     <div ng-hide="weatherVm.loading">
       <h4>
-        {{weatherVm.timePeriod}}'s Weather: {{weatherVm.temperature}}&deg;
-        <br/>
-        <img ng-src="{{weatherVm.icon}}" height="100" width="100">
+        {{weatherVm.timePeriod}}'s Weather
+        <br/><br/>
+        <img ng-src="{{weatherVm.icon}}" height="80" width="80">
+        <span class="temperature">{{weatherVm.temperature}}&deg;</span>
       </h4>
     </div>
   </div>
@@ -30,7 +31,7 @@
 
 <!-- Configuration Dialog -->
 <dialog id="settings-dialog-weather" class="mdl-dialog">
-  <h3 class="mdl-dialog__title">Change Location</h3>
+  <h3 class="mdl-dialog__title">Location</h3>
   <div class="mdl-dialog__content">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
       <input id="zipcode-id" type="text" class="mdl-textfield__input" ng-model="weatherVm.zipcode">

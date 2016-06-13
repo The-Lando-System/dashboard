@@ -9,6 +9,7 @@ function StocksWidgetController($http) {
   var stocksVm = this;
 
   stocksVm.loading = false;
+  stocksVm.errorMessage = false;
   stocksVm.applyChanges = applySettingsChange;
   stocksVm.cancel = hideSettingsDialog;
   stocksVm.openSettings = showSettingsDialog;
@@ -27,6 +28,7 @@ function StocksWidgetController($http) {
     //var stocksUrl = "https://www.quandl.com/api/v3/datasets/EOD/" + stocksVm.stockId + ".json?start_date=" + requestDate;
   	var stocksUrl = "https://www.quandl.com/api/v3/datasets/WIKI/" + stocksVm.stockId + ".json?api_key=s3pgWPGqafd8EmDtVyCo&start_date=" + requestDate;
   	stocksVm.loading = true;
+    stocksVm.errorMessage = false;
   	$http.get(stocksUrl)
     .success(function(data){
 
@@ -46,7 +48,8 @@ function StocksWidgetController($http) {
 
     })
     .error(function(data){
-
+      stocksVm.errorMessage = "Could not get data for the given stock ID!";
+      stocksVm.loading = false;
     });
   };
 

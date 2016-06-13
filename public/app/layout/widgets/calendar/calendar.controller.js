@@ -13,6 +13,8 @@ function CalendarWidgetController($http,$timeout,$scope) {
   calendarVm.handleAuthClick = handleAuthClick;
   calendarVm.hideSettingsDialog = hideSettingsDialog;
   calendarVm.showSettingsDialog = showSettingsDialog;
+  calendarVm.listUpcomingEvents = listUpcomingEvents;
+  calendarVm.events = [];
 
   var settingsDialog;
 
@@ -90,20 +92,24 @@ function CalendarWidgetController($http,$timeout,$scope) {
    * the authorized user's calendar. If no events are found an
    * appropriate message is printed.
    */
-  function listUpcomingEvents() {
+  function listUpcomingEvents(numEvents) {
+
+    calendarVm.events = [];
+
+    numEvents = numEvents ? Number(numEvents) : 5;
 
     var request = gapi.client.calendar.events.list({
       'calendarId': 'primary',
       'timeMin': (new Date()).toISOString(),
       'showDeleted': false,
       'singleEvents': true,
-      'maxResults': 5,
+      'maxResults': numEvents,
       'orderBy': 'startTime'
     });
 
     request.execute(function(resp) {
       var events = resp.items;
-      appendPre('Upcoming events:');
+      //appendPre('Upcoming events:');
 
       if (events.length > 0) {
         for (var i = 0; i < events.length; i++) {
@@ -112,10 +118,12 @@ function CalendarWidgetController($http,$timeout,$scope) {
           if (!when) {
             when = event.start.date;
           }
-          appendPre(event.summary + ' (' + when + ')')
+
+          calendarVm.events.push({ "summary": event.summary, "time": when });
+          //appendPre(event.summary + ' (' + when + ')');
         }
       } else {
-        appendPre('No upcoming events found.');
+        //appendPre('No upcoming events found.');
       }
       calendarVm.loading = false;
       $scope.$apply();

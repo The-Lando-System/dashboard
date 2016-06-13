@@ -1,6 +1,6 @@
 <div class="widget-card mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title mdl-card--expand">
-    <div ng-hide="stocksVm.loading">
+    <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
       <h4>
         {{stocksVm.stockCode}} : {{stocksVm.stockName}}
         <div ng-show="stocksVm.increase">
@@ -11,12 +11,15 @@
         </div>
       </h4>
     </div>
+    <div ng-show="stocksVm.errorMessage">
+      {{stocksVm.errorMessage}}
+    </div>
   </div>
   <div class="mdl-card__supporting-text">
     <div ng-show="stocksVm.loading">
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
-    <div ng-hide="stocksVm.loading">
+    <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
       Price: ${{stocksVm.latestPrice}}
     </div>
   </div>
