@@ -51,6 +51,9 @@ module.exports = function(app) {
 	staticRoutes.get('/calendar-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/calendar/calendar.html');
 	});
+	staticRoutes.get('/quick-list-widget', function(req,res){
+		res.sendFile(base + '/public/app/layout/widgets/quick-list/quick-list.html');
+	});
 
 	// Other static files
 	staticRoutes.get('/zipcodes', function(req,res){

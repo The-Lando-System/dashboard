@@ -29,6 +29,10 @@ module.exports = function(app) {
 
 	// User routes ==================================
 	
+	// Quick List
+	
+
+	
 
 	app.use('/user',userRoutes);
 

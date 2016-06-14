@@ -1,0 +1,38 @@
+<div class="widget-card mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand">
+    <div ng-hide="qlVm.loading">
+      <h4>
+        {{qlVm.listName}}
+      </h4>
+    </div>
+  </div>
+  <div class="mdl-card__supporting-text">
+    <div ng-show="qlVm.loading">
+      <img src="/assets/images/loading.gif" height="200" width="250">
+    </div>
+    <div ng-hide="qlVm.loading">
+      list items...
+    </div>
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <div class="mdl-layout-spacer"></div>
+    <a ng-click="qlVm.showSettingsDialog()" class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
+      <i class="material-icons">settings</i>
+    </a>
+  </div>
+</div>
+
+<!-- Configuration Dialog -->
+<dialog id="settings-dialog-ql" class="mdl-dialog">
+  <h3 class="mdl-dialog__title">List Name</h3>
+  <div class="mdl-dialog__content">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input id="listname-id" type="text" class="mdl-textfield__input" ng-model="qlVm.newListName">
+      <label class="mdl-textfield__label" for="listname-id">Enter Name of List</label>
+    </div>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button ng-click="qlVm.applySettingsChange(qlVm.newListName); qlVm.hideSettingsDialog()" type="button" class="mdl-button">Apply</button>
+    <button ng-click="qlVm.hideSettingsDialog()" type="button" class="mdl-button">Cancel</button>
+  </div>
+</dialog>
