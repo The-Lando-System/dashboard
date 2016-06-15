@@ -7,8 +7,8 @@ function WeatherWidgetSettings() {
   return {
     templateUrl: '/weather-widget-settings',
     restrict: 'E',
-    controller: 'WeatherWidgetSettingsController',
-    controllerAs: 'weatherSettingsVm'
+    controller: 'WidgetSettingsController',
+    controllerAs: 'widgetSettingsVm'
   };
 };
 

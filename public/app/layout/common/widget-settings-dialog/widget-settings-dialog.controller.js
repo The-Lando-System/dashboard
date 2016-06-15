@@ -1,15 +1,15 @@
 (function() { 'use strict';
 
 angular.module('dashboard')
-.controller('WeatherWidgetSettingsController', WeatherWidgetSettingsController);
+.controller('WidgetSettingsController', WidgetSettingsController);
 
-WeatherWidgetSettingsController.$inject = ['$http'];
+WidgetSettingsController.$inject = [];
 
-function WeatherWidgetSettingsController($http) {
-  var weatherSettingsVm = this;
+function WidgetSettingsController() {
+  var widgetSettingsVm = this;
 
-  weatherSettingsVm.showSettingsDialog = showSettingsDialog;
-  weatherSettingsVm.hideSettingsDialog = hideSettingsDialog;
+  widgetSettingsVm.showSettingsDialog = showSettingsDialog;
+  widgetSettingsVm.hideSettingsDialog = hideSettingsDialog;
 
   var settingsDialog;
 
