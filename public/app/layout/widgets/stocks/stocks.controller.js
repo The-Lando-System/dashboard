@@ -19,31 +19,33 @@ function StocksWidgetController($http) {
 
 
   function getStockInfo(requestDate){
-  	if (!requestDate){
-  		var now = new Date();
-	  	var today = new Date(now.getTime() - now.getTimezoneOffset()*60*1000);
-	  	requestDate = today.toISOString().slice(0, 10);
-  	} 
-  	
-    //var stocksUrl = "https://www.quandl.com/api/v3/datasets/EOD/" + stocksVm.stockId + ".json?start_date=" + requestDate;
-  	var stocksUrl = "https://www.quandl.com/api/v3/datasets/WIKI/" + stocksVm.stockId + ".json?api_key=s3pgWPGqafd8EmDtVyCo&start_date=" + requestDate;
   	stocksVm.loading = true;
     stocksVm.errorMessage = false;
+
+    if (!requestDate){
+  		requestDate = getShortDate(new Date());
+    }
+    var yesterdaysDate = getShortDate(new Date((new Date(requestDate)).getTime() - 24*60*60*1000));
+  	
+  	var stocksUrl = "https://www.quandl.com/api/v3/datasets/WIKI/" + stocksVm.stockId + ".json?api_key=s3pgWPGqafd8EmDtVyCo&start_date=" + yesterdaysDate;
+  	
   	$http.get(stocksUrl)
     .success(function(data){
 
-  	  if (data.dataset.newest_available_date != requestDate){
+  	  if (data.dataset.newest_available_date !== requestDate){
   	  	getStockInfo(data.dataset.newest_available_date);
   	  } else {
-  	  	stocksVm.stockName = data.dataset.name;
 
-  	    stocksVm.stockName = stocksVm.stockName.substring(0,(stocksVm.stockName.indexOf(stocksVm.stockId) - 1));
+        stocksVm.stockCode = data.dataset.dataset_code
+        stocksVm.stockName = data.dataset.name.substring(0,(data.dataset.name.indexOf(stocksVm.stockId) - 1));
+      
+        stocksVm.todaysClose = data.dataset.data[0][4];
+        stocksVm.yesterdaysClose = data.dataset.data[1][4];
+        stocksVm.changeAmount = (stocksVm.todaysClose - stocksVm.yesterdaysClose).toFixed(2);
+        stocksVm.increase = (stocksVm.changeAmount > 0 ) ? true : false;
 
-  	    stocksVm.startPrice = data.dataset.data[0][1];
-  	    stocksVm.latestPrice = data.dataset.data[0][4];
-  	    stocksVm.increase = ((stocksVm.latestPrice - stocksVm.startPrice) > 0 ) ? true : false;
-  	    stocksVm.stockCode = data.dataset.dataset_code
-  	    stocksVm.loading = false;
+        stocksVm.loading = false;
+        
   	  }
 
     })
@@ -82,6 +84,11 @@ function StocksWidgetController($http) {
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
   });
+
+  function getShortDate(date){
+    var newDate = new Date(date.getTime() - date.getTimezoneOffset()*60*1000);
+    return newDate.toISOString().slice(0, 10);
+  }
 
 };
 

@@ -20,7 +20,9 @@
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
     <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
-      Price: ${{stocksVm.latestPrice}}
+      Price: ${{stocksVm.todaysClose}}
+      <br/>
+      Change: ${{stocksVm.changeAmount}}
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">
