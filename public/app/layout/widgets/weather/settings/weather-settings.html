@@ -1,0 +1,8 @@
+<widget-settings-dialog header="Zipcode">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input id="zipcode-id" type="text" class="mdl-textfield__input" ng-model="weatherSettingsVm.newZipcode">
+    <label class="mdl-textfield__label" for="zipcode-id">Enter New Zipcode</label>
+  </div>
+  <button ng-click="weatherVm.changeZipcode(weatherSettingsVm.newZipcode); weatherSettingsVm.hideSettingsDialog();" type="button" class="mdl-button">Apply</button>
+  <button ng-click="weatherSettingsVm.hideSettingsDialog()" type="button" class="mdl-button">Cancel</button>
+</widget-settings-dialog>

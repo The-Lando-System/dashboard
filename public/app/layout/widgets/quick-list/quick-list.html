@@ -1,9 +1,15 @@
 <div class="widget-card mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title mdl-card--expand">
     <div ng-hide="qlVm.loading">
-      <h4>
-        Quick List
-      </h4>
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--10-col">
+          <h4>Quick List</h4>
+        </div>
+        <div class="mdl-cell mdl-cell--2-col">
+          <button ng-hide="qlVm.addingNewItem" ng-click="qlVm.addingNewItem = true;" type="button" class="mdl-button">Add</button>
+          <button ng-show="qlVm.addingNewItem" ng-click="qlVm.addNewItem(qlVm.description)" type="button" class="mdl-button">Save</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="mdl-card__supporting-text">
@@ -11,15 +17,13 @@
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
     <div ng-hide="qlVm.loading">
-      <ul ng-repeat="item in qlVm.listItems" class="list-group">
-        <li class="list-group-item">{{item.description}}</li>
-      </ul>
-      <button ng-hide="qlVm.addingNewItem" ng-click="qlVm.addingNewItem = true;" type="button" class="mdl-button">Add</button>
       <div ng-show="qlVm.addingNewItem" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <input id="add-item-id" type="text" class="mdl-textfield__input" ng-model="qlVm.description">
         <label class="mdl-textfield__label" for="add-item-id">What to do?</label>
       </div>
-      <button ng-show="qlVm.addingNewItem" ng-click="qlVm.addNewItem(qlVm.description)" type="button" class="mdl-button">Save</button>
+      <ul ng-repeat="item in qlVm.listItems">
+        <li>{{item.description}}</li>
+      </ul>
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">

@@ -60,6 +60,10 @@ body {
   float: right;
 }
 
+.in-line {
+  display: inline-block;
+}
+
 #new-user-dialog {
   width: 600px;
 }
@@ -85,7 +89,10 @@ body {
 .widget-card > .mdl-card__title {
   align-items: flex-start;
 }
-.widget-card > .mdl-card__title > div > h4 {
+.widget-card > .mdl-card__title > div > div > div > h4 {
+  margin-top: 0;
+}
+.widget-card > .mdl-card__title > div > div > div > button {
   margin-top: 0;
 }
 .widget-card > .mdl-card__actions {

@@ -10,8 +10,6 @@ function WeatherWidgetController($http) {
 
 	weatherVm.getWeather = getWeather;
   weatherVm.changeZipcode = changeZipcode;
-  weatherVm.showSettingsDialog = showSettingsDialog;
-  weatherVm.hideSettingsDialog = hideSettingsDialog;
 
   weatherVm.loading = false;
 
@@ -35,10 +33,9 @@ function WeatherWidgetController($http) {
 
   };
 
-  function changeZipcode(){
-
+  function changeZipcode(newZipcode){
     weatherVm.loading = true;
-
+    weatherVm.zipcode = newZipcode;
     for(var i=0; i<weatherVm.zipData.length; i++){
       if (weatherVm.zipData[i].zip === weatherVm.zipcode){
         weatherVm.lat = weatherVm.zipData[i].latitude;
@@ -48,7 +45,6 @@ function WeatherWidgetController($http) {
       }
     }
     getWeather();
-    hideSettingsDialog();
   };
 
   function getNoaaUrl(){
@@ -63,11 +59,10 @@ function WeatherWidgetController($http) {
 
 		$http.jsonp(getNoaaUrl())
     .success(function(data) {
-      weatherVm.timePeriod = data.time.startPeriodName[0];
-      weatherVm.forecast = data.data.weather[0];
-      weatherVm.temperature = data.data.temperature[0];
-      weatherVm.currentTime = data.creationDateLocal;
-      weatherVm.icon = data.data.iconLink[0];
+      weatherVm.currentWeather = data.currentobservation.Weather;
+      weatherVm.temperature = data.currentobservation.Temp;
+      weatherVm.currentTime = data.currentobservation.Date;
+      weatherVm.icon = "http://forecast.weather.gov/newimages/medium/" + data.currentobservation.Weatherimage;
       weatherVm.loading = false;
 		})
     .error(function(data){
@@ -99,23 +94,6 @@ function WeatherWidgetController($http) {
     }
 
     return result;
-  };
-
-
-  var settingsDialog;
-
-  function showSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-weather');
-    }
-    settingsDialog.showModal();
-  };
-
-  function hideSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-weather');
-    }
-    settingsDialog.close();
   };
 
   angular.element(document).ready(function () {

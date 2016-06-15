@@ -42,8 +42,17 @@ module.exports = function(app) {
 	staticRoutes.get('/login', function(req,res){
 		res.sendFile(base + '/public/app/layout/login/login.html');
 	});
+	staticRoutes.get('/widget-container', function(req,res){
+		res.sendFile(base + '/public/app/layout/common/widget-container/widget-container.html');
+	});
+	staticRoutes.get('/widget-settings-dialog', function(req,res){
+		res.sendFile(base + '/public/app/layout/common/widget-settings-dialog/widget-settings-dialog.html');
+	});
 	staticRoutes.get('/weather-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/weather/weather.html');
+	});
+	staticRoutes.get('/weather-widget-settings', function(req,res){
+		res.sendFile(base + '/public/app/layout/widgets/weather/settings/weather-settings.html');
 	});
 	staticRoutes.get('/stocks-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/stocks/stocks.html');
