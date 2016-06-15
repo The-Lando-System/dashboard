@@ -23,7 +23,7 @@ function QuickListFactory($http) {
             });
         },
         edit : function(token,listItem) {
-            return $http.put('/user/list/', listItem, {
+            return $http.put('/user/list', listItem, {
                 headers: { 'x-access-token': token }
             });
         }

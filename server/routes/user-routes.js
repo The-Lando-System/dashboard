@@ -2,6 +2,7 @@ var jwt = require('jsonwebtoken');
 var express = require('express');
 var path = require('path'); 
 var base = path.resolve(__dirname + '/../..');
+var List = require(base + '/server/models/list-item');
 
 var userRoutes = express.Router();
 
@@ -29,11 +30,78 @@ module.exports = function(app) {
 
 	// User routes ==================================
 	
-	// Quick List
-	
+	// Quick List routes
+	userRoutes.get('/list', function(req,res){
+		var user = req.decoded;
+		List.find({ username: user.username }, function(err,items){
+			if (err) { 
+				res.send(err);
+				return;
+			} else {
+				res.json(items);
+				return;
+			}
+		});
+	});
+	userRoutes.post('/list', function(req,res){
+		var user = req.decoded;
+		List.find({ username: user.username }, function(err,items){
+			var newPosition = 1;
+			if (items.length > 0){
+				for (var i=0; i<items.length; i++){
+					if (items[i].position >= newPosition){
+						newPosition = items[i].position + 1;
+					}
+				}
+			}
+			List.create({
+				username:    user.username,
+				description: req.body.description,
+				position:    newPosition
+			}, function(err,item){
+				if (err) {
+					res.send(err)
+					return;
+				} else {
+					res.send(item);
+					return;
+				}
+			});
+		});
+	});
 
+	userRoutes.delete('/list/:id', function(req,res){
+		List.remove({ _id: req.params.id }, function(err,item){
+			if (err) {
+				res.send(err);
+				return;
+			} else {
+				res.send(item);
+				return;
+			}
+		});
+	});
+	userRoutes.put('/list', function(req,res){
+		List.findById(req.body._id, function(err,item){
+			if (err) {
+				res.send(err)
+				return;
+			};
+			item.description 	= req.body.description 	|| item.description;
+			item.complete 		= req.body.complete 	|| item.complete;
+			item.position 		= req.body.position 	|| item.position;
+			item.save(function(err){
+				if (err) {
+					res.send(err);
+					return;
+				} else {
+					res.json({ message: 'Item was successfully updated!' });
+					return;
+				}
+			});
+		});
+	});
 	
-
 	app.use('/user',userRoutes);
 
 };
