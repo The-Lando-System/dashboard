@@ -57,6 +57,9 @@ module.exports = function(app) {
 	staticRoutes.get('/stocks-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/stocks/stocks.html');
 	});
+	staticRoutes.get('/stocks-widget-settings', function(req,res){
+		res.sendFile(base + '/public/app/layout/widgets/stocks/settings/stocks-settings.html');
+	});
 	staticRoutes.get('/calendar-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/calendar/calendar.html');
 	});

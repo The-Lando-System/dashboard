@@ -13,17 +13,13 @@ function WidgetSettingsController() {
 
   var settingsDialog;
 
-  function showSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog');
-    }
+  function showSettingsDialog(id){
+    settingsDialog = document.querySelector('#settings-dialog-' + id);
     settingsDialog.showModal();
   };
 
-  function hideSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog');
-    }
+  function hideSettingsDialog(id){
+    settingsDialog = document.querySelector('#settings-dialog-' + id);
     settingsDialog.close();
   };
 

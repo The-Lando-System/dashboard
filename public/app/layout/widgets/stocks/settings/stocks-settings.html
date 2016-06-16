@@ -1,0 +1,8 @@
+<widget-settings-dialog header="Stock ID" widget-id="stocks">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input id="stock-id" type="text" class="mdl-textfield__input" ng-model="stocksVm.newStockId">
+    <label class="mdl-textfield__label" for="stock-id">Stock ID</label>
+  </div>
+  <button ng-click="stocksVm.changeStockId(stocksVm.newStockId); widgetSettingsVm.hideSettingsDialog('stocks');" type="button" class="mdl-button">Apply</button>
+  <button ng-click="widgetSettingsVm.hideSettingsDialog('stocks');" type="button" class="mdl-button">Cancel</button>
+ </widget-settings-dialog>

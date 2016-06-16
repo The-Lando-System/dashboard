@@ -8,7 +8,8 @@ function WidgetSettingsDialog() {
     templateUrl: '/widget-settings-dialog',
     restrict: 'E',
     scope: {
-      header: '@'
+      header: '@header',
+      widgetId: '@widgetId'
     },
     transclude: true
   };

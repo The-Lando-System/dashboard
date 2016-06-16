@@ -1,49 +1,29 @@
-<div class="widget-card mdl-card mdl-shadow--2dp">
-  <div class="mdl-card__title mdl-card--expand">
-    <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
-      <h4>
-        {{stocksVm.stockCode}} : {{stocksVm.stockName}}
-        <div ng-show="stocksVm.increase">
-          <img src="/assets/images/up-arrow.png" height="180" width="250">
-        </div>
-        <div ng-hide="stocksVm.increase">
-          <img src="/assets/images/down-arrow.jpg" height="200" width="250">
-        </div>
-      </h4>
+<widget-container header="Stocks">
+  <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
+    {{stocksVm.stockCode}} : {{stocksVm.stockName}}
+    <br/>
+    <div ng-show="stocksVm.increase">
+      <img src="/assets/images/up-arrow.png" height="90" width="125">
     </div>
-    <div ng-show="stocksVm.errorMessage">
-      {{stocksVm.errorMessage}}
+    <div ng-hide="stocksVm.increase">
+      <img src="/assets/images/down-arrow.jpg" height="90" width="125">
     </div>
+    Price: ${{stocksVm.todaysClose}}
+    <br/>
+    Change: ${{stocksVm.changeAmount}}
   </div>
-  <div class="mdl-card__supporting-text">
-    <div ng-show="stocksVm.loading">
-      <img src="/assets/images/loading.gif" height="200" width="250">
-    </div>
-    <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
-      Price: ${{stocksVm.todaysClose}}
-      <br/>
-      Change: ${{stocksVm.changeAmount}}
-    </div>
+  <div ng-show="stocksVm.errorMessage">
+    {{stocksVm.errorMessage}}
   </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <div class="mdl-layout-spacer"></div>
-    <a ng-click="stocksVm.openSettings()" class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">
+  <div ng-show="stocksVm.loading">
+    <img src="/assets/images/loading.gif" height="200" width="250">
+  </div>
+  <hr/>
+  <div class="left-align">
+    <a ng-click="widgetSettingsVm.showSettingsDialog('stocks')" class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect">
       <i class="material-icons">settings</i>
     </a>
   </div>
-</div>
+</widget-container>
 
-<!-- Configuration Dialog -->
-<dialog id="settings-dialog-stocks" class="mdl-dialog">
-  <h3 class="mdl-dialog__title">Stock Ticker</h3>
-  <div class="mdl-dialog__content">
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input id="stock-id" type="text" class="mdl-textfield__input" ng-model="stocksVm.newStockId">
-      <label class="mdl-textfield__label" for="stock-id">Stock ID</label>
-    </div>
-  </div>
-  <div class="mdl-dialog__actions">
-    <button ng-click="stocksVm.applyChanges(stocksVm.newStockId)" type="button" class="mdl-button">Apply</button>
-    <button ng-click="stocksVm.cancel()" type="button" class="mdl-button">Cancel</button>
-  </div>
-</dialog>
+<stocks-widget-settings/>

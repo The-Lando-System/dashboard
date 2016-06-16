@@ -10,9 +10,7 @@ function StocksWidgetController($http) {
 
   stocksVm.loading = false;
   stocksVm.errorMessage = false;
-  stocksVm.applyChanges = applySettingsChange;
-  stocksVm.cancel = hideSettingsDialog;
-  stocksVm.openSettings = showSettingsDialog;
+  stocksVm.changeStockId = changeStockId;
   stocksVm.stockId = "NFLX";
 
   getStockInfo();
@@ -59,26 +57,9 @@ function StocksWidgetController($http) {
 
   };
 
-  function applySettingsChange(newStockId){
+  function changeStockId(newStockId){
   	stocksVm.stockId = newStockId;
   	getStockInfo();
-  	hideSettingsDialog();
-  };
-
-  var settingsDialog;
-
-  function showSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-stocks');
-    }
-    settingsDialog.showModal();
-  };
-
-  function hideSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-stocks');
-    }
-    settingsDialog.close();
   };
 
   angular.element(document).ready(function () {
