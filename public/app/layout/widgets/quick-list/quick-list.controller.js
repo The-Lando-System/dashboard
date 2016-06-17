@@ -11,6 +11,7 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
   qlVm.loading = false;
   qlVm.applySettingsChange = applySettingsChange;
   qlVm.addNewItem = addNewItem;
+  qlVm.deleteItem = deleteItem;
   qlVm.addingNewItem = false;
   qlVm.listItems = [];
 
@@ -34,6 +35,22 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
     })
     .error(function(data){
       console.log(data);
+      qlVm.addingNewItem = false;
+      qlVm.loading = false;
+    });
+  };
+
+  function deleteItem(itemToDelete){
+    QuickListFactory.delete(qlVm.userSession.token,itemToDelete._id)
+    .success(function(data){
+      getListItems();
+      qlVm.editMode = false;
+      qlVm.addingNewItem = false;
+      qlVm.loading = false;
+    })
+    .error(function(data){
+      console.log(data);
+      qlVm.editMode = false;
       qlVm.addingNewItem = false;
       qlVm.loading = false;
     });

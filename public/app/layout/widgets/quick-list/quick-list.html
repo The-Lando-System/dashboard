@@ -20,34 +20,32 @@
           </span>
         </div>
       </div>
-      
     </div>
-    <!--
-    <div class="quick-list-actions">
-      <div ng-hide="qlVm.addingNewItem">
-        <div class="in-line quick-list-action-title">
-          <button  ng-click="qlVm.addingNewItem = true;" type="button" class="mdl-button">Add</button>
-        </div>
-      </div>
-      <div ng-show="qlVm.addingNewItem">
-        <div class="in-line quick-list-action-title">
-          <button ng-click="qlVm.addNewItem(qlVm.description); qlVm.description = '';" type="button" class="mdl-button" >Save</button>
-        </div>
-        <div class="in-line">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input id="add-item-id" type="text" class="mdl-textfield__input" ng-model="qlVm.description">
-            <label class="mdl-textfield__label" for="add-item-id">What to do?</label>
-          </div>
-          <a ng-click="qlVm.addingNewItem = false; qlVm.description = '';" class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect">
-            <i class="material-icons">close</i>
-          </a>
-        </div>
-      </div>
-      -->
-    </div>
-    <ul class="quick-list-items">
-      <li ng-repeat="item in qlVm.listItems">{{item.description}}</li>
-    </ul>
+
+
+    <table class="quick-list-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <tbody>
+        <tr ng-repeat="listItem in qlVm.listItems track by $index">
+          <td ng-click="qlVm.editMode = true; qlVm.selectedItem.description = listItem.description; qlVm.selectedItem._id = listItem._id;" class="mdl-data-table__cell--non-numeric">
+            <div ng-hide="qlVm.editMode && qlVm.selectedItem._id === listItem._id">
+              {{listItem.description}}
+            </div>
+            <div ng-show="qlVm.editMode && qlVm.selectedItem._id === listItem._id">
+              <input type="text" class="form-control" ng-model="qlVm.selectedItem.description">
+            </div>
+          </td>
+          <td>
+            <div ng-hide="qlVm.editMode && qlVm.selectedItem._id === listItem._id">
+              <a ng-click="qlVm.deleteItem(listItem)" href="#"><i class="material-icons">delete</i></a>
+            </div>
+            <div ng-show="qlVm.editMode && qlVm.selectedItem._id === listItem._id">
+              <a ng-click="qlVm.editMode = false; qlVm.selectedItem = {};" href="#"><i class="material-icons">done</i></a>
+              <a ng-click="qlVm.editMode = false; qlVm.selectedItem = {};" href="#"><i class="material-icons">cancel</i></a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <quick-list-widget-settings/>
 </widget-container>
