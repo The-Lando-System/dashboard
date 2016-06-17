@@ -6,9 +6,9 @@ angular.module('dashboard')
 function WeatherWidgetSettings() {
   return {
     templateUrl: '/weather-widget-settings',
-    restrict: 'E',
-    controller: 'WidgetSettingsController',
-    controllerAs: 'widgetSettingsVm'
+    controller: 'WidgetContainerController',
+    controllerAs: 'widgetContainerVm',
+    restrict: 'E'
   };
 };
 

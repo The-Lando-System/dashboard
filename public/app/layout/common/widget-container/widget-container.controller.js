@@ -1,15 +1,15 @@
 (function() { 'use strict';
 
 angular.module('dashboard')
-.controller('WidgetSettingsController', WidgetSettingsController);
+.controller('WidgetContainerController', WidgetContainerController);
 
-WidgetSettingsController.$inject = [];
+WidgetContainerController.$inject = [];
 
-function WidgetSettingsController() {
-  var widgetSettingsVm = this;
+function WidgetContainerController() {
+  var widgetContainerVm = this;
 
-  widgetSettingsVm.showSettingsDialog = showSettingsDialog;
-  widgetSettingsVm.hideSettingsDialog = hideSettingsDialog;
+  widgetContainerVm.showSettingsDialog = showSettingsDialog;
+  widgetContainerVm.hideSettingsDialog = hideSettingsDialog;
 
   var settingsDialog;
 

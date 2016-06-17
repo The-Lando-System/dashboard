@@ -6,9 +6,9 @@ angular.module('dashboard')
 function StocksWidgetSettings() {
   return {
     templateUrl: '/stocks-widget-settings',
-    restrict: 'E',
-    controller: 'WidgetSettingsController',
-    controllerAs: 'widgetSettingsVm'
+    controller: 'WidgetContainerController',
+    controllerAs: 'widgetContainerVm',
+    restrict: 'E'
   };
 };
 

@@ -3,6 +3,6 @@
     <input id="zipcode-id" type="text" class="mdl-textfield__input" ng-model="weatherVm.newZipcode">
     <label class="mdl-textfield__label" for="zipcode-id">Enter New Zipcode</label>
   </div>
-  <button ng-click="weatherVm.changeZipcode(weatherVm.newZipcode); widgetSettingsVm.hideSettingsDialog('weather');" type="button" class="mdl-button">Apply</button>
-  <button ng-click="widgetSettingsVm.hideSettingsDialog('weather')" type="button" class="mdl-button">Cancel</button>
+  <button ng-click="weatherVm.changeZipcode(weatherVm.newZipcode); widgetContainerVm.hideSettingsDialog('weather');" type="button" class="mdl-button">Apply</button>
+  <button ng-click="widgetContainerVm.hideSettingsDialog('weather')" type="button" class="mdl-button">Cancel</button>
 </widget-settings-dialog>

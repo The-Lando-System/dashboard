@@ -6,9 +6,12 @@ angular.module('dashboard')
 function WidgetContainer() {
   return {
     templateUrl: '/widget-container',
+    controller: 'WidgetContainerController',
+    controllerAs: 'widgetContainerVm',
     restrict: 'E',
     scope: {
-      header: '@'
+      header: '@',
+      widgetId: '@widgetId'
     },
     transclude: true
   };

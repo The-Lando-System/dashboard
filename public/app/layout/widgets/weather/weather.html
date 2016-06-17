@@ -1,4 +1,4 @@
-<widget-container header="Weather">
+<widget-container header="Weather" widget-id="weather">
   <div ng-show="weatherVm.loading">
     <img src="/assets/images/loading.gif" height="200" width="250">
   </div>
@@ -12,12 +12,12 @@
     <br/>
     {{weatherVm.currentTime}}
   </div>
-  <hr/>
+  <!-- <hr/>
   <div class="left-align">
     <a ng-click="widgetSettingsVm.showSettingsDialog('weather')" class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect">
       <i class="material-icons">settings</i>
     </a>
-  </div>
+  </div> -->
+  <weather-widget-settings/>
 </widget-container>
 
-<weather-widget-settings/>
