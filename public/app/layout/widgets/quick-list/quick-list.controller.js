@@ -10,8 +10,6 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
 
   qlVm.loading = false;
   qlVm.applySettingsChange = applySettingsChange;
-  qlVm.hideSettingsDialog = hideSettingsDialog;
-  qlVm.showSettingsDialog = showSettingsDialog;
   qlVm.addNewItem = addNewItem;
   qlVm.addingNewItem = false;
   qlVm.listItems = [];
@@ -41,24 +39,8 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
     });
   };
 
-  function applySettingsChange(newListName){
-    
-  };
-
-  var settingsDialog;
-
-  function showSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-ql');
-    }
-    settingsDialog.showModal();
-  };
-
-  function hideSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-ql');
-    }
-    settingsDialog.close();
+  function applySettingsChange(someValue){
+    alert(someValue);
   };
 
   angular.element(document).ready(function () {

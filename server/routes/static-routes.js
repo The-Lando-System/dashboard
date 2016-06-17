@@ -69,6 +69,9 @@ module.exports = function(app) {
 	staticRoutes.get('/quick-list-widget', function(req,res){
 		res.sendFile(base + '/public/app/layout/widgets/quick-list/quick-list.html');
 	});
+	staticRoutes.get('/quick-list-widget-settings', function(req,res){
+		res.sendFile(base + '/public/app/layout/widgets/quick-list/settings/quick-list-settings.html');
+	});
 
 	// Other static files
 	staticRoutes.get('/zipcodes', function(req,res){

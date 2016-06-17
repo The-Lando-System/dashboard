@@ -1,4 +1,25 @@
-<div class="widget-card mdl-card mdl-shadow--2dp">
+<widget-container header="Quick List" widget-id="quick-list">
+  <div ng-show="qlVm.loading">
+    <img src="/assets/images/loading.gif" height="200" width="250">
+  </div>
+  <div ng-hide="qlVm.loading">
+    <button ng-hide="qlVm.addingNewItem" ng-click="qlVm.addingNewItem = true;" type="button" class="mdl-button">Add</button>
+    <button ng-show="qlVm.addingNewItem" ng-click="qlVm.addNewItem(qlVm.description)" type="button" class="mdl-button">Save</button>
+    <div ng-show="qlVm.addingNewItem" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input id="add-item-id" type="text" class="mdl-textfield__input" ng-model="qlVm.description">
+      <label class="mdl-textfield__label" for="add-item-id">What to do?</label>
+    </div>
+    <ul ng-repeat="item in qlVm.listItems">
+      <li>{{item.description}}</li>
+    </ul>
+  </div>
+
+
+  <quick-list-widget-settings/>
+</widget-container>
+
+
+<!-- <div class="widget-card mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title mdl-card--expand">
     <div ng-hide="qlVm.loading">
       <div class="mdl-grid">
@@ -34,7 +55,7 @@
   </div>
 </div>
 
-<!-- Configuration Dialog -->
+
 <dialog id="settings-dialog-ql" class="mdl-dialog">
   <h3 class="mdl-dialog__title">List Settings</h3>
   <div class="mdl-dialog__content">
@@ -47,4 +68,4 @@
     <button ng-click="qlVm.applySettingsChange(qlVm.something); qlVm.hideSettingsDialog()" type="button" class="mdl-button">Apply</button>
     <button ng-click="qlVm.hideSettingsDialog()" type="button" class="mdl-button">Cancel</button>
   </div>
-</dialog>
+</dialog> -->

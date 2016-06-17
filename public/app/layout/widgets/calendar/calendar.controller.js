@@ -11,26 +11,8 @@ function CalendarWidgetController($http,$timeout,$scope) {
   calendarVm.loading = false;
   calendarVm.hasGoogleAuth = true;
   calendarVm.handleAuthClick = handleAuthClick;
-  calendarVm.hideSettingsDialog = hideSettingsDialog;
-  calendarVm.showSettingsDialog = showSettingsDialog;
   calendarVm.listUpcomingEvents = listUpcomingEvents;
   calendarVm.events = [];
-
-  var settingsDialog;
-
-  function showSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-calendar');
-    }
-    settingsDialog.showModal();
-  };
-
-  function hideSettingsDialog(){
-    if(!settingsDialog){
-      settingsDialog = document.querySelector('#settings-dialog-calendar');
-    }
-    settingsDialog.close();
-  };
 
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
@@ -46,7 +28,6 @@ function CalendarWidgetController($http,$timeout,$scope) {
       handleAuthResult(AUTH_RESULT);
     }
   };
-
 
 
     /**
