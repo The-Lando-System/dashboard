@@ -3,6 +3,26 @@
     <img src="/assets/images/loading.gif" height="200" width="250">
   </div>
   <div ng-hide="qlVm.loading">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--3-col">
+        <div ng-hide="qlVm.addingNewItem">
+          <button ng-click="qlVm.addingNewItem = true;" type="button" class="mdl-button">Add</button>
+        </div>
+        <div ng-show="qlVm.addingNewItem">
+          <button ng-click="qlVm.addNewItem(qlVm.description); qlVm.description = '';" type="button" class="mdl-button" >Save</button>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--9-col">
+        <div ng-show="qlVm.addingNewItem" class="input-group">
+          <input id="add-item-id" type="text" class="form-control" ng-model="qlVm.description">
+          <span ng-click="qlVm.addingNewItem = false; qlVm.description = '';" class="input-group-addon clickable">
+            X
+          </span>
+        </div>
+      </div>
+      
+    </div>
+    <!--
     <div class="quick-list-actions">
       <div ng-hide="qlVm.addingNewItem">
         <div class="in-line quick-list-action-title">
@@ -23,6 +43,7 @@
           </a>
         </div>
       </div>
+      -->
     </div>
     <ul class="quick-list-items">
       <li ng-repeat="item in qlVm.listItems">{{item.description}}</li>
