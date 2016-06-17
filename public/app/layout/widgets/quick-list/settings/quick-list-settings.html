@@ -1,7 +1,7 @@
 <widget-settings-dialog header="Something" widget-id="quick-list">
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <input id="quick-list-settings-id" type="text" class="mdl-textfield__input" ng-model="qlVm.someValue">
-    <label class="mdl-textfield__label" for="quick-list-settings-id">Number of events to display</label>
+    <label class="mdl-textfield__label" for="quick-list-settings-id">Enter some value</label>
   </div>
   <button ng-click="qlVm.applySettingsChange(qlVm.someValue); widgetContainerVm.hideSettingsDialog('quick-list');" type="button" class="mdl-button">Apply</button>
   <button ng-click="widgetContainerVm.hideSettingsDialog('quick-list');" type="button" class="mdl-button">Cancel</button>

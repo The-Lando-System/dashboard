@@ -1,0 +1,38 @@
+/* Common Widget CSS */
+.widget {
+  height: 300px;
+}
+
+
+/* Widget Specific CSS */
+.temperature {
+  font-size: 54px;
+  margin-left: 30px;
+}
+
+.calendar-items {
+  height: 200px;
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom:20px;
+}
+
+.quick-list-items {
+  height: 140px;
+  width: 100%;
+  overflow-y: auto;
+  margin-bottom:20px;
+}
+
+.quick-list-actions {
+  margin-top: -10px;
+  height: 70px;
+}
+
+.quick-list-action-title {
+  padding-top: 15px;
+}
+
+.list-group-item {
+  margin-right:10px;
+}

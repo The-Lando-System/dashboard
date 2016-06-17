@@ -1,3 +1,4 @@
+/* Main App Specific CSS */
 body {
   background-color: rgb(247, 247, 247);
 }
@@ -7,7 +8,6 @@ body {
 }
 
 .jumbotron {
-  /* background-color: #595959; */
   background-color: rgb(96,125,139);
   color: white;
   margin-top: 20px;
@@ -25,31 +25,46 @@ body {
   color: #cccccc;
 }
 
+.login-input {
+	margin-bottom: 10px;
+}
+
+.dashboard {
+  background-image: url("/assets/images/dashboard-background.jpg");
+  background-size: contain;
+}
+
+/* User Specific CSS */
 .user-welcome {
   font-weight: bold;
   color: white;
 }
 
-.login-input {
-	margin-bottom: 10px;
+#new-user-dialog {
+  width: 600px;
 }
 
-.user-select:hover {
-	cursor: pointer;
-	color: #336699;
-}
-
-.user-delete-icon:hover {
-	cursor: pointer;
-}
-
-.clickable:hover {
-  cursor: pointer;
+#edit-user-dialog {
+  width: 600px;
 }
 
 .user-table {
   max-width: 300px;
   margin-bottom: 100px;
+}
+
+.user-select:hover {
+  cursor: pointer;
+  color: #336699;
+}
+
+.user-delete-icon:hover {
+  cursor: pointer;
+}
+
+/* Common CSS Classes */
+.clickable:hover {
+  cursor: pointer;
 }
 
 .centered {
@@ -64,63 +79,6 @@ body {
   display: inline-block;
 }
 
-#new-user-dialog {
-  width: 600px;
-}
-
-#edit-user-dialog {
-  width: 600px;
-}
-
-.dashboard {
-  background-image: url("/assets/images/dashboard-background.jpg");
-  background-size: contain;
-}
-
-.widget-card.mdl-card {
-  width: 300px;
-  height: 300px;
-  margin-left: 20px;
-  margin-top: 20px;
-}
-.widget-card > .mdl-card__actions {
-  border-color: rgba(255, 255, 255, 0.2);
-}
-.widget-card > .mdl-card__title {
-  align-items: flex-start;
-}
-.widget-card > .mdl-card__title > div > div > div > h4 {
-  margin-top: 0;
-}
-.widget-card > .mdl-card__title > div > div > div > button {
-  margin-top: 0;
-}
-.widget-card > .mdl-card__actions {
-  display: flex;
-  box-sizing:border-box;
-  align-items: center;
-}
-.widget-card > .mdl-card__actions > .material-icons {
-  padding-right: 10px;
-}
-.widget-card > .mdl-card__title,
-.widget-card > .mdl-card__actions,
-.widget-card > .mdl-card__actions > .mdl-button {
-  color: #000;
-}
-
-.temperature{
-  font-size: 54px;
-  margin-left: 30px;
-}
-
-.calendar-items{
-  height: 200px;
-  width: 100%;
-  overflow-y: auto;
-  margin-bottom:20px;
-}
-
-.list-group-item {
-  margin-right:10px;
+.top-align {
+  vertical-align: text-top;
 }
