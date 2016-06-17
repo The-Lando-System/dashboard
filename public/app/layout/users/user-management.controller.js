@@ -164,6 +164,7 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope) 
 
 
 	angular.element(document).ready(function () {
+    componentHandler.upgradeAllRegistered();
 		vm.userSession = AuthService.startUserSession();
 		if (vm.userSession.user) {
 			getUsers();

@@ -115,8 +115,8 @@ body {
 }
 
 .calendar-items{
-  height: 170px;
-  width: 250px;
+  height: 200px;
+  width: 100%;
   overflow-y: auto;
   margin-bottom:20px;
 }
