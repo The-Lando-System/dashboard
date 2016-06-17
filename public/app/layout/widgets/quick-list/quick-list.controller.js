@@ -12,7 +12,7 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
   qlVm.applySettingsChange = applySettingsChange;
   qlVm.addNewItem = addNewItem;
   qlVm.deleteItem = deleteItem;
-  qlVm.addingNewItem = false;
+  qlVm.editItemDescription = editItemDescription;
   qlVm.listItems = [];
 
   function getListItems(){
@@ -30,12 +30,10 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
     QuickListFactory.post(qlVm.userSession.token,{"description":description})
     .success(function(data){
       qlVm.listItems.push(data);
-      qlVm.addingNewItem = false;
       qlVm.loading = false;
     })
     .error(function(data){
       console.log(data);
-      qlVm.addingNewItem = false;
       qlVm.loading = false;
     });
   };
@@ -43,15 +41,27 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
   function deleteItem(itemToDelete){
     QuickListFactory.delete(qlVm.userSession.token,itemToDelete._id)
     .success(function(data){
-      getListItems();
+      removeItemFromList(itemToDelete,qlVm.listItems);
       qlVm.editMode = false;
-      qlVm.addingNewItem = false;
       qlVm.loading = false;
     })
     .error(function(data){
       console.log(data);
       qlVm.editMode = false;
-      qlVm.addingNewItem = false;
+      qlVm.loading = false;
+    });
+  };
+
+  function editItemDescription(itemToEdit){
+    QuickListFactory.edit(qlVm.userSession.token,itemToEdit)
+    .success(function(data){
+      getListItems();
+      qlVm.editMode = false;
+      qlVm.loading = false;
+    })
+    .error(function(data){
+      console.log(data);
+      qlVm.editMode = false;
       qlVm.loading = false;
     });
   };
@@ -65,6 +75,16 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
     qlVm.userSession = AuthService.startUserSession();
     getListItems();
   });
+
+  function removeItemFromList(itemToDelete, itemList){
+    for (var i=0; i<itemList.length; i++){
+      if (itemToDelete._id === itemList[i]._id){
+        itemList.splice(i,1);
+        return;
+      }
+    }
+    return;
+  };
 
 };
 
