@@ -13,6 +13,25 @@ function NavbarController(AuthService,$scope) {
   vm.hideConfirm = hideConfirm;
   vm.confirmId = 'navbar';
 
+  vm.showLoginDialog = showLoginDialog;
+  vm.hideLoginDialog = hideLoginDialog;
+
+  var loginDialog;
+
+  function showLoginDialog(){
+    if(!loginDialog){
+        loginDialog = document.querySelector('#login-dialog');
+      }
+      loginDialog.showModal();
+  };
+
+  function hideLoginDialog(){
+    if(!loginDialog){
+        loginDialog = document.querySelector('#login-dialog');
+      }
+      loginDialog.close();
+  };
+
   var confirmDialog;
 
   function showConfirm(){

@@ -1,5 +1,7 @@
 <nav class="mdl-navigation">
-  <a class="mdl-navigation__link">Hello {{vm.userSession.user.firstName}}!</a>
-  <a class="mdl-navigation__link" ui-sref="users">User Management</a>
-  <a class="mdl-navigation__link" href="" ng-click="vm.logout()">Logout</a>
+  <span ng-show="vm.userSession.user" class="mdl-navigation__link" ><strong>Hello {{vm.userSession.user.firstName}}!</strong></span>
+
+  <a ng-show="vm.userSession.user.role === 'admin'" class="mdl-navigation__link" ui-sref="users">User Management</a>
+  <a ng-show="vm.userSession.user" class="mdl-navigation__link" href="" ng-click="vm.logout()">Logout</a>
+  <a ng-show="!vm.userSession.user" class="mdl-navigation__link" href="" ng-click="vm.showLoginDialog()">Login!</a>
 </nav>
