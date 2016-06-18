@@ -46,6 +46,13 @@ module.exports = function(app) {
 	userRoutes.post('/list', function(req,res){
 		var user = req.decoded;
 		List.find({ username: user.username }, function(err,items){
+
+			// For now, only limit the list to 10 items
+			if (items.length >= 10){
+				res.status(404).send({ success: false, message: "You may only have 10 items in your quick list!" });
+				return;
+			}
+
 			var newPosition = 1;
 			if (items.length > 0){
 				for (var i=0; i<items.length; i++){
