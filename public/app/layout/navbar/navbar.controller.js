@@ -60,6 +60,7 @@ function NavbarController(AuthService,$scope) {
 
   angular.element(document).ready(function () {
     vm.userSession = AuthService.startUserSession();
+    componentHandler.upgradeAllRegistered();
   });
   
 };

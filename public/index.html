@@ -44,6 +44,7 @@
   <script src="app/dashboard.config.js"></script>
 
   <!-- Main App Layout Components -->
+  <script src="app/layout/shell/shell.directive.js"></script>
   <script src="app/layout/navbar/navbar.directive.js"></script>
   <script src="app/layout/navbar/navbar.controller.js"></script>
   <script src="app/layout/login/login.directive.js"></script>
@@ -92,9 +93,11 @@
 
 <!-- App starts here! -->
 <body ng-app="dashboard">
-  <navbar></navbar>
-  <div ui-view></div>
-  <login></login>
+  <!-- <navbar></navbar> -->
+  <app-shell>
+    <div ui-view></div>
+    <login></login>
+  </app-shell>
 </body>
 
 </html>

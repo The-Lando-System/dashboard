@@ -1,0 +1,17 @@
+<div class="dashboard-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header mdl-layout__header--transparent">
+    <div class="mdl-layout__header-row">
+      <span ui-sref="dashboard" class="mdl-layout-title clickable">My Dashboard</span>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">My Dashboard</span>
+    <navbar/>
+  </div>
+  <main class="mdl-layout__content dashboard">
+    <div class="page-content" ng-transclude>
+    </div>
+  </main>
+</div>
+
+<confirm-dialog></confirm-dialog>

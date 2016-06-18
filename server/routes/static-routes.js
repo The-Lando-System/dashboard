@@ -24,6 +24,9 @@ module.exports = function(app) {
 	});
 
 	// Common View Components ===================
+	staticRoutes.get('/app-shell', function(req,res){
+		res.sendFile(base + '/public/app/layout/shell/shell.html');
+	});
 	staticRoutes.get('/navbar', function(req,res){
 		res.sendFile(base + '/public/app/layout/navbar/navbar.html');
 	});
