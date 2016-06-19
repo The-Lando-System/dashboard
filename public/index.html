@@ -43,61 +43,62 @@
   <script src="app/dashboard.module.js"></script>
   <script src="app/dashboard.config.js"></script>
 
-  <!-- Main App Layout Components -->
-  <script src="app/layout/shell/shell.directive.js"></script>
-  <script src="app/layout/shell/shell.controller.js"></script>
-  <script src="app/layout/navbar/navbar.directive.js"></script>
-  <script src="app/layout/navbar/navbar.controller.js"></script>
-  <script src="app/layout/login/login.directive.js"></script>
-  <script src="app/layout/login/login.controller.js"></script>
-  <script src="app/layout/welcome/welcome.controller.js"></script>
-
   <!-- Common App Components -->
-  <script src="app/layout/common/confirm-dialog/confirm-dialog.directive.js"></script>
-  <script src="app/layout/common/confirm-dialog/confirm-dialog.service.js"></script>
-  <script src="app/layout/common/messages/notification.directive.js"></script>
+  <script src="app/common/confirm-dialog/confirm-dialog.directive.js"></script>
+  <script src="app/common/confirm-dialog/confirm-dialog.service.js"></script>
+  <script src="app/common/messages/notification.directive.js"></script>
+  <script src="app/common/messages/notification.service.js"></script>
+
+  <!-- Main App Layout Components -->
+  <script src="app/shell/shell.directive.js"></script>
+  <script src="app/shell/shell.controller.js"></script>
+  <script src="app/navbar/navbar.directive.js"></script>
+  <script src="app/navbar/navbar.controller.js"></script>
+  <script src="app/login/login.directive.js"></script>
+  <script src="app/login/login.controller.js"></script>
+  <script src="app/welcome/welcome.controller.js"></script>
 
   <!-- User Management -->
   <script src="app/services/auth.service.js"></script>
   <script src="app/services/interceptor.service.js"></script>
-  <script src="app/factories/admin.factory.js"></script>
-  <script src="app/layout/users/user-management.controller.js"></script>
-  <script src="app/layout/users/user-modal/user-modal.directive.js"></script>
+  <script src="app/users/user.factory.js"></script>
+  <script src="app/users/user-management.controller.js"></script>
+  <script src="app/users/user-modal/user-modal.directive.js"></script>
 
   <!-- Common Widget Framework -->
-  <script src="app/layout/common/widget-container/widget-container.directive.js"></script>
-  <script src="app/layout/common/widget-container/widget-container.controller.js"></script>
-  <script src="app/layout/common/widget-settings-dialog/widget-settings-dialog.directive.js"></script>
-  <script src="app/layout/dashboard/dashboard.controller.js"></script>
+  <script src="app/common/widget-container/widget-container.directive.js"></script>
+  <script src="app/common/widget-container/widget-container.controller.js"></script>
+  <script src="app/common/widget-settings-dialog/widget-settings-dialog.directive.js"></script>
+  <script src="app/dashboard/dashboard.controller.js"></script>
 
   <!-- Widgets -->
-  <script src="app/layout/widgets/weather/weather.directive.js"></script>
-  <script src="app/layout/widgets/weather/weather.controller.js"></script>
-  <script src="app/layout/widgets/weather/settings/weather-settings.directive.js"></script>
+  <script src="app/widgets/weather/weather.directive.js"></script>
+  <script src="app/widgets/weather/weather.controller.js"></script>
+  <script src="app/widgets/weather/settings/weather-settings.directive.js"></script>
   
-  <script src="app/layout/widgets/stocks/stocks.directive.js"></script>
-  <script src="app/layout/widgets/stocks/stocks.controller.js"></script>
-  <script src="app/layout/widgets/stocks/settings/stocks-settings.directive.js"></script>
+  <script src="app/widgets/stocks/stocks.directive.js"></script>
+  <script src="app/widgets/stocks/stocks.controller.js"></script>
+  <script src="app/widgets/stocks/settings/stocks-settings.directive.js"></script>
 
-  <script src="app/layout/widgets/calendar/google-auth.js"></script>
+  <script src="app/widgets/calendar/google-auth.js"></script>
   <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
-  <script src="app/layout/widgets/calendar/calendar.directive.js"></script>
-  <script src="app/layout/widgets/calendar/calendar.controller.js"></script>
-  <script src="app/layout/widgets/calendar/settings/calendar-settings.directive.js"></script>
+  <script src="app/widgets/calendar/calendar.directive.js"></script>
+  <script src="app/widgets/calendar/calendar.controller.js"></script>
+  <script src="app/widgets/calendar/settings/calendar-settings.directive.js"></script>
 
-  <script src="app/layout/widgets/quick-list/quick-list.directive.js"></script>
-  <script src="app/layout/widgets/quick-list/quick-list.factory.js"></script>
-  <script src="app/layout/widgets/quick-list/quick-list.controller.js"></script>
-  <script src="app/layout/widgets/quick-list/settings/quick-list-settings.directive.js"></script>
+  <script src="app/widgets/quick-list/quick-list.directive.js"></script>
+  <script src="app/widgets/quick-list/quick-list.factory.js"></script>
+  <script src="app/widgets/quick-list/quick-list.controller.js"></script>
+  <script src="app/widgets/quick-list/settings/quick-list-settings.directive.js"></script>
   
 </head>
 
 <!-- App starts here! -->
 <body ng-app="dashboard">
-  <!-- <navbar></navbar> -->
   <app-shell>
     <div ui-view></div>
     <login></login>
+    <notification></notification>
   </app-shell>
 </body>
 

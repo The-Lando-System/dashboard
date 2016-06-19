@@ -27,6 +27,11 @@ try {
 		console.log('e.g. \'secret\': \'mysecret\'');
 		process.exit();
 	}
+	if (!devConfig.tokenExpiryTime){
+		console.log('ERROR! Could not find \'tokenExpiryTime\' in the config file!');
+		console.log('e.g. \'tokenExpiryTime\': 10800');
+		process.exit();
+	}
 	console.log('[x] Successfully parsed the config file! Happy Debugging!');
 } catch(err) {
 	if (process.env.NODE_ENV === 'prod'){
@@ -39,9 +44,12 @@ try {
 	}
 }
 
+// Set App-wide variables here ==================================
 var dbUrl =  devConfig ? devConfig.db : process.env.DB_URL;
 var secretStr = devConfig ? devConfig.secret : process.env.SECRET;
+var tokenExpiryTime = devConfig ? devConfig.tokenExpiryTime : process.env.TOKEN_EXPIRY_TIME;
 
+// Try to connect to Mongo
 mongoose.connect(dbUrl, function(err){
 	if (err){
 		console.log('ERROR! Could not connect to MongoDB!')
@@ -84,7 +92,7 @@ app.post('/authenticate', function(req,res){
 				res.json({ success: false, message: 'Authentication failed, wrong password!' });
 			} else {
 				var token = jwt.sign(user, app.get('superSecret'), {
-					expiresIn: 3600
+					expiresIn: tokenExpiryTime
 				});
 				res.json({
 					success: true,

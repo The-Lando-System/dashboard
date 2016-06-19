@@ -25,52 +25,52 @@ module.exports = function(app) {
 
 	// Common View Components ===================
 	staticRoutes.get('/app-shell', function(req,res){
-		res.sendFile(base + '/public/app/layout/shell/shell.html');
+		res.sendFile(base + '/public/app/shell/shell.html');
 	});
 	staticRoutes.get('/navbar', function(req,res){
-		res.sendFile(base + '/public/app/layout/navbar/navbar.html');
+		res.sendFile(base + '/public/app/navbar/navbar.html');
 	});
 	staticRoutes.get('/user-modal', function(req,res){
-		res.sendFile(base + '/public/app/layout/users/user-modal/user-modal.html');
+		res.sendFile(base + '/public/app/users/user-modal/user-modal.html');
 	});
 	staticRoutes.get('/confirm-dialog', function(req,res){
-		res.sendFile(base + '/public/app/layout/common/confirm-dialog/confirm-dialog.html');
+		res.sendFile(base + '/public/app/common/confirm-dialog/confirm-dialog.html');
 	});
 	staticRoutes.get('/notification', function(req,res){
-		res.sendFile(base + '/public/app/layout/common/messages/notification.html');
+		res.sendFile(base + '/public/app/common/messages/notification.html');
 	});
 	staticRoutes.get('/login', function(req,res){
-		res.sendFile(base + '/public/app/layout/login/login.html');
+		res.sendFile(base + '/public/app/login/login.html');
 	});
 	staticRoutes.get('/widget-container', function(req,res){
-		res.sendFile(base + '/public/app/layout/common/widget-container/widget-container.html');
+		res.sendFile(base + '/public/app/common/widget-container/widget-container.html');
 	});
 	staticRoutes.get('/widget-settings-dialog', function(req,res){
-		res.sendFile(base + '/public/app/layout/common/widget-settings-dialog/widget-settings-dialog.html');
+		res.sendFile(base + '/public/app/common/widget-settings-dialog/widget-settings-dialog.html');
 	});
 	staticRoutes.get('/weather-widget', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/weather/weather.html');
+		res.sendFile(base + '/public/app/widgets/weather/weather.html');
 	});
 	staticRoutes.get('/weather-widget-settings', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/weather/settings/weather-settings.html');
+		res.sendFile(base + '/public/app/widgets/weather/settings/weather-settings.html');
 	});
 	staticRoutes.get('/stocks-widget', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/stocks/stocks.html');
+		res.sendFile(base + '/public/app/widgets/stocks/stocks.html');
 	});
 	staticRoutes.get('/stocks-widget-settings', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/stocks/settings/stocks-settings.html');
+		res.sendFile(base + '/public/app/widgets/stocks/settings/stocks-settings.html');
 	});
 	staticRoutes.get('/calendar-widget', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/calendar/calendar.html');
+		res.sendFile(base + '/public/app/widgets/calendar/calendar.html');
 	});
 	staticRoutes.get('/calendar-widget-settings', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/calendar/settings/calendar-settings.html');
+		res.sendFile(base + '/public/app/widgets/calendar/settings/calendar-settings.html');
 	});
 	staticRoutes.get('/quick-list-widget', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/quick-list/quick-list.html');
+		res.sendFile(base + '/public/app/widgets/quick-list/quick-list.html');
 	});
 	staticRoutes.get('/quick-list-widget-settings', function(req,res){
-		res.sendFile(base + '/public/app/layout/widgets/quick-list/settings/quick-list-settings.html');
+		res.sendFile(base + '/public/app/widgets/quick-list/settings/quick-list-settings.html');
 	});
 
 	// Other static files

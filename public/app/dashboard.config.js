@@ -10,19 +10,19 @@ function config($httpProvider,$urlRouterProvider,$stateProvider,$locationProvide
   $stateProvider
   .state('welcome', {
     url: '/welcome',
-    templateUrl: '/app/layout/welcome/welcome.html',
+    templateUrl: '/app/welcome/welcome.html',
     controller: 'WelcomeController',
     controllerAs: 'vm'
   })
   .state('users', {
     url: '/user-management',
-    templateUrl: '/app/layout/users/user-management.html',
+    templateUrl: '/app/users/user-management.html',
     controller: 'UserMgmtController',
     controllerAs: 'vm'
   })
   .state('dashboard', {
     url: '/my-dashboard',
-    templateUrl: '/app/layout/dashboard/dashboard.html',
+    templateUrl: '/app/dashboard/dashboard.html',
     controller: 'DashboardController',
     controllerAs: 'vm'
   })
