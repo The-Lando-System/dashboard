@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('StocksWidgetController', StocksWidgetController);
 
-StocksWidgetController.$inject = ['$http'];
+StocksWidgetController.$inject = ['$http','$scope'];
 
-function StocksWidgetController($http) {
+function StocksWidgetController($http, $scope) {
   var stocksVm = this;
 
   stocksVm.loading = false;
@@ -13,7 +13,11 @@ function StocksWidgetController($http) {
   stocksVm.changeStockId = changeStockId;
   stocksVm.stockId = "NFLX";
 
-  getStockInfo();
+  $scope.$on('refresh', function(event, success) {
+    if (success){
+      getStockInfo();
+    }
+  });
 
 
   function getStockInfo(requestDate){
@@ -64,6 +68,7 @@ function StocksWidgetController($http) {
 
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
+    getStockInfo();
   });
 
   function getShortDate(date){

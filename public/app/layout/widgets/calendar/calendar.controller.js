@@ -14,6 +14,14 @@ function CalendarWidgetController($http,$timeout,$scope) {
   calendarVm.listUpcomingEvents = listUpcomingEvents;
   calendarVm.events = [];
 
+
+  $scope.$on('refresh', function(event, success) {
+    if (success){
+      checkForAuth();
+    }
+  });
+
+
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
     checkForAuth();

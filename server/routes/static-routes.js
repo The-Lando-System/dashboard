@@ -30,17 +30,14 @@ module.exports = function(app) {
 	staticRoutes.get('/navbar', function(req,res){
 		res.sendFile(base + '/public/app/layout/navbar/navbar.html');
 	});
-	staticRoutes.get('/jumbotron', function(req,res){
-		res.sendFile(base + '/public/app/directives/jumbotron/jumbotron.html');
-	});
 	staticRoutes.get('/user-modal', function(req,res){
 		res.sendFile(base + '/public/app/layout/users/user-modal/user-modal.html');
 	});
 	staticRoutes.get('/confirm-dialog', function(req,res){
-		res.sendFile(base + '/public/app/directives/confirm-dialog/confirm-dialog.html');
+		res.sendFile(base + '/public/app/layout/common/confirm-dialog/confirm-dialog.html');
 	});
 	staticRoutes.get('/notification', function(req,res){
-		res.sendFile(base + '/public/app/directives/messages/notification.html');
+		res.sendFile(base + '/public/app/layout/common/messages/notification.html');
 	});
 	staticRoutes.get('/login', function(req,res){
 		res.sendFile(base + '/public/app/layout/login/login.html');

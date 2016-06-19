@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('WeatherWidgetController', WeatherWidgetController);
 
-WeatherWidgetController.$inject = ['$http'];
+WeatherWidgetController.$inject = ['$http','$scope'];
 
-function WeatherWidgetController($http) {
+function WeatherWidgetController($http,$scope) {
 	var weatherVm = this;
 
 	weatherVm.getWeather = getWeather;
@@ -70,6 +70,12 @@ function WeatherWidgetController($http) {
     });
 
 	};
+
+  $scope.$on('refresh', function(event, success) {
+    if (success){
+      getWeather();
+    }
+  });
 
 
   function csvToJson(csv) {

@@ -11,24 +11,6 @@ body {
   margin-top: 10px;
 }
 
-.jumbotron {
-  background-color: rgb(96,125,139);
-  color: white;
-  margin-top: 20px;
-}
-
-.navbar-inverse .navbar-brand {
-  color: #cccccc;
-}
-
-.navbar-inverse .navbar-text {
-  color: #cccccc;
-}
-
-.navbar-inverse .navbar-nav > li > a {
-  color: #cccccc;
-}
-
 .login-input {
 	margin-bottom: 10px;
 }
@@ -38,7 +20,21 @@ body {
   background-size: contain;
 }
 
-/* User Specific CSS */
+/* Navbar CSS */
+#welcome-message:hover {
+  background-color: #fafafa;
+  color: #000;
+}
+
+#welcome-message {
+  color: #000;
+}
+
+.mdl-navigation > a:hover {
+  text-decoration: none;
+}
+
+/* User Management CSS */
 .user-welcome {
   font-weight: bold;
   color: white;
@@ -55,15 +51,6 @@ body {
 .user-table {
   max-width: 300px;
   margin-bottom: 100px;
-}
-
-.user-select:hover {
-  cursor: pointer;
-  color: #336699;
-}
-
-.user-delete-icon:hover {
-  cursor: pointer;
 }
 
 /* Common CSS Classes */
@@ -85,4 +72,14 @@ body {
 
 .top-align {
   vertical-align: text-top;
+}
+
+.plain-button {
+  color: black;
+  background-color: white;
+}
+
+.plain-button:hover {
+  color: black;
+  background-color: white;
 }

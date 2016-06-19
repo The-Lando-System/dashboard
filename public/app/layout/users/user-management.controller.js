@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('UserMgmtController', UserMgmtController);
 
-UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope'];
+UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService'];
 
-function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope) {
+function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService) {
 
 	var vm = this;
 	vm.headerMessage = "Manage Users";
@@ -24,29 +24,15 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope) 
 	vm.showSnackbar = showSnackbar;
 	vm.showConfirm = showConfirm;
 	vm.hideConfirm = hideConfirm;
-	vm.confirmId = 'user-mgmt';
-	vm.showConfirmNo = false;
 
 	vm.loading = false;
 
-	vm.confirmTitle = "Hello!";
-
-	vm.hideConfirm = hideConfirm;
-
-	var confirmDialog;
-
 	function showConfirm(){
-		if(!confirmDialog){
-  			confirmDialog = document.querySelector('#confirm-dialog-' + vm.confirmId);
-  		}
-  		confirmDialog.showModal();
+		ConfirmDialogService.showConfirm('delete-user');
 	};
 
 	function hideConfirm(){
-		if(!confirmDialog){
-  			confirmDialog = document.querySelector('#confirm-dialog-' + vm.confirmId);
-  		}
-  		confirmDialog.close();
+		ConfirmDialogService.hideConfirm('delete-user');
 	};
 
 
@@ -83,12 +69,6 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope) 
 
 	function prepareDeleteUser(user){
 		vm.userToDelete = user;
-		vm.showConfirmNo = true;
-		vm.confirmTitle = "You sure?";
-		vm.confirmText = "You want to delete " + vm.userToDelete.username + "?";
-		vm.confirmYes = deleteUser;
-		vm.confirmNo = vm.hideConfirm;
-		//$scope.$apply();
 		vm.showConfirm();
 	};
 
@@ -164,7 +144,7 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope) 
 
 
 	angular.element(document).ready(function () {
-    componentHandler.upgradeAllRegistered();
+    	componentHandler.upgradeAllRegistered();
 		vm.userSession = AuthService.startUserSession();
 		if (vm.userSession.user) {
 			getUsers();

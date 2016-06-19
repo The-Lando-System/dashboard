@@ -6,8 +6,6 @@ angular.module('dashboard')
 function ConfirmDialog() {
   return {
     templateUrl: '/confirm-dialog',
-    controller: 'ConfirmDialogController',
-    controllerAs: 'confirmVm',
     scope: {
       confirmId: '@confirmId',
       confirmHeader: '@confirmHeader',

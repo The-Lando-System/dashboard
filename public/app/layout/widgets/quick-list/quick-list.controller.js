@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('QuickListWidgetController', QuickListWidgetController);
 
-QuickListWidgetController.$inject = ['QuickListFactory','AuthService'];
+QuickListWidgetController.$inject = ['QuickListFactory','AuthService','$scope'];
 
-function QuickListWidgetController(QuickListFactory, AuthService) {
+function QuickListWidgetController(QuickListFactory, AuthService, $scope) {
   var qlVm = this;
 
   qlVm.loading = false;
@@ -14,6 +14,12 @@ function QuickListWidgetController(QuickListFactory, AuthService) {
   qlVm.deleteItem = deleteItem;
   qlVm.editItemDescription = editItemDescription;
   qlVm.listItems = [];
+
+  $scope.$on('refresh', function(event, success) {
+    if (success){
+      getListItems();
+    }
+  });
 
   function getListItems(){
     QuickListFactory.get(qlVm.userSession.token)
