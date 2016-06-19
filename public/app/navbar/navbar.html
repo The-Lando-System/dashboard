@@ -2,6 +2,15 @@
   <span ng-show="navVm.userSession.user" id="welcome-message" class="mdl-navigation__link" ><strong>Hello {{navVm.userSession.user.firstName}}!</strong></span>
 
   <a ng-show="navVm.userSession.user.role === 'admin'" class="mdl-navigation__link" ui-sref="users">User Management</a>
-  <a ng-show="navVm.userSession.user" class="mdl-navigation__link" href="" ng-click="navVm.logout()">Logout</a>
+  <a ng-show="navVm.userSession.user" class="mdl-navigation__link" href="" ng-click="navVm.showConfirm()">Logout</a>
   <a ng-show="!navVm.userSession.user" class="mdl-navigation__link" href="" ng-click="navVm.showLoginDialog()">Login!</a>
 </nav>
+
+<confirm-dialog confirm-id="logout" confirm-header="Logout" confirm-text="Are you sure you want to logout?">
+	<button ng-click="navVm.logout()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+    Yes
+  </button>
+  <button ng-click="navVm.hideConfirm()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+    No
+  </button>
+</confirm-dialog>

@@ -3,15 +3,25 @@
 angular.module('dashboard')
 .controller('NavbarController', NavbarController);
 
-NavbarController.$inject = ['AuthService','$scope'];
+NavbarController.$inject = ['AuthService','$scope','ConfirmDialogService'];
 
-function NavbarController(AuthService,$scope) {
+function NavbarController(AuthService,$scope,ConfirmDialogService) {
   
   var navVm = this;
   navVm.logout = logout;
 
+  navVm.showConfirm = showConfirm;
+  navVm.hideConfirm = hideConfirm;
   navVm.showLoginDialog = showLoginDialog;
   navVm.hideLoginDialog = hideLoginDialog;
+
+  function showConfirm(){
+    ConfirmDialogService.showConfirm('logout');
+  };
+
+  function hideConfirm(){
+    ConfirmDialogService.hideConfirm('logout');
+  };
 
   var loginDialog;
 
@@ -42,11 +52,9 @@ function NavbarController(AuthService,$scope) {
   });
 
   function logout(){
-    var confirmed = confirm('Are you sure you want to logout?');
-    if (confirmed){
-      AuthService.logout();
-      navVm.userSession = AuthService.endUserSession();
-    }
+    hideConfirm();
+    AuthService.logout();
+    navVm.userSession = AuthService.endUserSession();
   };
 
   angular.element(document).ready(function () {

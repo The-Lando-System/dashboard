@@ -3,14 +3,31 @@
     <img src="/assets/images/loading.gif" height="200" width="250">
   </div>
   <div ng-hide="weatherVm.loading">
-    <img ng-src="{{weatherVm.icon}}" height="80" width="80">
-    <span class="temperature">{{weatherVm.temperature}}&deg;</span>
-    <br/>
-    {{weatherVm.currentWeather}}
-    <br/><br/>
-    <strong>{{weatherVm.city}}</strong>
-    <br/>
-    {{weatherVm.currentTime}}
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--6-col">
+        <div class="weather-icon">
+          <img ng-src="{{weatherVm.icon}}" height="100" width="100">
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--6-col">
+        <div class="temperature">
+          {{weatherVm.temperature}}&deg;
+        </div>
+        <div>
+          {{weatherVm.currentWeather}}
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--12-col">
+        <div class="weather-supporting-info">
+          <strong>{{weatherVm.city}}</strong>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--12-col">
+        <div class="weather-supporting-info">
+          {{weatherVm.currentTime}}
+        </div>
+      </div>
+    </div>
   </div>
   <weather-widget-settings/>
 </widget-container>

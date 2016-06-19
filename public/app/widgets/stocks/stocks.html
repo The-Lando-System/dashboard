@@ -1,16 +1,29 @@
 <widget-container header="Stocks" widget-id="stocks">
   <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
-    {{stocksVm.stockCode}} : {{stocksVm.stockName}}
-    <br/>
-    <div ng-show="stocksVm.increase">
-      <img src="/assets/images/up-arrow.png" height="90" width="125">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--6-col">
+        <div>
+          <strong>{{stocksVm.stockCode}}</strong>
+        </div>
+        <div>
+          {{stocksVm.stockName}}
+        </div>
+        <div>
+          Price: ${{stocksVm.todaysClose}}
+        </div>
+        <div>
+          Change: ${{stocksVm.changeAmount}}
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--6-col">
+        <div ng-show="stocksVm.increase">
+          <img src="/assets/images/up-arrow.png" height="90" width="125">
+        </div>
+        <div ng-hide="stocksVm.increase">
+          <img src="/assets/images/down-arrow.jpg" height="90" width="125">
+        </div>
+      </div>
     </div>
-    <div ng-hide="stocksVm.increase">
-      <img src="/assets/images/down-arrow.jpg" height="90" width="125">
-    </div>
-    Price: ${{stocksVm.todaysClose}}
-    <br/>
-    Change: ${{stocksVm.changeAmount}}
   </div>
   <div ng-show="stocksVm.errorMessage">
     {{stocksVm.errorMessage}}

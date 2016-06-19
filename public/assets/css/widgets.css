@@ -6,9 +6,18 @@
 }
 
 /* Widget Specific CSS */
+.weather-icon {
+	margin-left: 20px;
+}
+
+.weather-supporting-info {
+	margin-left: 20px;
+}
+
 .temperature {
-  font-size: 54px;
-  margin-left: 30px;
+	margin-top: 15px;
+	margin-bottom: 30px;
+	font-size: 54px;
 }
 
 .quick-list-table {
