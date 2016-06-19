@@ -92,9 +92,8 @@ app.post('/authenticate', function(req,res){
 				res.json({ success: false, message: 'Authentication failed, wrong password!' });
 			} else {
 				var token = jwt.sign(user, app.get('superSecret'), {
-					expiresIn: tokenExpiryTime
+					expiresIn: 10800
 				});
-				console.log(tokenExpiryTime);
 				res.json({
 					success: true,
 					message: 'Enjoy your token!',

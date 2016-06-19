@@ -15,8 +15,6 @@ function Interceptor($rootScope,AuthService) {
 
 	interceptorService.response = function(response) {
 
-		console.log(response);
-
 		if (response.data.message){
 			if (response.data.message === 'TokenExpiredError'){
 				alert('Your session has expired. Please login again.');
