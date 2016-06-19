@@ -6,7 +6,15 @@ angular.module('dashboard')
 function ConfirmDialog() {
   return {
     templateUrl: '/confirm-dialog',
-    restrict: 'E'
+    controller: 'ConfirmDialogController',
+    controllerAs: 'confirmVm',
+    scope: {
+      confirmId: '@confirmId',
+      confirmHeader: '@confirmHeader',
+      confirmText: '@confirmText'
+    },
+    restrict: 'E',
+    transclude: true
   };
 };
 

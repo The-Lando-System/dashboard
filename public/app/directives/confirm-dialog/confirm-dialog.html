@@ -1,14 +1,10 @@
-<dialog ng-attr-id="{{ 'confirm-dialog-' + vm.confirmId }}" class="mdl-dialog">
-  <h3 class="mdl-dialog__title">{{vm.confirmTitle}}</h3>
+<dialog ng-attr-id="{{ 'confirm-dialog-' + confirmId }}" class="mdl-dialog">
+  <h3 class="mdl-dialog__title">{{confirmHeader}}</h3>
   <div class="mdl-dialog__content">
     <p>
-    {{vm.confirmText}}
+    {{confirmText}}
     </p>
   </div>
-  <div class="mdl-dialog__actions">
-    <button ng-click="vm.confirmYes();" type="button" class="mdl-button">Yes!</button>
-    <div ng-show="vm.showConfirmNo">
-      <button ng-click="vm.confirmNo()" type="button" class="mdl-button">No...</button>
-    </div>
+  <div class="mdl-dialog__actions" ng-transclude>
   </div>
 </dialog>

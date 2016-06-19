@@ -13,6 +13,7 @@ function LoginController($http,$window,$location,jwtHelper,AuthService) {
 	loginVm.login = login;
 	loginVm.hideLoginDialog = hideLoginDialog;
 	loginVm.loading = false;
+	loginVm.confirmLogout = confirmLogout;
 
 	function login(formIsValid){
 		if (formIsValid){
@@ -46,6 +47,11 @@ function LoginController($http,$window,$location,jwtHelper,AuthService) {
   			loginDialog = document.querySelector('#login-dialog');
   		}
   		loginDialog.close();
+	};
+
+
+	function confirmLogout(confirmed){
+		alert(confirmed);
 	};
 
 };

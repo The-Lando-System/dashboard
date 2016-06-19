@@ -8,7 +8,7 @@ function Navbar() {
     restrict: 'E',
     templateUrl: '/navbar',
     controller: 'NavbarController',
-    controllerAs: 'vm'
+    controllerAs: 'navVm'
   };
 };
 
