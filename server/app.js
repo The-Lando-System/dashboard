@@ -94,6 +94,7 @@ app.post('/authenticate', function(req,res){
 				var token = jwt.sign(user, app.get('superSecret'), {
 					expiresIn: tokenExpiryTime
 				});
+				console.log(tokenExpiryTime);
 				res.json({
 					success: true,
 					message: 'Enjoy your token!',
