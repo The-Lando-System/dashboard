@@ -52,7 +52,7 @@ module.exports = function(app) {
 				res.send(err);
 			} else {
 				if(user.length > 0){
-					res.json({ 
+					res.status(404).send({ 
 						success: false,
 						message: 'Error: A user already exists with the username ' + req.body.username
 					});

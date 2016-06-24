@@ -21,7 +21,6 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 	vm.hideEditUserModal = hideEditUserModal;
 	vm.createUser = createUser;
 	vm.updateUser = updateUser;
-	vm.showSnackbar = showSnackbar;
 	vm.showConfirm = showConfirm;
 	vm.hideConfirm = hideConfirm;
 
@@ -44,7 +43,7 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 			vm.loading = false;
 		})
 		.error(function(data){
-			console.log('Error: ' + data);
+			MdlSnackbar.error(data.message,2000);
 			vm.loading = false;
 		});
 	};
@@ -55,13 +54,12 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 		vm.loading = true;
 		UserFactory.delete(vm.userSession.token,vm.userToDelete._id)
 		.success(function(data){
-			console.log(data);
-			showSnackbar(data.message);
+			MdlSnackbar.success(data.message,2000);
 			getUsers();
 			vm.loading = false;
 		})
 		.error(function(data){
-			console.log('Error: ' + data);
+			MdlSnackbar.error(data.message,2000);
 			vm.loading = false;
 		});
 	};
@@ -76,13 +74,12 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 		vm.loading = true;
 		UserFactory.create(vm.userSession.token,vm.newUser)
 		.success(function(data){
-			showSnackbar(data.message);
+			MdlSnackbar.success(data.message,2000);
 			getUsers();
 			vm.loading = false;
 		})
 		.error(function(data){
-			showSnackbar(data.message);
-			console.log('Error: ' + data);
+			MdlSnackbar.error(data.message,2000);
 			vm.loading = false;
 		});
 		hideNewUserModal();
@@ -92,11 +89,11 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 		vm.loading = true;
 		UserFactory.edit(vm.userSession.token,vm.editedUser._id,vm.editedUser)
 		.success(function(data){
-			showSnackbar(data.message);
+			MdlSnackbar.success(data.message,2000);
 			vm.loading = false;
 		})
 		.error(function(data){
-			showSnackbar(data.message);
+			MdlSnackbar.error(data.message,2000);
 			vm.loading = false;
 		});
 		hideEditUserModal();
@@ -133,13 +130,9 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
   	vm.editedUser = {};
   };
 
-  function showSnackbar(msg){
-  	MdlSnackbar.success(msg,2000);
-  };
-
 
 	angular.element(document).ready(function () {
-    	componentHandler.upgradeAllRegistered();
+		componentHandler.upgradeAllRegistered();
 		vm.userSession = AuthService.startUserSession();
 		if (vm.userSession.user) {
 			getUsers();
