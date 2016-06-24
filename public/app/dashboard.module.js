@@ -5,7 +5,8 @@ angular.module('dashboard', [
 	'angular-jwt',
 	'ngRoute',
 	'ui.router',
-	'ngAnimate'
+	'ngAnimate',
+  'ng-mdl-snackbar'
 ]);
 
 })();

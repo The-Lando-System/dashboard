@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('UserMgmtController', UserMgmtController);
 
-UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService','NotificationService'];
+UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService','MdlSnackbar'];
 
-function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService,NotificationService) {
+function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService,MdlSnackbar) {
 
 	var vm = this;
 	vm.headerMessage = "Manage Users";
@@ -134,7 +134,7 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
   };
 
   function showSnackbar(msg){
-  	NotificationService.showSnackbar(msg,2000);
+  	MdlSnackbar.success(msg,2000);
   };
 
 

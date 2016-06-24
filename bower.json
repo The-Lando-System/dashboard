@@ -12,6 +12,7 @@
     "angular-ui-router": "latest",
     "angular-animate": "latest",
     "angular-bootstrap":"latest",
-    "material-design-lite": "latest"
+    "material-design-lite": "latest",
+    "ng-mdl-snackbar": "latest"
   }
 }

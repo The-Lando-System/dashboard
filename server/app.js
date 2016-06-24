@@ -27,11 +27,6 @@ try {
 		console.log('e.g. \'secret\': \'mysecret\'');
 		process.exit();
 	}
-	if (!devConfig.tokenExpiryTime){
-		console.log('ERROR! Could not find \'tokenExpiryTime\' in the config file!');
-		console.log('e.g. \'tokenExpiryTime\': 10800');
-		process.exit();
-	}
 	console.log('[x] Successfully parsed the config file! Happy Debugging!');
 } catch(err) {
 	if (process.env.NODE_ENV === 'prod'){
