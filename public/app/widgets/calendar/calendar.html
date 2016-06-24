@@ -1,5 +1,5 @@
 <widget-container header="Calendar" widget-id="calendar">
-  <div ng-hide="calendarVm.loading">
+  <div ng-hide="calendarVm.loading || !calendarVm.userSession.user">
     <div ng-show="calendarVm.hasGoogleAuth">
       <ul class="list-group calendar-items">
         <li ng-repeat="event in calendarVm.events" class="list-group-item">
@@ -11,8 +11,11 @@
       <button ng-click="calendarVm.handleAuthClick(event)" type="button" class="mdl-button">Authenticate</button>
     </div>
   </div>
-  <div ng-show="calendarVm.loading">
+  <div ng-show="calendarVm.loading && calendarVm.userSession.user">
     <img src="/assets/images/loading.gif" height="200" width="250">
+  </div>
+  <div ng-show="!calendarVm.userSession.user">
+    <h3>Please login to view your calendar!</h3>
   </div>
   <calendar-widget-settings/>
 </widget-container>

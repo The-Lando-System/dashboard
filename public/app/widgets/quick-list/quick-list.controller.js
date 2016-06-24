@@ -14,9 +14,11 @@ function QuickListWidgetController(QuickListFactory, AuthService, $scope) {
   qlVm.deleteItem = deleteItem;
   qlVm.editItemDescription = editItemDescription;
   qlVm.listItems = [];
+  qlVm.userSession = AuthService.startUserSession();
 
   $scope.$on('refresh', function(event, success) {
     if (success){
+      qlVm.userSession = AuthService.startUserSession();
       getListItems();
     }
   });
@@ -78,7 +80,6 @@ function QuickListWidgetController(QuickListFactory, AuthService, $scope) {
 
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
-    qlVm.userSession = AuthService.startUserSession();
     getListItems();
   });
 

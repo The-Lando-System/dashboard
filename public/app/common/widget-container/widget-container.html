@@ -4,9 +4,9 @@
       <h3 class="panel-title"><strong>{{header}}</strong></h3>
     </div>
     <div class="right-align in-line">
-      <a ng-click="widgetContainerVm.showSettingsDialog(widgetId)" class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect">
+      <button ng-disabled="!widgetContainerVm.userSession.user" ng-click="widgetContainerVm.showSettingsDialog(widgetId)" class="mdl-button mdl-button--primary mdl-js-button mdl-js-ripple-effect">
         <i class="material-icons">settings</i>
-      </a>
+      </button>
     </div>
   </div>
   <div class="panel-body widget" ng-transclude>

@@ -13,9 +13,6 @@ module.exports = function(app) {
 	staticRoutes.get('/', function(req,res){
 		res.sendFile(index);
 	});
-	staticRoutes.get('/welcome', function(req,res){
-		res.sendFile(index);
-	});
 	staticRoutes.get('/user-management', function(req,res){
 		res.sendFile(index);
 	});

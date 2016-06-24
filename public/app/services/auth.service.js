@@ -33,14 +33,15 @@ function AuthService($cookies,$location,jwtHelper,$rootScope) {
 
 	authService.logout = function(){
 		$cookies.remove('token');
-		$location.path('welcome');
 		$rootScope.$broadcast('logout', true);
+		$rootScope.$broadcast('refresh', true);
+		$location.path('dashboard');
 	};
 
 	authService.createSession = function(token){
 		$cookies.put('token',token);
-		$location.path('my-dashboard');
 		$rootScope.$broadcast('login', true);
+		$rootScope.$broadcast('refresh', true);
 	};
 
 	return authService;

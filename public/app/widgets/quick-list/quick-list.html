@@ -1,8 +1,11 @@
 <widget-container header="Quick List" widget-id="quick-list">
-  <div ng-show="qlVm.loading">
+  <div ng-show="qlVm.loading && qlVm.userSession.user">
     <img src="/assets/images/loading.gif" height="200" width="250">
   </div>
-  <div ng-hide="qlVm.loading">
+  <div ng-show="!qlVm.userSession.user">
+    <h3>Please login to view your list!</h3>
+  </div>
+  <div ng-hide="qlVm.loading || !qlVm.userSession.user">
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--3-col">
         <button ng-click="qlVm.addNewItem(qlVm.description); qlVm.description = '';" type="button" class="mdl-button" >Add</button>
@@ -16,7 +19,6 @@
         </div>
       </div>
     </div>
-
 
     <table class="quick-list-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
       <tbody>

@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('CalendarWidgetController', CalendarWidgetController);
 
-CalendarWidgetController.$inject = ['$http','$timeout','$scope'];
+CalendarWidgetController.$inject = ['$http','$timeout','$scope','AuthService'];
 
-function CalendarWidgetController($http,$timeout,$scope) {
+function CalendarWidgetController($http,$timeout,$scope,AuthService) {
   var calendarVm = this;
 
   calendarVm.loading = false;
@@ -13,10 +13,12 @@ function CalendarWidgetController($http,$timeout,$scope) {
   calendarVm.handleAuthClick = handleAuthClick;
   calendarVm.listUpcomingEvents = listUpcomingEvents;
   calendarVm.events = [];
+  calendarVm.userSession = AuthService.startUserSession();
 
 
   $scope.$on('refresh', function(event, success) {
     if (success){
+      calendarVm.userSession = AuthService.startUserSession();
       checkForAuth();
     }
   });

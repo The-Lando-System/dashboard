@@ -3,13 +3,22 @@
 angular.module('dashboard')
 .controller('WidgetContainerController', WidgetContainerController);
 
-WidgetContainerController.$inject = [];
+WidgetContainerController.$inject = ['AuthService','$scope'];
 
-function WidgetContainerController() {
+function WidgetContainerController(AuthService,$scope) {
   var widgetContainerVm = this;
 
   widgetContainerVm.showSettingsDialog = showSettingsDialog;
   widgetContainerVm.hideSettingsDialog = hideSettingsDialog;
+  widgetContainerVm.userSession = AuthService.startUserSession();
+
+  $scope.$on('refresh', function(event, success) {
+    if (success){
+      widgetContainerVm.userSession = AuthService.startUserSession();
+    }
+  });
+
+
 
   var settingsDialog;
 

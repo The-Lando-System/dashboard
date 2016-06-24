@@ -8,12 +8,6 @@ function config($httpProvider,$urlRouterProvider,$stateProvider,$locationProvide
   $locationProvider.html5Mode(true);
 
   $stateProvider
-  .state('welcome', {
-    url: '/welcome',
-    templateUrl: '/app/welcome/welcome.html',
-    controller: 'WelcomeController',
-    controllerAs: 'vm'
-  })
   .state('users', {
     url: '/user-management',
     templateUrl: '/app/users/user-management.html',
@@ -28,7 +22,7 @@ function config($httpProvider,$urlRouterProvider,$stateProvider,$locationProvide
   })
 
   $urlRouterProvider
-  .otherwise('/welcome');
+  .otherwise('/my-dashboard');
 
   $urlRouterProvider.rule(function($injector, $location) {
 
