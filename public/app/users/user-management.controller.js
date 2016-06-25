@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('UserMgmtController', UserMgmtController);
 
-UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService','MdlSnackbar'];
+UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService','MdlSnackbar','MdlConfirm'];
 
-function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService,MdlSnackbar) {
+function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService,MdlSnackbar,MdlConfirm) {
 
 	var vm = this;
 	vm.headerMessage = "Manage Users";
@@ -14,25 +14,14 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 	vm.userToDelete = {};
 	vm.getUsers = getUsers;
 	vm.deleteUser = deleteUser;
-	vm.prepareDeleteUser = prepareDeleteUser;
 	vm.showNewUserModal = showNewUserModal;
 	vm.hideNewUserModal = hideNewUserModal;
 	vm.showEditUserModal = showEditUserModal;
 	vm.hideEditUserModal = hideEditUserModal;
 	vm.createUser = createUser;
 	vm.updateUser = updateUser;
-	vm.showConfirm = showConfirm;
-	vm.hideConfirm = hideConfirm;
 
 	vm.loading = false;
-
-	function showConfirm(){
-		ConfirmDialogService.showConfirm('delete-user');
-	};
-
-	function hideConfirm(){
-		ConfirmDialogService.hideConfirm('delete-user');
-	};
 
 
 	function getUsers(){
@@ -49,25 +38,24 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 	};
 
 
-	function deleteUser(){
-		vm.hideConfirm();
-		vm.loading = true;
-		UserFactory.delete(vm.userSession.token,vm.userToDelete._id)
-		.success(function(data){
-			MdlSnackbar.success(data.message,2000);
-			getUsers();
-			vm.loading = false;
-		})
-		.error(function(data){
-			MdlSnackbar.error(data.message,2000);
-			vm.loading = false;
+	function deleteUser(user){
+		MdlConfirm.open('Delete','Are you sure you want to delete this user?',
+		function(confirmed){
+			if (!confirmed){
+				return;
+			}
+			vm.loading = true;
+			UserFactory.delete(vm.userSession.token,user._id)
+			.success(function(data){
+				MdlSnackbar.success(data.message,2000);
+				getUsers();
+				vm.loading = false;
+			})
+			.error(function(data){
+				MdlSnackbar.error(data.message,2000);
+				vm.loading = false;
+			});
 		});
-	};
-
-
-	function prepareDeleteUser(user){
-		vm.userToDelete = user;
-		vm.showConfirm();
 	};
 
 	function createUser(){

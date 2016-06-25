@@ -13,6 +13,7 @@
     "angular-animate": "latest",
     "angular-bootstrap":"latest",
     "material-design-lite": "latest",
-    "ng-mdl-snackbar": "latest"
+    "ng-mdl-snackbar": "latest",
+    "ng-mdl-confirm": "latest"
   }
 }
