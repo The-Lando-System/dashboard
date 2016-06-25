@@ -26,6 +26,7 @@ function LoginController($http,$window,$location,jwtHelper,AuthService) {
 					AuthService.createSession(data.token);
 					loginVm.userSession = AuthService.startUserSession();
 					hideLoginDialog();
+					hideDrawer();
 					loginVm.loading = false;
 				} else {
 					loginVm.authFail = true;
@@ -53,6 +54,10 @@ function LoginController($http,$window,$location,jwtHelper,AuthService) {
 	function confirmLogout(confirmed){
 		alert(confirmed);
 	};
+
+	function hideDrawer(){
+	    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+	}
 
 };
 

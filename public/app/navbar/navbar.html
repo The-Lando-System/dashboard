@@ -1,7 +1,7 @@
 <nav class="mdl-navigation">
   <span ng-show="navVm.userSession.user" id="welcome-message" class="mdl-navigation__link" ><strong>Hello {{navVm.userSession.user.firstName}}!</strong></span>
 
-  <a ng-show="navVm.userSession.user.role === 'admin'" class="mdl-navigation__link" ui-sref="users">User Management</a>
+  <a ng-show="navVm.userSession.user.role === 'admin'" class="mdl-navigation__link" ui-sref="users" ng-click="navVm.hideDrawer()">User Management</a>
   <a ng-show="navVm.userSession.user" class="mdl-navigation__link" href="" ng-click="navVm.showConfirm()">Logout</a>
   <a ng-show="!navVm.userSession.user" class="mdl-navigation__link" href="" ng-click="navVm.showLoginDialog()">Login!</a>
 </nav>

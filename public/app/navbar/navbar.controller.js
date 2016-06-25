@@ -14,6 +14,7 @@ function NavbarController(AuthService,$scope,ConfirmDialogService) {
   navVm.hideConfirm = hideConfirm;
   navVm.showLoginDialog = showLoginDialog;
   navVm.hideLoginDialog = hideLoginDialog;
+  navVm.hideDrawer = hideDrawer;
 
   function showConfirm(){
     ConfirmDialogService.showConfirm('logout');
@@ -55,7 +56,12 @@ function NavbarController(AuthService,$scope,ConfirmDialogService) {
     hideConfirm();
     AuthService.logout();
     navVm.userSession = AuthService.endUserSession();
+    hideDrawer();
   };
+
+  function hideDrawer(){
+    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+  }
 
   angular.element(document).ready(function () {
     navVm.userSession = AuthService.startUserSession();

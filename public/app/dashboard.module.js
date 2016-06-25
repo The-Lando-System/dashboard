@@ -6,8 +6,7 @@ angular.module('dashboard', [
 	'ngRoute',
 	'ui.router',
 	'ngAnimate',
-    'ng-mdl-snackbar',
-    'ng-mdl-confirm'
+    'ng-mdl'
 ]);
 
 })();
