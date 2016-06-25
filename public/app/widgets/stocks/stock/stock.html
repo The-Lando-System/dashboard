@@ -1,0 +1,24 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--6-col">
+    <div>
+      <strong>{{stockVm.stockCode}}</strong>
+    </div>
+    <div>
+      {{stockVm.stockName}}
+    </div>
+    <div>
+      Price: ${{stockVm.todaysClose}}
+    </div>
+    <div>
+      Change: ${{stockVm.changeAmount}}
+    </div>
+  </div>
+  <div class="mdl-cell mdl-cell--6-col">
+    <div ng-show="stockVm.increase">
+      <img src="/assets/images/up-arrow.png" height="90" width="125">
+    </div>
+    <div ng-hide="stockVm.increase">
+      <img src="/assets/images/down-arrow.jpg" height="90" width="125">
+    </div>
+  </div>
+</div>
