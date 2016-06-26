@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('UserMgmtController', UserMgmtController);
 
-UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService','MdlSnackbar','MdlConfirm'];
+UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','ConfirmDialogService','MdlSnackbar','MdlDialog'];
 
-function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService,MdlSnackbar,MdlConfirm) {
+function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,ConfirmDialogService,MdlSnackbar,MdlDialog) {
 
 	var vm = this;
 	vm.headerMessage = "Manage Users";
@@ -39,7 +39,7 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,C
 
 
 	function deleteUser(user){
-		MdlConfirm.open('Delete','Are you sure you want to delete this user?',
+		MdlDialog.confirm('Delete','Are you sure you want to delete this user?',
 		function(confirmed){
 			if (!confirmed){
 				return;
