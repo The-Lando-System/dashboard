@@ -36,6 +36,7 @@ function WeatherWidgetController($http,$scope) {
   function changeZipcode(newZipcode){
     weatherVm.loading = true;
     weatherVm.zipcode = newZipcode;
+    weatherVm.newZipcode = '';
     for(var i=0; i<weatherVm.zipData.length; i++){
       if (weatherVm.zipData[i].zip === weatherVm.zipcode){
         weatherVm.lat = weatherVm.zipData[i].latitude;
