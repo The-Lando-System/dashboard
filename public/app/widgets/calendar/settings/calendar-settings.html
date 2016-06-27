@@ -1,8 +1,10 @@
 <widget-settings-dialog header="Events" widget-id="calendar">
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <input id="calendar-events-id" type="text" class="mdl-textfield__input" ng-model="calendarVm.numEvents">
-    <label class="mdl-textfield__label" for="calendar-events-id">Number of events to display</label>
-  </div>
-  <button ng-click="calendarVm.listUpcomingEvents(calendarVm.numEvents); widgetContainerVm.hideSettingsDialog('calendar');" type="button" class="mdl-button">Apply</button>
-  <button ng-click="widgetContainerVm.hideSettingsDialog('calendar');" type="button" class="mdl-button">Cancel</button>
+  <form ng-submit="calendarVm.listUpcomingEvents(calendarVm.numEvents); widgetContainerVm.hideSettingsDialog('calendar'); calendarVm.numEvents = '';">
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input id="calendar-events-id" type="text" class="mdl-textfield__input" ng-model="calendarVm.numEvents">
+      <label class="mdl-textfield__label" for="calendar-events-id">Number of events to display</label>
+    </div>
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Apply</button>
+    <button ng-click="widgetContainerVm.hideSettingsDialog('calendar');" type="button" class="mdl-button">Cancel</button>
+  </form>
 </widget-settings-dialog>
