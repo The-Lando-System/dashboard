@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('LoginController', LoginController);
 
-LoginController.$inject = ['$http','$window','$location','jwtHelper','AuthService'];
+LoginController.$inject = ['$http','$window','$location','jwtHelper','AuthService','MdlDialog'];
 
-function LoginController($http,$window,$location,jwtHelper,AuthService) {
+function LoginController($http,$window,$location,jwtHelper,AuthService,MdlDialog) {
 	
 	var loginVm = this;
 
@@ -13,7 +13,6 @@ function LoginController($http,$window,$location,jwtHelper,AuthService) {
 	loginVm.login = login;
 	loginVm.hideLoginDialog = hideLoginDialog;
 	loginVm.loading = false;
-	loginVm.confirmLogout = confirmLogout;
 
 	function login(formIsValid){
 		if (formIsValid){
@@ -44,16 +43,13 @@ function LoginController($http,$window,$location,jwtHelper,AuthService) {
 	var loginDialog;
 
 	function hideLoginDialog(){
-		if(!loginDialog){
-  			loginDialog = document.querySelector('#login-dialog');
-  		}
-  		loginDialog.close();
+		// if(!loginDialog){
+  // 			loginDialog = document.querySelector('#login-dialog');
+  // 		}
+  // 		loginDialog.close();
+  		MdlDialog.close('login');
 	};
 
-
-	function confirmLogout(confirmed){
-		alert(confirmed);
-	};
 
 	function hideDrawer(){
 	    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
