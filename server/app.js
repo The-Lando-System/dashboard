@@ -80,11 +80,11 @@ app.post('/authenticate', function(req,res){
 		if (err) throw err;
 		if (!user) {
 			console.log("WARNING: Authentication failed! Could not find user: " + req.body.username);
-			res.json({ success: false, message: 'Authentication failed, user not found!' });
+			res.status(404).send({ message: 'Authentication failed, user not found!' });
 		} else if (user) {
 			if (!passwordHash.verify(req.body.password, user.password)) {
 				console.log("WARNING: Authentication failed! Wrong password for user: " + req.body.username);
-				res.json({ success: false, message: 'Authentication failed, wrong password!' });
+				res.status(404).send({ message: 'Authentication failed, wrong password!' });
 			} else {
 				var token = jwt.sign(user, app.get('superSecret'), {
 					expiresIn: 10800

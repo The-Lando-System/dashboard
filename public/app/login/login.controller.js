@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('LoginController', LoginController);
 
-LoginController.$inject = ['$http','$window','$location','jwtHelper','AuthService','MdlDialog'];
+LoginController.$inject = ['$http','jwtHelper','AuthService','MdlDialog','MdlUtils','MdlSnackbar'];
 
-function LoginController($http,$window,$location,jwtHelper,AuthService,MdlDialog) {
+function LoginController($http, jwtHelper, AuthService, MdlDialog, MdlUtils, MdlSnackbar) {
 	
 	var loginVm = this;
 
@@ -21,38 +21,32 @@ function LoginController($http,$window,$location,jwtHelper,AuthService,MdlDialog
 
 			$http.post('/authenticate',loginVm.creds)
 			.success(function(data){
-				if (data.success){
-					AuthService.createSession(data.token);
-					loginVm.userSession = AuthService.startUserSession();
-					hideLoginDialog();
-					hideDrawer();
-					loginVm.loading = false;
-				} else {
-					loginVm.authFail = true;
-					loginVm.errorMessage = data.message;
-					loginVm.loading = false;
-				}
+				AuthService.createSession(data.token);
+				loginVm.userSession = AuthService.startUserSession();
+				hideLoginDialog();
+				hideDrawer();
+				loginVm.loading = false;
+				MdlSnackbar.success('Welcome ' + loginVm.creds.username + '!');
 			})
 			.error(function(data){
-				console.log('Error: ' + data);
+				if (data.hasOwnProperty('message')){
+					loginVm.errorMessage = data.message;
+				} else {
+					loginVm.errorMessage = 'Unknown error occurred';
+				}
+				console.log('Error: ' + loginVm.errorMessage);
+				MdlSnackbar.error('Error: ' + loginVm.errorMessage);
 				loginVm.loading = false;
 			});
 		}
 	};
 
-	var loginDialog;
-
 	function hideLoginDialog(){
-		// if(!loginDialog){
-  // 			loginDialog = document.querySelector('#login-dialog');
-  // 		}
-  // 		loginDialog.close();
   		MdlDialog.close('login');
-	};
-
+	}
 
 	function hideDrawer(){
-	    document.body.querySelector('.mdl-layout__obfuscator.is-visible').click();
+	    MdlUtils.closeDrawer();
 	}
 
 };
