@@ -1,13 +1,5 @@
 <widget-container header="Stocks" widget-id="stocks">
-  <div ng-hide="stocksVm.loading || stocksVm.errorMessage">
-    <stock ng-repeat="stockId in stocksVm.stockIds" stock-id="stockId" />
-  </div>
-  <div ng-show="stocksVm.errorMessage">
-    {{stocksVm.errorMessage}}
-  </div>
-  <div ng-show="stocksVm.loading">
-    <img src="/assets/images/loading.gif" height="200" width="250">
-  </div>
+  <stock ng-repeat="stockId in stocksVm.stockIds" stock-id="stockId" />
   <stocks-widget-settings/>
 </widget-container>
 

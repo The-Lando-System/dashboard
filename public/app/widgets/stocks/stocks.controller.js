@@ -3,20 +3,20 @@
 angular.module('dashboard')
 .controller('StocksWidgetController', StocksWidgetController);
 
-StocksWidgetController.$inject = ['$http','$scope'];
+StocksWidgetController.$inject = [];
 
-function StocksWidgetController($http, $scope) {
+function StocksWidgetController() {
   var stocksVm = this;
 
-  stocksVm.loading = false;
-  stocksVm.errorMessage = false;
-  stocksVm.changeStockId = changeStockId;
+  stocksVm.changeStockIds = changeStockIds;
   stocksVm.stockIds = ["NFLX","LMT"];
 
-  
-
-  function changeStockId(newStockId){
-  	stocksVm.stockId = newStockId;
+  function changeStockIds(newStockIds){
+  	stocksVm.stockIds = [];
+  	var newIds = newStockIds.split(',');
+  	for (var i=0; i<newIds.length; i++){
+  		stocksVm.stockIds.push(newIds[i].trim());
+  	}
   };
 
 };

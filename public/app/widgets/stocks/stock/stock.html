@@ -1,5 +1,5 @@
 <div class="mdl-grid">
-  <div class="mdl-cell mdl-cell--6-col">
+  <div class="mdl-cell mdl-cell--6-col" ng-hide="stockVm.loading || stockVm.errorMessage">
     <div>
       <strong>{{stockVm.stockCode}}</strong>
     </div>
@@ -13,12 +13,18 @@
       Change: ${{stockVm.changeAmount}}
     </div>
   </div>
-  <div class="mdl-cell mdl-cell--6-col">
+  <div class="mdl-cell mdl-cell--6-col" ng-hide="stockVm.loading || stockVm.errorMessage">
     <div ng-show="stockVm.increase">
       <img src="/assets/images/up-arrow.png" height="90" width="125">
     </div>
     <div ng-hide="stockVm.increase">
       <img src="/assets/images/down-arrow.jpg" height="90" width="125">
     </div>
+  </div>
+  <div class="mdl-cell mdl-cell--12-col" ng-show="stockVm.loading && !stockVm.errorMessage">
+    <img src="/assets/images/loading.gif" height="200" width="250">
+  </div>
+  <div class="mdl-cell mdl-cell--12-col" ng-show="stockVm.errorMessage && !stockVm.loading">
+    <p>{{stockVm.errorMessage}}</p>
   </div>
 </div>

@@ -3,13 +3,15 @@
 angular.module('dashboard')
 .controller('StockController', StockController);
 
-StockController.$inject = ['$http','$scope'];
+StockController.$inject = ['$http','$scope','MdlSnackbar'];
 
-function StockController($http, $scope) {
+function StockController($http, $scope, MdlSnackbar) {
   var stockVm = this;
 
   stockVm.changeStockId = changeStockId;
   stockVm.stockId = $scope.stockId;
+  stockVm.loading = false;
+  stockVm.errorMessage = false;
 
   $scope.$on('refresh', function(event, success) {
     if (success){
@@ -18,9 +20,19 @@ function StockController($http, $scope) {
   });
 
 
-  function getStockInfo(){
+  function getStockInfo(requestDate){
+
+    stockVm.loading = true;
 
     var today = new Date();
+
+    // If provided a date, base our query off of that
+    if (requestDate){
+      today = new Date(requestDate);
+    } else {
+      requestDate = getShortDate(today);
+    }
+    
 
     var beginDate = getShortDate(new Date(today.getTime() - 24*60*60*1000));
 
@@ -46,6 +58,11 @@ function StockController($http, $scope) {
     $http.get(stocksUrl)
     .success(function(data){
 
+      if (requestDate !== data.dataset.newest_available_date){
+        getStockInfo(data.dataset.newest_available_date);
+        return;
+      }
+
       stockVm.stockCode = data.dataset.dataset_code
       stockVm.stockName = data.dataset.name.substring(0,(data.dataset.name.indexOf(stockVm.stockId) - 1));
     
@@ -54,10 +71,14 @@ function StockController($http, $scope) {
       stockVm.changeAmount = (stockVm.todaysClose - stockVm.yesterdaysClose).toFixed(2);
       stockVm.increase = (stockVm.changeAmount > 0 ) ? true : false;
 
+      stockVm.loading = false;
 
     })
     .error(function(data){
-
+      console.log(data);
+      stockVm.errorMessage = 'Error getting stock data for ' + stockVm.stockId;
+      MdlSnackbar.error(stockVm.errorMessage);
+      stockVm.loading = false;
     });
 
   }
@@ -69,7 +90,7 @@ function StockController($http, $scope) {
 
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
-    getStockInfo('2016-06-24');
+    getStockInfo();
   });
 
   function getShortDate(date){

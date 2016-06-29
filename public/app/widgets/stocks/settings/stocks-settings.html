@@ -1,8 +1,8 @@
-<widget-settings-dialog header="Stock ID" widget-id="stocks">
-  <form ng-submit="stocksVm.changeStockId(stocksVm.newStockId); widgetContainerVm.hideSettingsDialog('stocks');">
+<widget-settings-dialog header="Stock IDs" widget-id="stocks">
+  <form ng-submit="stocksVm.changeStockIds(stocksVm.newStockIds); widgetContainerVm.hideSettingsDialog('stocks');">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input id="stock-id" type="text" class="mdl-textfield__input" ng-model="stocksVm.newStockId">
-      <label class="mdl-textfield__label" for="stock-id">Stock ID</label>
+      <input id="stock-id" type="text" class="mdl-textfield__input" ng-model="stocksVm.newStockIds">
+      <label class="mdl-textfield__label" for="stock-id">Stock IDs</label>
     </div>
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Apply</button>
     <button ng-click="widgetContainerVm.hideSettingsDialog('stocks');" type="button" class="mdl-button">Cancel</button>
