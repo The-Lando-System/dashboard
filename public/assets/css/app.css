@@ -35,22 +35,18 @@ body {
 }
 
 /* User Management CSS */
-.user-welcome {
+#user-welcome {
   font-weight: bold;
   color: white;
-}
-
-#new-user-dialog {
-  width: 600px;
-}
-
-#edit-user-dialog {
-  width: 600px;
 }
 
 .user-table {
   max-width: 300px;
   margin-bottom: 100px;
+}
+
+#mdl-dialog-user {
+  width: 600px;
 }
 
 /* Common CSS Classes */

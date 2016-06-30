@@ -27,15 +27,6 @@ module.exports = function(app) {
 	staticRoutes.get('/navbar', function(req,res){
 		res.sendFile(base + '/public/app/navbar/navbar.html');
 	});
-	staticRoutes.get('/user-modal', function(req,res){
-		res.sendFile(base + '/public/app/users/user-modal/user-modal.html');
-	});
-	staticRoutes.get('/confirm-dialog', function(req,res){
-		res.sendFile(base + '/public/app/common/confirm-dialog/confirm-dialog.html');
-	});
-	staticRoutes.get('/notification', function(req,res){
-		res.sendFile(base + '/public/app/common/messages/notification.html');
-	});
 	staticRoutes.get('/login', function(req,res){
 		res.sendFile(base + '/public/app/login/login.html');
 	});

@@ -93,7 +93,8 @@ module.exports = function(app) {
 				res.send(err)
 				return;
 			};
-			var passwd = req.body.password.trim() === '' ? user.password : passwordHash.generate(req.body.password);
+
+			var passwd = (!req.body.password || (req.body.password.trim() === '')) ? user.password : passwordHash.generate(req.body.password);
 			user.firstName = req.body.firstName || user.firstName;
 			user.lastName  = req.body.lastName  || user.lastName;
 			user.email     = req.body.email     || user.email;

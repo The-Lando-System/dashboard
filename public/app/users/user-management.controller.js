@@ -3,26 +3,22 @@
 angular.module('dashboard')
 .controller('UserMgmtController', UserMgmtController);
 
-UserMgmtController.$inject = ['$location','jwtHelper','AuthService','UserFactory','$scope','MdlSnackbar','MdlDialog'];
+UserMgmtController.$inject = ['AuthService','UserFactory','MdlSnackbar','MdlDialog'];
 
-function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,MdlSnackbar,MdlDialog) {
+function UserMgmtController(AuthService,UserFactory,MdlSnackbar,MdlDialog) {
 
 	var vm = this;
 	vm.headerMessage = "Manage Users";
-	vm.newUser = { role: "user" };
-	vm.editedUser = {};
 	vm.userToDelete = {};
 	vm.getUsers = getUsers;
 	vm.deleteUser = deleteUser;
-	vm.showNewUserModal = showNewUserModal;
-	vm.hideNewUserModal = hideNewUserModal;
-	vm.showEditUserModal = showEditUserModal;
-	vm.hideEditUserModal = hideEditUserModal;
-	vm.createUser = createUser;
-	vm.updateUser = updateUser;
+	vm.createOrEditUser = createOrEditUser;
 
+	vm.openUserDialog = openUserDialog;
+	vm.closeUserDialog = closeUserDialog;
+
+	
 	vm.loading = false;
-
 
 	function getUsers(){
 		vm.loading = true;
@@ -49,7 +45,6 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,M
 			.success(function(data){
 				MdlSnackbar.success(data.message,2000);
 				getUsers();
-				vm.loading = false;
 			})
 			.error(function(data){
 				MdlSnackbar.error(data.message,2000);
@@ -58,76 +53,105 @@ function UserMgmtController($location,jwtHelper,AuthService,UserFactory,$scope,M
 		});
 	};
 
-	function createUser(){
+	function createUser(user){
 		vm.loading = true;
-		UserFactory.create(vm.userSession.token,vm.newUser)
+		UserFactory.create(vm.userSession.token,user)
 		.success(function(data){
 			MdlSnackbar.success(data.message,2000);
 			getUsers();
-			vm.loading = false;
+			closeUserDialog();
 		})
 		.error(function(data){
 			MdlSnackbar.error(data.message,2000);
+			closeUserDialog();
 			vm.loading = false;
 		});
-		hideNewUserModal();
 	};
 
-	function updateUser(){
+	function updateUser(user){
 		vm.loading = true;
-		UserFactory.edit(vm.userSession.token,vm.editedUser._id,vm.editedUser)
+		UserFactory.edit(vm.userSession.token,user._id,user)
 		.success(function(data){
 			MdlSnackbar.success(data.message,2000);
-			vm.loading = false;
+			getUsers();
+			closeUserDialog();
 		})
 		.error(function(data){
 			MdlSnackbar.error(data.message,2000);
+			closeUserDialog();
 			vm.loading = false;
 		});
-		hideEditUserModal();
 	};
 
-  function showNewUserModal(){
-  	if(!vm.newUserDialog){
-  		vm.newUserDialog = document.querySelector('#new-user-dialog');
-  	}
-  	vm.newUserDialog.showModal();
-  };
 
-  function hideNewUserModal(){
-  	if(!vm.newUserDialog){
-  		vm.newUserDialog = document.querySelector('#new-user-dialog');
-  	}
-  	vm.newUserDialog.close();
-  	vm.newUser = { role: "user" };
-  };
+  function openUserDialog(user){
 
-  function showEditUserModal(){
-  	if(!vm.editUserDialog){
-  		vm.editUserDialog = document.querySelector('#edit-user-dialog');
+
+  	if (vm.editMode && user){
+
+  		vm.user = JSON.parse(JSON.stringify(user));
+  		vm.user.password = '';
+  		vm.userDialogTitle = 'Editing user ' + vm.user.username;
+
+  		makeMdlInputsDirty();
+  		makeMdlInputsValid();
+
+  	} else {
+
+  		vm.user = {};
+  		vm.user.role = 'user';
+  		vm.userDialogTitle = 'Creating new user';
+
+  		makeMdlInputsClean();
+  		makeMdlInputsValid();
   	}
+
+  	MdlDialog.open('user');
+  }
+
+  function closeUserDialog(){
+  	vm.user.email = ''; // No idea why I have to do this... wtf
+  	MdlDialog.close('user');
+  }
+
+  function createOrEditUser(user){
   	
-  	vm.editUserDialog.showModal();
-  };
-
-  function hideEditUserModal(){
-  	if(!vm.editUserDialog){
-  		vm.editUserDialog = document.querySelector('#edit-user-dialog');
+  	if (vm.editMode) {
+  		updateUser(user);
+  	} else {
+  		createUser(user);
   	}
-  	vm.editUserDialog.close();
-  	vm.editedUser = {};
-  };
 
+  }
 
-	angular.element(document).ready(function () {
-		componentHandler.upgradeAllRegistered();
-		vm.userSession = AuthService.startUserSession();
-		if (vm.userSession.user) {
-			getUsers();
-		} else {
-			$location.path('login');
-		}
-	});
+  function makeMdlInputsDirty(){
+  	var inputs = document.querySelectorAll('.mdl-textfield');
+	for (var i=0; i<inputs.length; i++){
+		inputs[i].classList.add('is-dirty');
+	}
+  }
+
+  function makeMdlInputsClean(){
+  	var inputs = document.querySelectorAll('.mdl-textfield');
+	for (var i=0; i<inputs.length; i++){
+		inputs[i].classList.remove('is-dirty');
+	}
+  }
+
+  function makeMdlInputsValid(){
+  	var inputs = document.querySelectorAll('.mdl-textfield');
+	for (var i=0; i<inputs.length; i++){
+		inputs[i].classList.remove('is-invalid');
+	}
+  }
+
+  angular.element(document).ready(function () {
+    componentHandler.upgradeAllRegistered();
+    vm.userSession = AuthService.startUserSession();
+    if (vm.userSession.user) {
+      getUsers();
+    }
+  });
 
 };
 
