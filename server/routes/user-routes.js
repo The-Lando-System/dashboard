@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path'); 
 var base = path.resolve(__dirname + '/../..');
 var List = require(base + '/server/models/list-item');
+var Preference = require(base + '/server/models/preference');
 
 var userRoutes = express.Router();
 
@@ -103,6 +104,52 @@ module.exports = function(app) {
 					return;
 				} else {
 					res.json({ message: 'Item was successfully updated!' });
+					return;
+				}
+			});
+		});
+	});
+
+
+	// Preferences ===========================
+	userRoutes.get('/preferences/:username', function(req,res){
+		Preference.find({ username: req.params.username }, function(err,preferences){
+
+			if (err){
+				res.status(500).send(err);
+				return
+			}
+
+			if (preferences.length === 0){
+				res.status(404).send({ message: 'Could not find preferences for username: ' + req.params.username });
+				return;
+			}
+
+			res.send(preferences[0]);
+			return;
+		})
+
+	});
+
+
+	userRoutes.put('/preferences/:username', function(req,res){
+		Preference.find({ username: req.params.username }, function(err,preferences){
+			if (err) {
+				res.status(500).send(err);
+				return;
+			};
+
+			var userPreference = preferences[0];
+
+			userPreference.lastSaved = new Date();
+			userPreference.prefData = req.body.prefData || userPreference.prefData;
+
+			userPreference.save(function(err){
+				if (err) {
+					res.status(500).send(err);
+					return;
+				} else {
+					res.json({ message: 'Preference was successfully updated!' });
 					return;
 				}
 			});

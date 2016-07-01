@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('CalendarWidgetController', CalendarWidgetController);
 
-CalendarWidgetController.$inject = ['$http','$timeout','$scope','AuthService'];
+CalendarWidgetController.$inject = ['$http','$timeout','$scope','AuthService','PreferenceService'];
 
-function CalendarWidgetController($http,$timeout,$scope,AuthService) {
+function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceService) {
   var calendarVm = this;
 
   calendarVm.loading = false;
@@ -23,6 +23,23 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService) {
     }
   });
 
+  $scope.$on('getPrefs', function(event, success) {
+    if (success){
+      PreferenceService.getPrefs('calendar')
+      .then(function(numEvents){
+
+        getCalendarData(Number(numEvents));
+
+
+      }, function(errorMessage){
+
+        console.log(errorMessage);
+
+        getCalendarData(5);
+
+      });
+    }
+  });
 
   angular.element(document).ready(function () {
   	componentHandler.upgradeAllRegistered();
@@ -87,7 +104,36 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService) {
 
     calendarVm.events = [];
 
-    numEvents = numEvents ? Number(numEvents) : 5;
+    if (!numEvents){
+      PreferenceService.getPrefs('calendar')
+      .then(function(numEvents){
+
+        getCalendarData(Number(numEvents));
+
+
+      }, function(errorMessage){
+
+        console.log(errorMessage);
+
+        getCalendarData(5);
+
+      });
+    } else {
+      getCalendarData(numEvents);
+    }
+
+  };
+
+  function getCalendarData(numEvents){
+    // Set calendar preferences
+    PreferenceService.setPrefs({
+      name: 'calendar',
+      value: numEvents
+    });
+
+    if (!gapi.client.calendar){
+      return;
+    }
 
     var request = gapi.client.calendar.events.list({
       'calendarId': 'primary',
@@ -119,7 +165,9 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService) {
       calendarVm.loading = false;
       $scope.$apply();
     });
+
   }
+
 
   /**
    * Append a pre element to the body containing the given message
