@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .factory('Interceptor', Interceptor);
 
-Interceptor.$inject = ['$rootScope','AuthService'];
+Interceptor.$inject = ['$rootScope','AuthService','MdlDialog'];
 
-function Interceptor($rootScope,AuthService) {
+function Interceptor($rootScope,AuthService,MdlDialog) {
 
 	var interceptorService = {};
 
@@ -15,16 +15,16 @@ function Interceptor($rootScope,AuthService) {
 
 	interceptorService.response = function(response) {
 
-		if (response.data.message){
-			if (response.data.message === 'TokenExpiredError'){
-				alert('Your session has expired. Please login again.');
-				AuthService.logout();
-			}
+    if (response.data.message){
+      if (response.data.message === 'TokenExpiredError'){
+        MdlDialog.alert('Hey','Your session has expired. Please login again!')
+        AuthService.logout();
+      }
 
-		}
+    }
 
-        return response;
-    };
+    return response;
+  };
 
 	return interceptorService;
 

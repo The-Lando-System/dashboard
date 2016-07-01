@@ -30,6 +30,9 @@ module.exports = function(app) {
 	staticRoutes.get('/login', function(req,res){
 		res.sendFile(base + '/public/app/login/login.html');
 	});
+	staticRoutes.get('/theme-dialog', function(req,res){
+		res.sendFile(base + '/public/app/theme/theme-changer.html');
+	});
 	staticRoutes.get('/widget-container', function(req,res){
 		res.sendFile(base + '/public/app/common/widget-container/widget-container.html');
 	});
