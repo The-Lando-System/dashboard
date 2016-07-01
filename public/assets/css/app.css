@@ -15,9 +15,22 @@ body {
 	margin-bottom: 10px;
 }
 
-.dashboard {
-  background-image: url("/assets/images/dashboard-background.jpg");
-  background-size: contain;
+#mdl-dialog-theme-changer {
+  width: 600px;
+}
+
+#theme-list {
+  overflow-x: auto;
+  width: 500px;
+  height: 175px;
+  margin: 20px;
+}
+
+.theme {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
 }
 
 /* Navbar CSS */

@@ -1,8 +1,16 @@
-<mdl-dialog dialog-id="theme" dialog-title="Change Theme">
-
-  <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    Login
-  </button>
-  <button type="button" class="mdl-button">Cancel</button>
+<mdl-dialog dialog-id="theme-changer" dialog-title="Choose a new theme!">
+  <form name="changeThemeForm" ng-submit="themeVm.changeTheme(themeVm.selectedTheme)">
+    <p>Current Selection: <strong>{{themeVm.selectedTheme.name}}</strong></p>
+	<div id="theme-list">
+	  <div ng-click="themeVm.selectedTheme = theme" class="theme clickable" ng-repeat="theme in themeVm.themes">
+		{{theme.name}}
+		<img ng-src="{{theme.preview}}" height="100" width="100" />
+	  </div>
+	</div>
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+      Apply
+    </button>
+    <button type="button" ng-click="themeVm.closeDialog();" class="mdl-button">Cancel</button>
+  </form>
 
 </mdl-dialog>

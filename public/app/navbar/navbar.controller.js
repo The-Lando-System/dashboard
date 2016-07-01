@@ -13,6 +13,7 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils) {
   navVm.showLoginDialog = showLoginDialog;
   navVm.hideLoginDialog = hideLoginDialog;
   navVm.hideDrawer = hideDrawer;
+  navVm.openThemeDialog = openThemeDialog;
 
   function showLoginDialog(){
     MdlDialog.open('login');
@@ -47,6 +48,10 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils) {
 
   function hideDrawer(){
     MdlUtils.closeDrawer();
+  }
+
+  function openThemeDialog(){
+    MdlDialog.open('theme-changer');
   }
 
   angular.element(document).ready(function () {
