@@ -12,19 +12,12 @@ function StocksWidgetController($scope,PreferenceService) {
 
   $scope.$on('getPrefs', function(event, success) {
     if (success){
-      PreferenceService.getPrefs('stocks')
-      .then(function(stockIds){
-
-        if (!stockIds){
-          changeStockIds('NFLX');
-        } else {
-          changeStockIds(stockIds);
-        }
-
-      }, function(errorMessage){
-        console.log(errorMessage);
+      var stockIds = PreferenceService.getPrefs('stocks')
+      if (stockIds){
+        changeStockIds(stockIds);
+      } else {
         changeStockIds('NFLX');
-      });
+      }
     }
   });
 
@@ -32,19 +25,12 @@ function StocksWidgetController($scope,PreferenceService) {
   stocksVm.stockIds = ["NFLX","LMT"];
 
   function initialize(){
-    PreferenceService.getPrefs('stocks')
-    .then(function(stockIds){
-
-      if (!stockIds){
-        changeStockIds('NFLX');
-      } else {
-        changeStockIds(stockIds);
-      }
-
-    }, function(errorMessage){
-      console.log(errorMessage);
+    var stockIds = PreferenceService.getPrefs('stocks')
+    if (stockIds){
+      changeStockIds(stockIds);
+    } else {
       changeStockIds('NFLX');
-    });
+    }
   }
 
   function changeStockIds(newStockIds){

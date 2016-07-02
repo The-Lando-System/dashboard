@@ -3,20 +3,17 @@
 angular.module('dashboard')
 .service('PreferenceService', PreferenceService);
 
-PreferenceService.$inject = ['$rootScope','$q','$http','$cookies','AuthService'];
+PreferenceService.$inject = ['$rootScope','$http','$cookies','AuthService'];
 
-function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
+function PreferenceService($rootScope,$http,$cookies,AuthService) {
 
   var prefService = {};
 
   prefService.getPrefs = getPrefs;
-  prefService.getPrefs2 = getPrefs2;
   prefService.setPrefs = setPrefs;
-  prefService.userPrefs = {};
+  prefService.removePrefCookie = removePrefCookie;
   prefService.initialize = initialize;
-  prefService.removePrefCookie = removePrefCookie
-
-  var initPromise = $q.defer();
+  prefService.userPrefs = {};
 
   initialize();
 
@@ -38,44 +35,28 @@ function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
         $cookies.put('prefs',data.prefData);
         prefService.userPrefs = JSON.parse(data.prefData);
         broadcastPrefs();
-        initPromise.resolve();
       })
       .error(function(error){
-        initPromise.reject('Failed to make service call to get user preferences!');
-        return;
+        console.log(error);
       });
 
     } else {
       prefService.userPrefs = JSON.parse(prefString);
-      initPromise.resolve();
+      broadcastPrefs();
     }
 
   }
-
 
   function broadcastPrefs(){
     $rootScope.$broadcast('getPrefs', true);
   }
 
-
   function getPrefs(prefKey){
-    var getPrefPromise = $q.defer();
-    initPromise.promise
-    .then(function(){
-      if (prefService.userPrefs.hasOwnProperty(prefKey)){
-        getPrefPromise.resolve(prefService.userPrefs[prefKey]);
-      } else {
-        getPrefPromise.resolve(false);
-      }
-      return;
-    }, function(errorMessage){
-      getPrefPromise.reject(errorMessage);
-      return;
-    });
-    return getPrefPromise.promise;
-  }
 
-  function getPrefs2(prefKey){
+    var userSession = AuthService.startUserSession();
+    if (!userSession.user){
+      return false;
+    }
 
     if (!prefService.userPrefs){
       console.log('Error! Preferences have not initialized yet!');

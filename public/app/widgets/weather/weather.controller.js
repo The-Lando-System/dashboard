@@ -8,6 +8,8 @@ WeatherWidgetController.$inject = ['$http','$scope','PreferenceService'];
 function WeatherWidgetController($http,$scope,PreferenceService) {
 	var weatherVm = this;
 
+  // Initialization ==============================================
+
   weatherVm.getWeather = getWeather;
   weatherVm.changeZipcode = changeZipcode;
 
@@ -18,31 +20,14 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
   weatherVm.zipcode = '80909';
   weatherVm.city = 'Colorado Springs';
 
-  getWeather();
-  getZipcodes();
+  initialize();
 
-  $scope.$on('getPrefs', function(event, success) {
-      if (success){
-        var zipcode = PreferenceService.getPrefs2('weather');
-        if (zipcode){
-          changeZipcode(zipcode);
-        } else {
-          changeZipcode('80909');
-        }
-      }
-    });
+  // Interface Function Implementations ==============================
 
-  function getZipcodes(){
-
-    $http.get('/zipcodes')
-    .success(function(data){
-      weatherVm.zipData = csvToJson(data);
-    })
-    .error(function(data){
-      console.log(data);
-    });
-
-  };
+  function initialize(){
+    componentHandler.upgradeAllRegistered();
+    getZipcodes();
+  }
 
   function changeZipcode(newZipcode){
     weatherVm.loading = true;
@@ -63,8 +48,22 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
       }
     }
     getWeather();
-
     
+  };
+
+  // Helper Functions ==============================
+
+  function getZipcodes(){
+
+    $http.get('/zipcodes')
+    .success(function(data){
+      weatherVm.zipData = csvToJson(data);
+      changeZipcode(getPreference());
+    })
+    .error(function(data){
+      console.log(data);
+    });
+
   };
 
   function getNoaaUrl(){
@@ -91,12 +90,14 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
 	};
 
-  $scope.$on('refresh', function(event, success) {
-    if (success){
-      getWeather();
+  function getPreference(){
+    var zipcode = PreferenceService.getPrefs('weather');
+    if (zipcode){
+      return zipcode;
+    } else {
+      return weatherVm.zipcode;
     }
-  });
-
+  }
 
   function csvToJson(csv) {
 
@@ -122,9 +123,25 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
     return result;
   };
 
-  angular.element(document).ready(function () {
-    componentHandler.upgradeAllRegistered();
+  // Listen for broadcast events =================================
+
+  $scope.$on('getPrefs', function(event, success) {
+    changeZipcode(getPreference());
   });
+
+  $scope.$on('refresh', function(event, success) {
+    getWeather();
+  });
+
+  $scope.$on('logout', function(event, success) {
+    weatherVm.lat = '38.8545855';
+    weatherVm.lon = '-104.7929357';
+    weatherVm.zipcode = '80909';
+    weatherVm.city = 'Colorado Springs';
+    getWeather();
+  });
+
+
 };
 
 })();

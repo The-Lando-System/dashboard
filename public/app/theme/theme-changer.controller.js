@@ -9,8 +9,6 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
   
   var themeVm = this;
 
-  initialize();
-
   themeVm.closeDialog = closeDialog;
   themeVm.changeTheme = changeTheme;
   themeVm.themes = [
@@ -44,38 +42,26 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
   	}
   ];
 
+  initialize();
+
   $scope.$on('getPrefs', function(event, success) {
     if (success){
-      PreferenceService.getPrefs('theme')
-      .then(function(themeName){
-
-        if (!themeName){
-          setTheme(findThemeByName('Default'));
-        } else {
-          setTheme(findThemeByName(themeName));
-        }
-
-      }, function(errorMessage){
-        console.log(errorMessage);
-        changeTheme('Default');
-      });
+      var themeName = PreferenceService.getPrefs('theme');
+      if (themeName){
+        setTheme(findThemeByName(themeName));
+      } else {
+        setTheme(findThemeByName('Default'));
+      }
     }
   });
 
   function initialize(){
-    PreferenceService.getPrefs('theme')
-    .then(function(themeName){
-
-      if (!themeName){
-        setTheme(findThemeByName('Default'));
-      } else {
-        setTheme(findThemeByName(themeName));
-      }
-
-    }, function(errorMessage){
-      console.log(errorMessage);
+    var themeName = PreferenceService.getPrefs('theme');
+    if (themeName){
+      setTheme(findThemeByName(themeName));
+    } else {
       setTheme(findThemeByName('Default'));
-    });
+    }
   }
 
   function setTheme(theme) {

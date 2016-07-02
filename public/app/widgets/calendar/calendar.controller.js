@@ -25,19 +25,12 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
 
   $scope.$on('getPrefs', function(event, success) {
     if (success){
-      PreferenceService.getPrefs('calendar')
-      .then(function(numEvents){
-
+      var numEvents = PreferenceService.getPrefs('calendar');
+      if (numEvents){
         getCalendarData(Number(numEvents));
-
-
-      }, function(errorMessage){
-
-        console.log(errorMessage);
-
+      } else {
         getCalendarData(5);
-
-      });
+      }
     }
   });
 
@@ -105,19 +98,12 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
     calendarVm.events = [];
 
     if (!numEvents){
-      PreferenceService.getPrefs('calendar')
-      .then(function(numEvents){
-
-        getCalendarData(Number(numEvents));
-
-
-      }, function(errorMessage){
-
-        console.log(errorMessage);
-
+      var eventNum = PreferenceService.getPrefs('calendar');
+      if (eventNum){
+        getCalendarData(Number(eventNum));
+      } else {
         getCalendarData(5);
-
-      });
+      }
     } else {
       getCalendarData(numEvents);
     }
