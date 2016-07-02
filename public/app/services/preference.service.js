@@ -10,8 +10,11 @@ function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
   var prefService = {};
 
   prefService.getPrefs = getPrefs;
+  prefService.getPrefs2 = getPrefs2;
   prefService.setPrefs = setPrefs;
   prefService.userPrefs = {};
+  prefService.initialize = initialize;
+  prefService.removePrefCookie = removePrefCookie
 
   var initPromise = $q.defer();
 
@@ -72,6 +75,17 @@ function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
     return getPrefPromise.promise;
   }
 
+  function getPrefs2(prefKey){
+
+    if (!prefService.userPrefs){
+      console.log('Error! Preferences have not initialized yet!');
+      return;
+    }
+
+    return prefService.userPrefs[prefKey];
+   
+  }
+
   function setPrefs(pref){
 
     var userSession = AuthService.startUserSession();
@@ -90,6 +104,10 @@ function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
       console.log(error);
       return;
     });
+  }
+
+  function removePrefCookie(){
+    $cookies.remove('prefs');
   }
 
 

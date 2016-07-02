@@ -21,40 +21,14 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
   getWeather();
   getZipcodes();
 
-  
-  function initialize(){
-    
-    PreferenceService.getPrefs('weather')
-    .then(function(zipcode){
-
-      if (!zipcode){
-        changeZipcode('80909');
-      } else {
-        changeZipcode(zipcode);
-      }
-
-    }, function(errorMessage){
-      console.log(errorMessage);
-      changeZipcode('80909');
-    });
-    
-  }
-
   $scope.$on('getPrefs', function(event, success) {
       if (success){
-        PreferenceService.getPrefs('weather')
-        .then(function(zipcode){
-
-          if (!zipcode){
-            changeZipcode('80909');
-          } else {
-            changeZipcode(zipcode);
-          }
-
-        }, function(errorMessage){
-          console.log(errorMessage);
+        var zipcode = PreferenceService.getPrefs2('weather');
+        if (zipcode){
+          changeZipcode(zipcode);
+        } else {
           changeZipcode('80909');
-        });
+        }
       }
     });
 
@@ -63,7 +37,6 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
     $http.get('/zipcodes')
     .success(function(data){
       weatherVm.zipData = csvToJson(data);
-      initialize();
     })
     .error(function(data){
       console.log(data);

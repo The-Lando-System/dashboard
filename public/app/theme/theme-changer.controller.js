@@ -50,9 +50,9 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
       .then(function(themeName){
 
         if (!themeName){
-          changeTheme('Default');
+          setTheme(findThemeByName('Default'));
         } else {
-          changeTheme(themeName);
+          setTheme(findThemeByName(themeName));
         }
 
       }, function(errorMessage){

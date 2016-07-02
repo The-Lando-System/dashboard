@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('NavbarController', NavbarController);
 
-NavbarController.$inject = ['AuthService','$scope','MdlDialog','MdlUtils'];
+NavbarController.$inject = ['AuthService','$scope','MdlDialog','MdlUtils','PreferenceService'];
 
-function NavbarController(AuthService, $scope, MdlDialog, MdlUtils) {
+function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceService) {
   
   var navVm = this;
   navVm.logout = logout;
@@ -38,6 +38,7 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils) {
   function logout(){
     MdlDialog.confirm('Logout','Are you sure you want to logout?',function(confirmed){
       if (confirmed){
+        PreferenceService.removePrefCookie();
         AuthService.logout();
         navVm.userSession = AuthService.endUserSession();
         hideDrawer();

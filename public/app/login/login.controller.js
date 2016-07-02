@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('LoginController', LoginController);
 
-LoginController.$inject = ['$http','jwtHelper','AuthService','MdlDialog','MdlUtils','MdlSnackbar'];
+LoginController.$inject = ['$http','jwtHelper','AuthService','MdlDialog','MdlUtils','MdlSnackbar', 'PreferenceService'];
 
-function LoginController($http, jwtHelper, AuthService, MdlDialog, MdlUtils, MdlSnackbar) {
+function LoginController($http, jwtHelper, AuthService, MdlDialog, MdlUtils, MdlSnackbar, PreferenceService) {
 	
 	var loginVm = this;
 
@@ -23,6 +23,7 @@ function LoginController($http, jwtHelper, AuthService, MdlDialog, MdlUtils, Mdl
 			.success(function(data){
 				AuthService.createSession(data.token);
 				loginVm.userSession = AuthService.startUserSession();
+				PreferenceService.initialize();
 				hideLoginDialog();
 				hideDrawer();
 				loginVm.loading = false;
