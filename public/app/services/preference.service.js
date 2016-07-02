@@ -59,7 +59,11 @@ function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
     var getPrefPromise = $q.defer();
     initPromise.promise
     .then(function(){
-      getPrefPromise.resolve(prefService.userPrefs[prefKey]);
+      if (prefService.userPrefs.hasOwnProperty(prefKey)){
+        getPrefPromise.resolve(prefService.userPrefs[prefKey]);
+      } else {
+        getPrefPromise.resolve(false);
+      }
       return;
     }, function(errorMessage){
       getPrefPromise.reject(errorMessage);
@@ -80,7 +84,6 @@ function PreferenceService($rootScope,$q,$http,$cookies,AuthService) {
     $http.put('/user/preferences/' + userSession.user.username, {prefData: JSON.stringify(prefService.userPrefs)}, { headers: { 'x-access-token': userSession.token } } )
     .success(function(){
       $cookies.put('prefs',JSON.stringify(prefService.userPrefs));
-      console.log('Preferences saved!');
       return;
     })
     .error(function(error){

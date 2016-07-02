@@ -3,11 +3,13 @@
 angular.module('dashboard')
 .controller('ThemeChangerController', ThemeChangerController);
 
-ThemeChangerController.$inject = ['$rootScope','$scope','MdlDialog','MdlUtils'];
+ThemeChangerController.$inject = ['$rootScope','$scope','MdlDialog','MdlUtils','PreferenceService'];
 
-function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils) {
+function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceService) {
   
   var themeVm = this;
+
+  initialize();
 
   themeVm.closeDialog = closeDialog;
   themeVm.changeTheme = changeTheme;
@@ -42,6 +44,59 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils) {
   	}
   ];
 
+  $scope.$on('getPrefs', function(event, success) {
+    if (success){
+      PreferenceService.getPrefs('theme')
+      .then(function(themeName){
+
+        if (!themeName){
+          changeTheme('Default');
+        } else {
+          changeTheme(themeName);
+        }
+
+      }, function(errorMessage){
+        console.log(errorMessage);
+        changeTheme('Default');
+      });
+    }
+  });
+
+  function initialize(){
+    PreferenceService.getPrefs('theme')
+    .then(function(themeName){
+
+      if (!themeName){
+        setTheme(findThemeByName('Default'));
+      } else {
+        setTheme(findThemeByName(themeName));
+      }
+
+    }, function(errorMessage){
+      console.log(errorMessage);
+      setTheme(findThemeByName('Default'));
+    });
+  }
+
+  function setTheme(theme) {
+
+    var style = {
+      'background-image': theme.image,
+      'background-size': theme.size
+    };
+
+    PreferenceService.setPrefs({
+      name: 'theme',
+      value: theme.name
+    });
+
+    $rootScope.$broadcast('changeTheme', style);
+
+    return;
+
+  }
+
+
   function changeTheme(theme){
 
   	if (!theme){
@@ -49,12 +104,7 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils) {
   		return;
   	}
 
-  	var style = {
-  		'background-image': theme.image,
-  		'background-size': theme.size
-  	};
-
-  	$rootScope.$broadcast('changeTheme', style);
+  	setTheme(theme);
 
   	closeDialog();
   	MdlUtils.closeDrawer();
@@ -62,6 +112,15 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils) {
 
   function closeDialog(){
   	MdlDialog.close('theme-changer');
+  }
+
+  function findThemeByName(themeName){
+    for (var i=0; i<themeVm.themes.length; i++){
+      if (themeVm.themes[i].name === themeName){
+        return themeVm.themes[i];
+      }
+    }
+    return false;
   }
   
 
