@@ -3,12 +3,12 @@
 angular.module('dashboard')
 .controller('WeatherWidgetController', WeatherWidgetController);
 
-WeatherWidgetController.$inject = ['$http','$scope'];
+WeatherWidgetController.$inject = ['$http','$scope','PreferenceService'];
 
-function WeatherWidgetController($http,$scope) {
+function WeatherWidgetController($http,$scope,PreferenceService) {
 	var weatherVm = this;
 
-	weatherVm.getWeather = getWeather;
+  weatherVm.getWeather = getWeather;
   weatherVm.changeZipcode = changeZipcode;
 
   weatherVm.loading = false;
@@ -21,11 +21,49 @@ function WeatherWidgetController($http,$scope) {
   getWeather();
   getZipcodes();
 
+  
+  function initialize(){
+    
+    PreferenceService.getPrefs('weather')
+    .then(function(zipcode){
+
+      if (!zipcode){
+        changeZipcode('80909');
+      } else {
+        changeZipcode(zipcode);
+      }
+
+    }, function(errorMessage){
+      console.log(errorMessage);
+      changeZipcode('80909');
+    });
+    
+  }
+
+  $scope.$on('getPrefs', function(event, success) {
+      if (success){
+        PreferenceService.getPrefs('weather')
+        .then(function(zipcode){
+
+          if (!zipcode){
+            changeZipcode('80909');
+          } else {
+            changeZipcode(zipcode);
+          }
+
+        }, function(errorMessage){
+          console.log(errorMessage);
+          changeZipcode('80909');
+        });
+      }
+    });
+
   function getZipcodes(){
 
     $http.get('/zipcodes')
     .success(function(data){
       weatherVm.zipData = csvToJson(data);
+      initialize();
     })
     .error(function(data){
       console.log(data);
@@ -35,6 +73,12 @@ function WeatherWidgetController($http,$scope) {
 
   function changeZipcode(newZipcode){
     weatherVm.loading = true;
+
+    PreferenceService.setPrefs({
+      name: 'weather',
+      value: newZipcode
+    });
+
     weatherVm.zipcode = newZipcode;
     weatherVm.newZipcode = '';
     for(var i=0; i<weatherVm.zipData.length; i++){
@@ -46,6 +90,8 @@ function WeatherWidgetController($http,$scope) {
       }
     }
     getWeather();
+
+    
   };
 
   function getNoaaUrl(){
