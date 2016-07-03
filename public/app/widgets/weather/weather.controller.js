@@ -18,13 +18,13 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
   initialize();
 
-  // Interface Function Implementations ==============================
-
   function initialize(){
     componentHandler.upgradeAllRegistered();
     setDefaultData();
     initializeZipcodes();
   }
+
+  // Interface Function Implementations ==============================
 
   function changeZipcode(newZipcode){
     weatherVm.loading = true;

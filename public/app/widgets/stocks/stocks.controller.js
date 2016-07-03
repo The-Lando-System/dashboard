@@ -8,30 +8,22 @@ StocksWidgetController.$inject = ['$scope','PreferenceService'];
 function StocksWidgetController($scope,PreferenceService) {
   var stocksVm = this;
 
-  initialize();
-
-  $scope.$on('getPrefs', function(event, success) {
-    if (success){
-      var stockIds = PreferenceService.getPrefs('stocks')
-      if (stockIds){
-        changeStockIds(stockIds);
-      } else {
-        changeStockIds('NFLX');
-      }
-    }
-  });
+  // Initialization ==============================================
 
   stocksVm.changeStockIds = changeStockIds;
-  stocksVm.stockIds = ["NFLX","LMT"];
+
+  initialize();
 
   function initialize(){
-    var stockIds = PreferenceService.getPrefs('stocks')
-    if (stockIds){
-      changeStockIds(stockIds);
-    } else {
-      changeStockIds('NFLX');
-    }
+    changeStockIds(getPrefs());
   }
+
+  // Helper Functions ==============================
+
+  function setDefaultData(){
+    stocksVm.stockIds = ["NFLX","LMT"];
+  }
+  
 
   function changeStockIds(newStockIds){
 
@@ -46,6 +38,30 @@ function StocksWidgetController($scope,PreferenceService) {
   		stocksVm.stockIds.push(newIds[i].trim());
   	}
   };
+
+  function getPrefs(){
+    var stockIds = PreferenceService.getPrefs('stocks')
+    if (stockIds){
+      return stockIds;
+    } else {
+      return 'NFLX';
+    }
+  }
+
+  // Listen for broadcast events =================================
+
+  $scope.$on('getPrefs', function(event, success) {
+    changeStockIds(getPrefs());
+  });
+
+  $scope.$on('refresh', function(event, success) {
+    changeStockIds(getPrefs());
+  });
+
+  $scope.$on('logout', function(event, success) {
+    setDefaultData();
+    changeStockIds(getPrefs());
+  });
 
 };
 
