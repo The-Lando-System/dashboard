@@ -41,7 +41,6 @@ function AuthService($cookies,$location,jwtHelper,$rootScope) {
 	authService.createSession = function(token){
 		$cookies.put('token',token);
 		$rootScope.$broadcast('login', true);
-		$rootScope.$broadcast('refresh', true);
 	};
 
 	return authService;

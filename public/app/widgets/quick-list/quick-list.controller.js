@@ -23,6 +23,11 @@ function QuickListWidgetController(QuickListFactory, AuthService, $scope) {
     }
   });
 
+  $scope.$on('getPrefs', function(event, success) {
+    qlVm.userSession = AuthService.startUserSession();
+    getListItems();
+  });
+
   function getListItems(){
     QuickListFactory.get(qlVm.userSession.token)
     .success(function(data){

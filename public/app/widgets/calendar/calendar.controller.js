@@ -65,7 +65,6 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
   
 
   function loadCalendarApi() {
-    //console.log(TAG + 'Getting calendar data on initialization or auth button click');
     gapi.client.load('calendar', 'v3', function(){
       getCalendarData(getPrefs());
     });
@@ -133,17 +132,14 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
   // Listen for broadcast events =================================
 
   $scope.$on('refresh', function(event, success) {
-    //console.log(TAG + 'Getting calendar data from refresh broadcast');
     getCalendarData(getPrefs());
   });
 
   $scope.$on('getPrefs', function(event, success) {
-    //console.log(TAG + 'Getting calendar data from a get prefs broadcast');
     initialize();
   });
 
   $scope.$on('logout', function(event, success) {
-    //console.log(TAG + 'Calling initialize on logout broadcast');
     initialize();
   });
 
