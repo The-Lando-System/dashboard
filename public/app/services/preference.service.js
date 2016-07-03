@@ -51,19 +51,21 @@ function PreferenceService($rootScope,$http,$cookies,AuthService) {
     $rootScope.$broadcast('getPrefs', true);
   }
 
-  function getPrefs(prefKey){
+  function getPrefs(prefKey,defaultValue){
 
     var userSession = AuthService.startUserSession();
     if (!userSession.user){
-      return false;
+      return defaultValue;
     }
 
     if (!prefService.userPrefs){
       console.log('Error! Preferences have not initialized yet!');
-      return;
+      return defaultValue;
     }
 
-    return prefService.userPrefs[prefKey];
+    var pref = prefService.userPrefs[prefKey];
+
+    return pref ? pref : defaultValue;
    
   }
 

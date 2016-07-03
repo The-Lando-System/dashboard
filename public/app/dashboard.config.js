@@ -12,13 +12,13 @@ function config($httpProvider,$urlRouterProvider,$stateProvider,$locationProvide
     url: '/user-management',
     templateUrl: '/app/users/user-management.html',
     controller: 'UserMgmtController',
-    controllerAs: 'vm'
+    controllerAs: 'userVm'
   })
   .state('dashboard', {
     url: '/my-dashboard',
     templateUrl: '/app/dashboard/dashboard.html',
     controller: 'DashboardController',
-    controllerAs: 'vm'
+    controllerAs: 'dashboardVm'
   })
 
   $urlRouterProvider

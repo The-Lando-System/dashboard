@@ -6,7 +6,7 @@ angular.module('dashboard')
 DashboardController.$inject = [];
 
 function DashboardController() {
-	var vm = this;
+	var dashboardVm = this;
 };
 
 })();

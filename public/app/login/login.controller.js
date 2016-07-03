@@ -28,6 +28,7 @@ function LoginController($http, jwtHelper, AuthService, MdlDialog, MdlUtils, Mdl
 				hideDrawer();
 				loginVm.loading = false;
 				MdlSnackbar.success('Welcome ' + loginVm.creds.username + '!');
+				loginVm.creds = {};
 			})
 			.error(function(data){
 				if (data.hasOwnProperty('message')){

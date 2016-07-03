@@ -15,7 +15,7 @@ function StocksWidgetController($scope,PreferenceService) {
   initialize();
 
   function initialize(){
-    changeStockIds(getPrefs());
+    changeStockIds(PreferenceService.getPrefs('stocks','NFLX'));
   }
 
   // Helper Functions ==============================
@@ -24,7 +24,6 @@ function StocksWidgetController($scope,PreferenceService) {
     stocksVm.stockIds = ["NFLX","LMT"];
   }
   
-
   function changeStockIds(newStockIds){
 
     PreferenceService.setPrefs({
@@ -39,28 +38,19 @@ function StocksWidgetController($scope,PreferenceService) {
   	}
   };
 
-  function getPrefs(){
-    var stockIds = PreferenceService.getPrefs('stocks')
-    if (stockIds){
-      return stockIds;
-    } else {
-      return 'NFLX';
-    }
-  }
-
   // Listen for broadcast events =================================
 
   $scope.$on('getPrefs', function(event, success) {
-    changeStockIds(getPrefs());
+    changeStockIds(PreferenceService.getPrefs('stocks','NFLX'));
   });
 
   $scope.$on('refresh', function(event, success) {
-    changeStockIds(getPrefs());
+    changeStockIds(PreferenceService.getPrefs('stocks','NFLX'));
   });
 
   $scope.$on('logout', function(event, success) {
     setDefaultData();
-    changeStockIds(getPrefs());
+    changeStockIds(PreferenceService.getPrefs('stocks','NFLX'));
   });
 
 };

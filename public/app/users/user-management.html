@@ -1,13 +1,13 @@
-<div class="container" ng-show="vm.userSession.isAdmin">
+<div class="container" ng-show="userVm.userSession.isAdmin">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--2-col"></div>
     <div class="mdl-cell mdl-cell--10-col"><h2 id="user-welcome">Manage Users</h2></div>
 
     <div class="mdl-cell mdl-cell--2-col"></div>
-    <div class="mdl-cell mdl-cell--10-col" ng-show="vm.loading">
+    <div class="mdl-cell mdl-cell--10-col" ng-show="userVm.loading">
       <img src="/assets/images/loading.gif" height="100" width="150">
     </div>
-    <div class="mdl-cell mdl-cell--10-col" ng-hide="vm.loading">
+    <div class="mdl-cell mdl-cell--10-col" ng-hide="userVm.loading">
       <table class="mdl-data-table mdl-js-data-table mdl-data-table mdl-shadow--2dp">
         <thead>
           <tr>
@@ -20,17 +20,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="user in vm.users">
+          <tr ng-repeat="user in userVm.users">
             <td class="mdl-data-table__cell--non-numeric">{{ user.username }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ user.firstName }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ user.lastName }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ user.email }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ user.role }}</td>
             <td>
-              <button ng-click="vm.deleteUser(user)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
+              <button ng-click="userVm.deleteUser(user)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
                 <i class="material-icons">delete</i>
               </button>
-              <button ng-click="vm.editMode = true; vm.openUserDialog(user)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
+              <button ng-click="userVm.editMode = true; userVm.openUserDialog(user)" class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent">
                 <i class="material-icons">edit</i>
               </button>
             </td>
@@ -42,7 +42,7 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--2-col"></div>
     <div class="mdl-cell mdl-cell--10-col">
-      <button ng-click="vm.editMode = false; vm.openUserDialog()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+      <button ng-click="userVm.editMode = false; userVm.openUserDialog()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
         Create New User
       </button>
     </div>
@@ -50,20 +50,20 @@
 </div>
 
 <!-- Edit/Create a User Dialog -->
-<mdl-dialog dialog-id="user" dialog-title="{{vm.userDialogTitle}}">
-  <form name="userForm" ng-submit="vm.createOrEditUser(vm.user)">
+<mdl-dialog dialog-id="user" dialog-title="{{userVm.userDialogTitle}}">
+  <form name="userForm" ng-submit="userVm.createOrEditUser(userVm.user)">
 
     <!-- Inputs for Creating/Editing a User -->
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--6-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="new-username-id" type="text" class="mdl-textfield__input" ng-model="vm.user.username" ng-required="!vm.editMode" ng-disabled="vm.editMode">
+          <input id="new-username-id" type="text" class="mdl-textfield__input" ng-model="userVm.user.username" ng-required="!userVm.editMode" ng-disabled="userVm.editMode">
           <label class="mdl-textfield__label" for="new-username-id">Username</label>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--6-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="new-password-id" type="password" class="mdl-textfield__input" ng-model="vm.user.password" ng-required="!vm.editMode">
+          <input id="new-password-id" type="password" class="mdl-textfield__input" ng-model="userVm.user.password" ng-required="!userVm.editMode">
           <label class="mdl-textfield__label" for="new-password-id">Password</label>
         </div>
       </div>
@@ -71,13 +71,13 @@
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--6-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="new-firstname-id" type="text" class="mdl-textfield__input" ng-model="vm.user.firstName" ng-required="!vm.editMode">
+          <input id="new-firstname-id" type="text" class="mdl-textfield__input" ng-model="userVm.user.firstName" ng-required="!userVm.editMode">
           <label class="mdl-textfield__label" for="new-firstname-id">First Name</label>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--6-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="new-lastname-id" type="text" class="mdl-textfield__input" ng-model="vm.user.lastName" ng-required="!vm.editMode">
+          <input id="new-lastname-id" type="text" class="mdl-textfield__input" ng-model="userVm.user.lastName" ng-required="!userVm.editMode">
           <label class="mdl-textfield__label" for="new-lastname-id">Last Name</label>
         </div>
       </div>
@@ -85,14 +85,14 @@
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--6-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <input id="new-email-id" type="email" class="mdl-textfield__input" ng-model="vm.user.email" ng-required="!vm.editMode">
+          <input id="new-email-id" type="email" class="mdl-textfield__input" ng-model="userVm.user.email" ng-required="!userVm.editMode">
           <label class="mdl-textfield__label" for="new-email-id">Email</label>
         </div>
       </div>
       <div class="mdl-cell mdl-cell--6-col">
         <div class="checkbox">
           <label>
-            <input type="checkbox" ng-model='vm.user.role' ng-true-value="'admin'" ng-false-value="'user'"> Admin
+            <input type="checkbox" ng-model='userVm.user.role' ng-true-value="'admin'" ng-false-value="'user'"> Admin
           </label>
         </div>
       </div>
@@ -100,10 +100,10 @@
 
     <!-- Buttons for User Dialog -->
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" ng-disabled="userForm.$invalid">
-      <span ng-hide="vm.editMode">Create</span>
-      <span ng-show="vm.editMode">Update</span>
+      <span ng-hide="userVm.editMode">Create</span>
+      <span ng-show="userVm.editMode">Update</span>
     </button>
-    <button ng-click="vm.closeUserDialog()" type="button" class="mdl-button">
+    <button ng-click="userVm.closeUserDialog()" type="button" class="mdl-button">
       Close
     </button>
 

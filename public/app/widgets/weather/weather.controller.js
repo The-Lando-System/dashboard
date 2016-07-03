@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('WeatherWidgetController', WeatherWidgetController);
 
-WeatherWidgetController.$inject = ['$http','$scope','PreferenceService'];
+WeatherWidgetController.$inject = ['$http','$scope','PreferenceService','JsUtils'];
 
-function WeatherWidgetController($http,$scope,PreferenceService) {
+function WeatherWidgetController($http,$scope,PreferenceService,JsUtils) {
 	var weatherVm = this;
   var TAG = 'WeatherWidgetController: ';
 
@@ -47,8 +47,8 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
     $http.get('/zipcodes')
     .success(function(data){
-      weatherVm.zipData = csvToJson(data);
-      getWeather(getPreference());
+      weatherVm.zipData = JsUtils.csvToJson(data);
+      getWeather(PreferenceService.getPrefs('weather','80909'));
     })
     .error(function(data){
       console.log(data);
@@ -84,15 +84,6 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
 	};
 
-  function getPreference(){
-    var zipcode = PreferenceService.getPrefs('weather');
-    if (zipcode){
-      return zipcode;
-    } else {
-      return weatherVm.zipcode;
-    }
-  }
-
   function setCoordinatesFromZipcode(zipcode){
 
     if (!weatherVm.zipData){
@@ -117,43 +108,19 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
     weatherVm.city = 'Colorado Springs';
   }
 
-  function csvToJson(csv) {
-
-    var lines=csv.split("\n");
-    var result = [];
-    var headers=lines[0].split(",");
-
-    for(var i=1;i<lines.length;i++){
-
-      var obj = {};
-      var currentline=lines[i].split(",");
-
-      if (currentline){
-        for(var j=0;j<headers.length;j++){
-          obj[headers[j]] = currentline[j];
-        }
-      }
-
-      result.push(obj);
-
-    }
-
-    return result;
-  };
-
   // Listen for broadcast events =================================
 
   $scope.$on('getPrefs', function(event, success) {
-    getWeather(getPreference());
+    getWeather(PreferenceService.getPrefs('weather','80909'));
   });
 
   $scope.$on('refresh', function(event, success) {
-    getWeather(getPreference());
+    getWeather(PreferenceService.getPrefs('weather','80909'));
   });
 
   $scope.$on('logout', function(event, success) {
     setDefaultData();
-    getWeather(getPreference());
+    getWeather(PreferenceService.getPrefs('weather','80909'));
   });
 
 

@@ -66,7 +66,7 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
 
   function loadCalendarApi() {
     gapi.client.load('calendar', 'v3', function(){
-      getCalendarData(getPrefs());
+      getCalendarData(PreferenceService.getPrefs('calendar',5));
     });
   }
 
@@ -119,20 +119,11 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
 
   }
 
-  function getPrefs(){
-    var numEvents = PreferenceService.getPrefs('calendar');
-    if (numEvents){
-      return Number(numEvents);
-    } else {
-      return 5;
-    }
-  }
-
 
   // Listen for broadcast events =================================
 
   $scope.$on('refresh', function(event, success) {
-    getCalendarData(getPrefs());
+    getCalendarData(PreferenceService.getPrefs('calendar',5));
   });
 
   $scope.$on('getPrefs', function(event, success) {

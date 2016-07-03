@@ -54,7 +54,7 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
     if (!themeVm.userSession.user){
       setTheme(findThemeByName('Default'));
     } else {
-      setTheme(findThemeByName(getPrefs()));
+      setTheme(findThemeByName(PreferenceService.getPrefs('theme','Default')));
     }
     
   }
@@ -110,24 +110,15 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
     return false;
   }
 
-  function getPrefs(){
-    var themeName = PreferenceService.getPrefs('theme');
-    if (themeName){
-      return themeName;
-    } else {
-      return 'Default';
-    }
-  }
-
 
   // Listen for broadcast events =================================
 
   $scope.$on('getPrefs', function(event, success) {
-    setTheme(findThemeByName(getPrefs()));
+    setTheme(findThemeByName(PreferenceService.getPrefs('theme','Default')));
   });
   
   $scope.$on('refresh', function(event, success) {
-    setTheme(findThemeByName(getPrefs()));
+    setTheme(findThemeByName(PreferenceService.getPrefs('theme','Default')));
   });
 
   $scope.$on('logout', function(event, success) {
