@@ -3,66 +3,85 @@
 angular.module('dashboard')
 .controller('ThemeChangerController', ThemeChangerController);
 
-ThemeChangerController.$inject = ['$rootScope','$scope','MdlDialog','MdlUtils','PreferenceService'];
+ThemeChangerController.$inject = ['$rootScope','$scope','MdlDialog','MdlUtils','PreferenceService','AuthService'];
 
-function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceService) {
+function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceService,AuthService) {
   
   var themeVm = this;
 
+  // Initialization ==============================================
+
   themeVm.closeDialog = closeDialog;
   themeVm.changeTheme = changeTheme;
-  themeVm.themes = [
- 	{
- 		name: 'Default',
- 		preview: '/assets/images/default-background.jpg',
- 		image: 'url("/assets/images/default-background.jpg")',
- 		size: 'contain'
-
-  	},
-  	{
- 		name: 'Dark',
- 		preview: '/assets/images/dark-background.jpg',
- 		image: 'url("/assets/images/dark-background.jpg")',
- 		size: 'cover'
-
-  	},
-  	{
- 		name: 'Grey',
- 		preview: '/assets/images/grey-background.jpg',
- 		image: 'url("/assets/images/grey-background.jpg")',
- 		size: 'contain'
-
-  	},
-  	{
- 		name: 'Orange',
- 		preview: '/assets/images/orange-background.jpg',
- 		image: 'url("/assets/images/orange-background.jpg")',
- 		size: 'cover'
-
-  	}
-  ];
 
   initialize();
 
-  $scope.$on('getPrefs', function(event, success) {
-    if (success){
-      var themeName = PreferenceService.getPrefs('theme');
-      if (themeName){
-        setTheme(findThemeByName(themeName));
-      } else {
-        setTheme(findThemeByName('Default'));
-      }
-    }
-  });
-
   function initialize(){
-    var themeName = PreferenceService.getPrefs('theme');
-    if (themeName){
-      setTheme(findThemeByName(themeName));
-    } else {
+
+    themeVm.themes = [
+    {
+      name: 'Default',
+      preview: '/assets/images/default-background.jpg',
+      image: 'url("/assets/images/default-background.jpg")',
+      size: 'contain'
+
+      },
+      {
+      name: 'Dark',
+      preview: '/assets/images/dark-background.jpg',
+      image: 'url("/assets/images/dark-background.jpg")',
+      size: 'cover'
+
+      },
+      {
+      name: 'Grey',
+      preview: '/assets/images/grey-background.jpg',
+      image: 'url("/assets/images/grey-background.jpg")',
+      size: 'contain'
+
+      },
+      {
+      name: 'Orange',
+      preview: '/assets/images/orange-background.jpg',
+      image: 'url("/assets/images/orange-background.jpg")',
+      size: 'cover'
+
+      }
+    ];
+
+    themeVm.userSession = AuthService.startUserSession();
+
+    if (!themeVm.userSession.user){
       setTheme(findThemeByName('Default'));
+    } else {
+      setTheme(findThemeByName(getPrefs()));
     }
+    
   }
+
+  
+  
+  // Interface Function Implementations ==============================
+  
+  function changeTheme(theme){
+
+    if (!theme){
+      MdlDialog.alert('Hey','Please select a theme!');
+      return;
+    }
+
+    setTheme(theme);
+
+    closeDialog();
+    MdlUtils.closeDrawer();
+  }
+
+  function closeDialog(){
+    MdlDialog.close('theme-changer');
+  }
+
+
+  // Helper Functions ==============================
 
   function setTheme(theme) {
 
@@ -77,28 +96,10 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
     });
 
     $rootScope.$broadcast('changeTheme', style);
-
     return;
 
   }
 
-
-  function changeTheme(theme){
-
-  	if (!theme){
-  		MdlDialog.alert('Hey','Please select a theme!');
-  		return;
-  	}
-
-  	setTheme(theme);
-
-  	closeDialog();
-  	MdlUtils.closeDrawer();
-  }
-
-  function closeDialog(){
-  	MdlDialog.close('theme-changer');
-  }
 
   function findThemeByName(themeName){
     for (var i=0; i<themeVm.themes.length; i++){
@@ -108,7 +109,30 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
     }
     return false;
   }
+
+  function getPrefs(){
+    var themeName = PreferenceService.getPrefs('theme');
+    if (themeName){
+      return themeName;
+    } else {
+      return 'Default';
+    }
+  }
+
+
+  // Listen for broadcast events =================================
+
+  $scope.$on('getPrefs', function(event, success) {
+    setTheme(findThemeByName(getPrefs()));
+  });
   
+  $scope.$on('refresh', function(event, success) {
+    setTheme(findThemeByName(getPrefs()));
+  });
+
+  $scope.$on('logout', function(event, success) {
+    initialize();
+  });
 
 };
 

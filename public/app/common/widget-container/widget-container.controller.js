@@ -12,13 +12,13 @@ function WidgetContainerController(AuthService,$scope) {
   widgetContainerVm.hideSettingsDialog = hideSettingsDialog;
   widgetContainerVm.userSession = AuthService.startUserSession();
 
-  $scope.$on('refresh', function(event, success) {
-    if (success){
-      widgetContainerVm.userSession = AuthService.startUserSession();
-    }
+  $scope.$on('login', function(event, success) {
+    widgetContainerVm.userSession = AuthService.startUserSession();
   });
 
-
+  $scope.$on('logout', function(event, success) {
+    widgetContainerVm.userSession = AuthService.startUserSession();
+  });
 
   var settingsDialog;
 
