@@ -8,12 +8,24 @@ NavbarController.$inject = ['AuthService','$scope','MdlDialog','MdlUtils','Prefe
 function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceService, $rootScope, $location) {
   
   var navVm = this;
-  navVm.logout = logout;
 
+  // Initialization ====================
+
+  navVm.logout = logout;
   navVm.showLoginDialog = showLoginDialog;
   navVm.hideLoginDialog = hideLoginDialog;
   navVm.hideDrawer = hideDrawer;
   navVm.openThemeDialog = openThemeDialog;
+
+  initialize();
+
+  function initialize(){
+    componentHandler.upgradeAllRegistered();
+    navVm.userSession = AuthService.getUserSession();
+    
+  }
+
+  // Function Implementations ==============================
 
   function showLoginDialog(){
     MdlDialog.open('login');
@@ -22,12 +34,6 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceSe
   function hideLoginDialog(){
     MdlDialog.close('login')
   };
-
-  $scope.$on('login', function(event, success) {
-    if (success){
-      navVm.userSession = AuthService.getUserSession();
-    }
-  });
 
   function logout(){
     MdlDialog.confirm('Logout','Are you sure you want to logout?',function(confirmed){
@@ -53,9 +59,12 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceSe
     MdlDialog.open('theme-changer');
   }
 
-  angular.element(document).ready(function () {
-    navVm.userSession = AuthService.getUserSession();
-    componentHandler.upgradeAllRegistered();
+  // Listen for broadcast events =============================
+
+  $scope.$on('login', function(event, success) {
+    if (success){
+      navVm.userSession = AuthService.getUserSession();
+    }
   });
   
 };
