@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('NavbarController', NavbarController);
 
-NavbarController.$inject = ['AuthService','$scope','MdlDialog','MdlUtils','PreferenceService'];
+NavbarController.$inject = ['AuthService','$scope','MdlDialog','MdlUtils','PreferenceService','$rootScope','$location'];
 
-function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceService) {
+function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceService, $rootScope, $location) {
   
   var navVm = this;
   navVm.logout = logout;
@@ -25,13 +25,7 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceSe
 
   $scope.$on('login', function(event, success) {
     if (success){
-      navVm.userSession = AuthService.startUserSession();
-    }
-  });
-
-  $scope.$on('logout', function(event, success) {
-    if (success){
-      navVm.userSession = AuthService.endUserSession();
+      navVm.userSession = AuthService.getUserSession();
     }
   });
 
@@ -40,8 +34,12 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceSe
       if (confirmed){
         PreferenceService.removePrefCookie();
         AuthService.logout();
-        navVm.userSession = AuthService.endUserSession();
+        navVm.userSession = AuthService.getUserSession();
         hideDrawer();
+
+        $rootScope.$broadcast('logout', true);
+        $rootScope.$broadcast('refresh', true);
+        $location.path('dashboard');
       }
     });
     
@@ -56,7 +54,7 @@ function NavbarController(AuthService, $scope, MdlDialog, MdlUtils, PreferenceSe
   }
 
   angular.element(document).ready(function () {
-    navVm.userSession = AuthService.startUserSession();
+    navVm.userSession = AuthService.getUserSession();
     componentHandler.upgradeAllRegistered();
   });
   

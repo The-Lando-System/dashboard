@@ -10,14 +10,14 @@ function WidgetContainerController(AuthService,$scope) {
 
   widgetContainerVm.showSettingsDialog = showSettingsDialog;
   widgetContainerVm.hideSettingsDialog = hideSettingsDialog;
-  widgetContainerVm.userSession = AuthService.startUserSession();
+  widgetContainerVm.userSession = AuthService.getUserSession();
 
   $scope.$on('login', function(event, success) {
-    widgetContainerVm.userSession = AuthService.startUserSession();
+    widgetContainerVm.userSession = AuthService.getUserSession();
   });
 
   $scope.$on('logout', function(event, success) {
-    widgetContainerVm.userSession = AuthService.startUserSession();
+    widgetContainerVm.userSession = AuthService.getUserSession();
   });
 
   var settingsDialog;

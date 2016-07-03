@@ -1,47 +1,72 @@
 (function() { 'use strict';
 
 angular.module('dashboard')
-.factory('AuthService', AuthService);
+.service('AuthService', AuthService);
 
-AuthService.$inject = ['$cookies','$location','jwtHelper','$rootScope'];
+AuthService.$inject = ['$cookies','jwtHelper','$rootScope'];
 
-function AuthService($cookies,$location,jwtHelper,$rootScope) {
+function AuthService($cookies,jwtHelper,$rootScope) {
 
 	var authService = {};
+	var TAG = 'AuthService2: ';
 
-	authService.startUserSession = function() {
-		var token = $cookies.get('token') ? $cookies.get('token') : false;
-		var user = token ? jwtHelper.decodeToken(token)._doc : false;
-		var isAdmin = false;
-		if (user.role){
-			isAdmin = user.role === 'admin' ? true : false;
-		}
-		return {
-			token    : token,
-			user     : user,
-			isAdmin  : isAdmin
-		};
-	};
+	// Function Declarations ==============================
 
-	authService.endUserSession = function() {
-		return {
+	authService.getUserSession = getUserSession;
+	authService.login = login;
+	authService.logout = logout;
+
+	initialize();
+
+	// Function Implementations ===========================
+
+	function initialize(){
+		authService.userSession = {
 			token    : false,
 			user     : false,
 			isAdmin  : false
 		};
-	};
+	}
 
-	authService.logout = function(){
+	function getUserSession(){
+		return authService.userSession;
+	}
+
+	function login(token){
+		if (token){
+			$cookies.put('token',token);
+			createUserSession(token);
+			return true;
+		} else {
+			console.warn(TAG + 'Failed to set the token cookie!');
+			return false
+		}
+	}
+
+
+	function logout(){
 		$cookies.remove('token');
-		$rootScope.$broadcast('logout', true);
-		$rootScope.$broadcast('refresh', true);
-		$location.path('dashboard');
-	};
+		initialize();
+	}
 
-	authService.createSession = function(token){
-		$cookies.put('token',token);
-		$rootScope.$broadcast('login', true);
-	};
+
+	function createUserSession(token){
+
+		var user = jwtHelper.decodeToken(token)._doc;
+		var isAdmin = false;
+
+		if (user.role){
+			isAdmin = (user.role === 'admin') ? true : false;
+		} else {
+			console.warn(TAG + 'Could not get the role from the user!')
+		}
+
+		authService.userSession = {
+			token    : token,
+			user     : user,
+			isAdmin  : isAdmin
+		}
+	}
 
 	return authService;
 

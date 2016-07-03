@@ -49,7 +49,7 @@ function ThemeChangerController($rootScope,$scope,MdlDialog,MdlUtils,PreferenceS
       }
     ];
 
-    themeVm.userSession = AuthService.startUserSession();
+    themeVm.userSession = AuthService.getUserSession();
 
     if (!themeVm.userSession.user){
       setTheme(findThemeByName('Default'));

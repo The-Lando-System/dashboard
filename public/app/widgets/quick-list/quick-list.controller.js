@@ -14,17 +14,17 @@ function QuickListWidgetController(QuickListFactory, AuthService, $scope) {
   qlVm.deleteItem = deleteItem;
   qlVm.editItemDescription = editItemDescription;
   qlVm.listItems = [];
-  qlVm.userSession = AuthService.startUserSession();
+  qlVm.userSession = AuthService.getUserSession();
 
   $scope.$on('refresh', function(event, success) {
     if (success){
-      qlVm.userSession = AuthService.startUserSession();
+      qlVm.userSession = AuthService.getUserSession();
       getListItems();
     }
   });
 
   $scope.$on('getPrefs', function(event, success) {
-    qlVm.userSession = AuthService.startUserSession();
+    qlVm.userSession = AuthService.getUserSession();
     getListItems();
   });
 

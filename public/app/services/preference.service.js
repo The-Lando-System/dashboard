@@ -19,7 +19,7 @@ function PreferenceService($rootScope,$http,$cookies,AuthService) {
 
   function initialize() {
 
-    var userSession = AuthService.startUserSession();
+    var userSession = AuthService.getUserSession();
     if (!userSession.user){
       return;
     }
@@ -53,7 +53,7 @@ function PreferenceService($rootScope,$http,$cookies,AuthService) {
 
   function getPrefs(prefKey,defaultValue){
 
-    var userSession = AuthService.startUserSession();
+    var userSession = AuthService.getUserSession();
     if (!userSession.user){
       return defaultValue;
     }
@@ -71,7 +71,7 @@ function PreferenceService($rootScope,$http,$cookies,AuthService) {
 
   function setPrefs(pref){
 
-    var userSession = AuthService.startUserSession();
+    var userSession = AuthService.getUserSession();
     if (!userSession.user){
       return;
     }

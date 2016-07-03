@@ -19,6 +19,8 @@ function Interceptor($rootScope,AuthService,MdlDialog) {
       if (response.data.message === 'TokenExpiredError'){
         MdlDialog.alert('Hey','Your session has expired. Please login again!')
         AuthService.logout();
+        $rootScope.$broadcast('logout', true);
+        $rootScope.$broadcast('refresh', true);
       }
 
     }

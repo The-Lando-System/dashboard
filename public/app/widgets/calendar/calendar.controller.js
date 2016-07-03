@@ -19,7 +19,7 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
   function initialize(){
     componentHandler.upgradeAllRegistered();
 
-    calendarVm.userSession = AuthService.startUserSession();
+    calendarVm.userSession = AuthService.getUserSession();
 
     calendarVm.loading = false;
     calendarVm.hasGoogleAuth = true;

@@ -26,7 +26,7 @@ function UserMgmtController(AuthService,UserFactory,MdlSnackbar,MdlDialog,MdlUti
 		userVm.userToDelete = {};
 		userVm.loading = false;
 
-    	userVm.userSession = AuthService.startUserSession();
+    	userVm.userSession = AuthService.getUserSession();
 	    if (userVm.userSession.user) {
 	      getUsers();
 	    }
