@@ -120,13 +120,24 @@ module.exports = function(app) {
 				return
 			}
 
+			// Create an empty preference set for the user
 			if (preferences.length === 0){
-				res.status(404).send({ message: 'Could not find preferences for username: ' + req.params.username });
+				Preference.create({
+					username: req.params.username
+				}, function(err,pref){
+					if (err){
+						res.status(500).send(err);
+						return;
+					} else {
+						res.send(pref);
+						return;
+					}
+				});
+			} else {
+				res.send(preferences[0]);
 				return;
 			}
-
-			res.send(preferences[0]);
-			return;
+			
 		})
 
 	});
