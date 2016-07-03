@@ -7,6 +7,7 @@ WeatherWidgetController.$inject = ['$http','$scope','PreferenceService'];
 
 function WeatherWidgetController($http,$scope,PreferenceService) {
 	var weatherVm = this;
+  var TAG = 'WeatherWidgetController: ';
 
   // Initialization ==============================================
 
@@ -15,18 +16,14 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
   weatherVm.loading = false;
 
-  weatherVm.lat = '38.8545855';
-  weatherVm.lon = '-104.7929357';
-  weatherVm.zipcode = '80909';
-  weatherVm.city = 'Colorado Springs';
-
   initialize();
 
   // Interface Function Implementations ==============================
 
   function initialize(){
     componentHandler.upgradeAllRegistered();
-    getZipcodes();
+    setDefaultData();
+    initializeZipcodes();
   }
 
   function changeZipcode(newZipcode){
@@ -39,26 +36,19 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
     weatherVm.zipcode = newZipcode;
     weatherVm.newZipcode = '';
-    for(var i=0; i<weatherVm.zipData.length; i++){
-      if (weatherVm.zipData[i].zip === weatherVm.zipcode){
-        weatherVm.lat = weatherVm.zipData[i].latitude;
-        weatherVm.lon = weatherVm.zipData[i].longitude;
-        weatherVm.city = weatherVm.zipData[i].city;
-        break;
-      }
-    }
-    getWeather();
+
+    getWeather(weatherVm.zipcode);
     
   };
 
   // Helper Functions ==============================
 
-  function getZipcodes(){
+  function initializeZipcodes(){
 
     $http.get('/zipcodes')
     .success(function(data){
       weatherVm.zipData = csvToJson(data);
-      changeZipcode(getPreference());
+      getWeather(getPreference());
     })
     .error(function(data){
       console.log(data);
@@ -66,17 +56,21 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
 
   };
 
-  function getNoaaUrl(){
+  function getNoaaUrl(lat,lon){
     return 'http://forecast.weather.gov/MapClick.php?lat=' 
-      + weatherVm.lat + '&lon=' + weatherVm.lon + '&FcstType=json&callback=JSON_CALLBACK';
+      + lat + '&lon=' + lon + '&FcstType=json&callback=JSON_CALLBACK';
   };
 
 
-	function getWeather() {
+	function getWeather(zipcode) {
 
     weatherVm.loading = true;
 
-		$http.jsonp(getNoaaUrl())
+    setCoordinatesFromZipcode(zipcode);
+
+    var noaaUrl = getNoaaUrl(weatherVm.lat, weatherVm.lon);
+
+		$http.jsonp(noaaUrl)
     .success(function(data) {
       weatherVm.currentWeather = data.currentobservation.Weather;
       weatherVm.temperature = data.currentobservation.Temp;
@@ -97,6 +91,30 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
     } else {
       return weatherVm.zipcode;
     }
+  }
+
+  function setCoordinatesFromZipcode(zipcode){
+
+    if (!weatherVm.zipData){
+      console.warn(TAG + 'Failed to set coordinates because zip data was not retrieved!');
+      return;
+    }
+
+    for(var i=0; i<weatherVm.zipData.length; i++){
+      if (weatherVm.zipData[i].zip === zipcode){
+        weatherVm.lat = weatherVm.zipData[i].latitude;
+        weatherVm.lon = weatherVm.zipData[i].longitude;
+        weatherVm.city = weatherVm.zipData[i].city;
+        return;
+      }
+    }
+  }
+
+  function setDefaultData(){
+    weatherVm.lat = '38.8545855';
+    weatherVm.lon = '-104.7929357';
+    weatherVm.zipcode = '80909';
+    weatherVm.city = 'Colorado Springs';
   }
 
   function csvToJson(csv) {
@@ -126,19 +144,16 @@ function WeatherWidgetController($http,$scope,PreferenceService) {
   // Listen for broadcast events =================================
 
   $scope.$on('getPrefs', function(event, success) {
-    changeZipcode(getPreference());
+    getWeather(getPreference());
   });
 
   $scope.$on('refresh', function(event, success) {
-    getWeather();
+    getWeather(getPreference());
   });
 
   $scope.$on('logout', function(event, success) {
-    weatherVm.lat = '38.8545855';
-    weatherVm.lon = '-104.7929357';
-    weatherVm.zipcode = '80909';
-    weatherVm.city = 'Colorado Springs';
-    getWeather();
+    setDefaultData();
+    getWeather(getPreference());
   });
 
 
