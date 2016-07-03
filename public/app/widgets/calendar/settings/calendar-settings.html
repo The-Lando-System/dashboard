@@ -1,5 +1,5 @@
 <widget-settings-dialog header="Events" widget-id="calendar">
-  <form ng-submit="calendarVm.listUpcomingEvents(calendarVm.numEvents); widgetContainerVm.hideSettingsDialog('calendar'); calendarVm.numEvents = '';">
+  <form ng-submit="calendarVm.changeNumberOfEvents(calendarVm.numEvents); widgetContainerVm.hideSettingsDialog('calendar');">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
       <input id="calendar-events-id" type="text" class="mdl-textfield__input" ng-model="calendarVm.numEvents">
       <label class="mdl-textfield__label" for="calendar-events-id">Number of events to display</label>

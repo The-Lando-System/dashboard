@@ -7,66 +7,49 @@ CalendarWidgetController.$inject = ['$http','$timeout','$scope','AuthService','P
 
 function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceService,GoogleAuthService) {
   var calendarVm = this;
+  var TAG = 'CalendarWidgetController: ';
 
   // Initialization ==============================================
 
   calendarVm.handleAuthClick = handleAuthClick;
-  calendarVm.listUpcomingEvents = listUpcomingEvents;
-  calendarVm.userSession = AuthService.startUserSession();
-  calendarVm.loading = false;
-  calendarVm.hasGoogleAuth = true;
-  calendarVm.events = [];
+  calendarVm.changeNumberOfEvents = changeNumberOfEvents;
   
   initialize();
 
   function initialize(){
     componentHandler.upgradeAllRegistered();
 
-    GoogleAuthService.getAuthResult()
-    .then(function(authResult){
-      handleAuthResult(authResult);
-    });
+    calendarVm.userSession = AuthService.startUserSession();
+
+    calendarVm.loading = false;
+    calendarVm.hasGoogleAuth = true;
+
+    calendarVm.events = [];
+
+    if (calendarVm.userSession.user){
+      GoogleAuthService.getAuthResult()
+      .then(function(authResult){
+        handleAuthResult(authResult);
+      });
+    }
+
   }
 
 
   // Interface Function Implementations ==============================
 
-  function handleAuthClick(event) {
-    gapi.auth.authorize(
-      {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-      handleAuthResult);
-    return false;
+  function handleAuthClick() {
+    GoogleAuthService.handleAuthClick(handleAuthResult);
   }
 
-
-  function listUpcomingEvents(numEvents) {
-
-    calendarVm.events = [];
-
-    if (!numEvents){
-      var eventNum = PreferenceService.getPrefs('calendar');
-      if (eventNum){
-        getCalendarData(Number(eventNum));
-      } else {
-        getCalendarData(5);
-      }
-    } else {
-      getCalendarData(numEvents);
-    }
-
-  };
+  function changeNumberOfEvents(newNumEvents) {
+    getCalendarData(newNumEvents);
+    calendarVm.numEvents = '';
+  }
 
 
   // Helper Functions ===============================================
   
-  function checkForAuth(){
-    calendarVm.loading = true;
-    if(AUTH_RESULT === 'AUTH_NOT_CHECKED'){
-      $timeout(checkForAuth, 1000);
-    } else {
-      handleAuthResult(AUTH_RESULT);
-    }
-  };
 
   function handleAuthResult(authResult) {
 
@@ -82,11 +65,18 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
   
 
   function loadCalendarApi() {
-    gapi.client.load('calendar', 'v3', listUpcomingEvents);
+    //console.log(TAG + 'Getting calendar data on initialization or auth button click');
+    gapi.client.load('calendar', 'v3', function(){
+      getCalendarData(getPrefs());
+    });
   }
 
 
   function getCalendarData(numEvents){
+
+    if (!calendarVm.userSession.user){
+      return;
+    }
 
     PreferenceService.setPrefs({
       name: 'calendar',
@@ -94,6 +84,7 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
     });
 
     if (!gapi.client.calendar){
+      console.warn(TAG + 'Could not find a google client object!')
       return;
     }
 
@@ -107,6 +98,9 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
     });
 
     request.execute(function(resp) {
+
+      calendarVm.events = [];
+
       var events = resp.items;
 
       if (events.length > 0) {
@@ -126,35 +120,32 @@ function CalendarWidgetController($http,$timeout,$scope,AuthService,PreferenceSe
 
   }
 
+  function getPrefs(){
+    var numEvents = PreferenceService.getPrefs('calendar');
+    if (numEvents){
+      return Number(numEvents);
+    } else {
+      return 5;
+    }
+  }
 
 
   // Listen for broadcast events =================================
 
   $scope.$on('refresh', function(event, success) {
-    if (success){
-
-      calendarVm.userSession = AuthService.startUserSession();
-
-      GoogleAuthService.getAuthResult()
-      .then(function(authResult){
-        handleAuthResult(authResult);
-      });
-
-    }
+    //console.log(TAG + 'Getting calendar data from refresh broadcast');
+    getCalendarData(getPrefs());
   });
 
   $scope.$on('getPrefs', function(event, success) {
-    if (success){
-      var numEvents = PreferenceService.getPrefs('calendar');
-      if (numEvents){
-        getCalendarData(Number(numEvents));
-      } else {
-        getCalendarData(5);
-      }
-    }
+    //console.log(TAG + 'Getting calendar data from a get prefs broadcast');
+    initialize();
   });
 
-
+  $scope.$on('logout', function(event, success) {
+    //console.log(TAG + 'Calling initialize on logout broadcast');
+    initialize();
+  });
 
 
 };

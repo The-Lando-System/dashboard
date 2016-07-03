@@ -1,7 +1,7 @@
 (function() { 'use strict';
 
 angular.module('dashboard')
-.service('GoogleAuthService', GoogleAuthService);
+.factory('GoogleAuthService', GoogleAuthService);
 
 GoogleAuthService.$inject = ['$q','$timeout'];
 
@@ -10,9 +10,7 @@ function GoogleAuthService($q, $timeout) {
   var gaService = {};
 
   gaService.getAuthResult = getAuthResult;
-
-  var CLIENT_ID = '504696266788-tfo6rupvo0rr1qkarl1ftmi4sv3bn3gp.apps.googleusercontent.com';
-  var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
+  gaService.handleAuthClick = handleAuthClick;
 
   var authPromise = $q.defer();
 
@@ -30,15 +28,13 @@ function GoogleAuthService($q, $timeout) {
     }
   };
 
-  // function checkAuth() {
-  //   gapi.auth.authorize({
-  //     'client_id': CLIENT_ID,
-  //     'scope': SCOPES.join(' '),
-  //     'immediate': true
-  //   }, function(result){
-  //     authPromise.resolve(result);
-  //   });
-  // }
+  function handleAuthClick(callback) {
+    gapi.auth.authorize({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      immediate: false
+    },callback);
+  }
 
   function getAuthResult(){
     return authPromise.promise;
