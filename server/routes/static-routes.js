@@ -66,6 +66,12 @@ module.exports = function(app) {
 	staticRoutes.get('/quick-list-widget-settings', function(req,res){
 		res.sendFile(base + '/public/app/widgets/quick-list/settings/quick-list-settings.html');
 	});
+	staticRoutes.get('/spotify-widget', function(req,res){
+		res.sendFile(base + '/public/app/widgets/spotify/spotify.html');
+	});
+	staticRoutes.get('/spotify-widget-settings', function(req,res){
+		res.sendFile(base + '/public/app/widgets/spotify/settings/spotify-settings.html');
+	});
 
 	// Other static files
 	staticRoutes.get('/zipcodes', function(req,res){

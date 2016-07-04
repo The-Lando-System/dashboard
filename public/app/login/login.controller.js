@@ -28,7 +28,7 @@ function LoginController($http, AuthService, MdlDialog, MdlUtils, MdlSnackbar, P
 				hideLoginDialog();
 				hideDrawer();
 				loginVm.loading = false;
-				MdlSnackbar.success('Welcome ' + loginVm.creds.username + '!');
+				MdlSnackbar.notify('Welcome ' + loginVm.creds.username + '!');
 				loginVm.creds = {};
 			})
 			.error(function(data){

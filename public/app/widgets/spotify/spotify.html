@@ -1,0 +1,18 @@
+<widget-container header="Spotify" widget-id="spotify">
+  <div ng-show="spotifyVm.loading">
+    <img src="/assets/images/loading.gif" height="200" width="250">
+  </div>
+  <div ng-hide="spotifyVm.loading">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--6-col">
+        This is the spotify widget
+      </div>
+      <div class="mdl-cell mdl-cell--6-col">
+       
+      </div>
+      
+    </div>
+  </div>
+  <spotify-widget-settings/>
+</widget-container>
+
