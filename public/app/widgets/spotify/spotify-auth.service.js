@@ -12,13 +12,28 @@ function SpotifyAuthService($cookies,$rootScope) {
 
 	// Function Declarations ==============================
 
+	spotifyAuthService.getSpotifyToken = getSpotifyToken;
+	spotifyAuthService.login = login;
+
+	spotifyAuthService.token = false;
+
 	initialize();
 
 	// Function Implementations ===========================
 
 	function initialize(){
-		
+		var token = $cookies.get('spotifyToken');
+		spotifyAuthService.token = token ? token : false;
 	}
+
+	function getSpotifyToken(){
+		return spotifyAuthService.token;
+	}
+
+	function login(){
+		return false;
+	}
+
 
 	return spotifyAuthService;
 

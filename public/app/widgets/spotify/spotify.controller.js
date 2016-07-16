@@ -11,16 +11,22 @@ function SpotifyWidgetController($scope,SpotifyAuthService) {
 
   // Initialization ==============================================
 
+  spotifyVm.loginToSpotify = loginToSpotify;
 
   initialize();
 
   function initialize(){
     componentHandler.upgradeAllRegistered();
     spotifyVm.loading = false;
-    spotifyVm.hasSpotifyToken = false;
+    spotifyVm.spotifyToken = SpotifyAuthService.getSpotifyToken();
   }
 
   // Interface Function Implementations ==============================
+
+  function loginToSpotify(){
+    spotifyVm.spotifyToken = SpotifyAuthService.login();
+
+  }
 
   
 

@@ -1,5 +1,5 @@
 <widget-container header="Spotify" widget-id="spotify">
-  <div ng-show="spotifyVm.hasSpotifyToken">
+  <div ng-show="spotifyVm.spotifyToken">
     <div ng-show="spotifyVm.loading">
       <img src="/assets/images/loading.gif" height="200" width="250">
     </div>
@@ -27,7 +27,7 @@
     </div>
   </div>
   <!-- Allow the user to authenticate with spotify -->
-  <div ng-hide="spotifyVm.hasSpotifyToken">
+  <div ng-hide="spotifyVm.spotifyToken">
     <h3>Please Login to Spotify</h3>
     <button ng-click="spotifyVm.loginToSpotify()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Login</button>
   </div>
