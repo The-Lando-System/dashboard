@@ -8,7 +8,7 @@ AuthService.$inject = ['$cookies','jwtHelper','$rootScope'];
 function AuthService($cookies,jwtHelper,$rootScope) {
 
 	var authService = {};
-	var TAG = 'AuthService2: ';
+	var TAG = 'AuthService: ';
 
 	// Function Declarations ==============================
 
@@ -26,6 +26,11 @@ function AuthService($cookies,jwtHelper,$rootScope) {
 			user     : false,
 			isAdmin  : false
 		};
+
+		var userToken = $cookies.get('token');
+	    if (userToken){
+	    	createUserSession(userToken);
+	    }
 	}
 
 	function getUserSession(){

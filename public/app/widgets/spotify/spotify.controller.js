@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('SpotifyWidgetController', SpotifyWidgetController);
 
-SpotifyWidgetController.$inject = ['$scope'];
+SpotifyWidgetController.$inject = ['$scope','SpotifyAuthService'];
 
-function SpotifyWidgetController($scope) {
+function SpotifyWidgetController($scope,SpotifyAuthService) {
 	var spotifyVm = this;
   var TAG = 'SpotifyWidgetController: ';
 
@@ -17,6 +17,7 @@ function SpotifyWidgetController($scope) {
   function initialize(){
     componentHandler.upgradeAllRegistered();
     spotifyVm.loading = false;
+    spotifyVm.hasSpotifyToken = false;
   }
 
   // Interface Function Implementations ==============================

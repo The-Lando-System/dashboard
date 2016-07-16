@@ -1,16 +1,35 @@
 <widget-container header="Spotify" widget-id="spotify">
-  <div ng-show="spotifyVm.loading">
-    <img src="/assets/images/loading.gif" height="200" width="250">
-  </div>
-  <div ng-hide="spotifyVm.loading">
-    <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--12-col">
-        This is the spotify widget
-      </div>
-      <div class="mdl-cell mdl-cell--12-col">
-        <iframe src="https://embed.spotify.com/?uri=spotify:track:4tHhs02YMzuHHIrWsCtCn1" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+  <div ng-show="spotifyVm.hasSpotifyToken">
+    <div ng-show="spotifyVm.loading">
+      <img src="/assets/images/loading.gif" height="200" width="250">
+    </div>
+    <div ng-hide="spotifyVm.loading">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+          <button ng-click="spotifyVm.showPlaylists = !spotifyVm.showPlaylists" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+            <span ng-show="spotifyVm.showPlaylists">
+              Now Playing
+            </span>
+            <span ng-hide="spotifyVm.showPlaylists">
+              Playlists
+            </span>
+          </button>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col">
+          <div ng-hide="spotifyVm.showPlaylists">
+            <iframe src="https://embed.spotify.com/?uri=spotify:user:matt.voget:playlist:0eT9iQIPVO4xFK04teWkvn" frameborder="0" allowtransparency="false" width="300" height="380"></iframe>
+          </div>
+          <div ng-show="spotifyVm.showPlaylists">
+            Select a Playlist
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+  <!-- Allow the user to authenticate with spotify -->
+  <div ng-hide="spotifyVm.hasSpotifyToken">
+    <h3>Please Login to Spotify</h3>
+    <button ng-click="spotifyVm.loginToSpotify()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Login</button>
   </div>
   <spotify-widget-settings/>
 </widget-container>
