@@ -20,7 +20,11 @@
             <iframe src="https://embed.spotify.com/?uri=spotify:user:matt.voget:playlist:0eT9iQIPVO4xFK04teWkvn" frameborder="0" allowtransparency="false" width="300" height="380"></iframe>
           </div>
           <div ng-show="spotifyVm.showPlaylists">
-            Select a Playlist
+            <ul class="list-group">
+              <li ng-repeat="playlist in spotifyVm.playlists" class="list-group-item">
+                <strong>{{playlist.name}}</strong>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -29,7 +33,7 @@
   <!-- Allow the user to authenticate with spotify -->
   <div ng-hide="spotifyVm.spotifyToken">
     <h3>Please Login to Spotify</h3>
-    <button ng-click="spotifyVm.loginToSpotify()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Login</button>
+    <a target="_self" href="/spotify-login" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Login</a>
   </div>
   <spotify-widget-settings/>
 </widget-container>

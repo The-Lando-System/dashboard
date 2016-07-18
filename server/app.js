@@ -11,7 +11,10 @@ var methodOverride = require('method-override');
 var favicon = require('serve-favicon');
 var passwordHash = require('password-hash');
 var jwt = require('jsonwebtoken');
+var qstring = require('querystring');
+var request = require('request');
 var User = require(base + '/server/models/user');
+
 
 // Configuration ======================
 var devConfig = false;
@@ -43,6 +46,10 @@ try {
 var dbUrl =  devConfig ? devConfig.db : process.env.DB_URL;
 var secretStr = devConfig ? devConfig.secret : process.env.SECRET;
 var tokenExpiryTime = devConfig ? devConfig.tokenExpiryTime : process.env.TOKEN_EXPIRY_TIME;
+
+var SPOTIFY_CLIENT_ID = '41c831282c0349eb8517cca42b8b9d1d';
+var SPOTIFY_REDIRECT_URI = 'http://localhost:3000/spotify-callback';
+var SPOTIFY_CLIENT_SECRET = '05fe2bbcb38b4e19a6c1dc3c4ccec854';
 
 // Try to connect to Mongo
 mongoose.connect(dbUrl, function(err){
@@ -100,67 +107,65 @@ app.post('/authenticate', function(req,res){
 });
 
 
+// Spotify Login
+app.get('/spotify-login', function(req, res) {
+
+  console.log('In GET for spotify login');
+
+  var generateRandomString = function(length) {
+	  var text = '';
+	  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+	  for (var i = 0; i < length; i++) {
+	    text += possible.charAt(Math.floor(Math.random() * possible.length));
+	  }
+	  return text;
+  };
+
+  var state = generateRandomString(16);
+
+  var scope = 'user-read-private user-read-email';
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    qstring.stringify({
+      response_type: 'code',
+      client_id: SPOTIFY_CLIENT_ID,
+      scope: scope,
+      redirect_uri: SPOTIFY_REDIRECT_URI,
+      state: state
+    }));
+
+});
+
+
+
 // Spotify Callback
-app.get('/callback', function(req, res) {
+app.get('/spotify-callback', function(req, res) {
 
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
-
-  if (state === null || state !== storedState) {
-    res.redirect('/#' +
-      querystring.stringify({
-        error: 'state_mismatch'
-      }));
-  } else {
-    res.clearCookie(stateKey);
-    var authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri: redirect_uri,
-        grant_type: 'authorization_code'
-      },
-      headers: {
-        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-      },
-      json: true
-    };
+  	var code = req.query.code;
+	var authOptions = {
+	    url: 'https://accounts.spotify.com/api/token',
+	    form: {
+	        code: code,
+	        redirect_uri: SPOTIFY_REDIRECT_URI,
+	        grant_type: 'authorization_code',
+	        client_id: SPOTIFY_CLIENT_ID,
+	        client_secret: SPOTIFY_CLIENT_SECRET
+	    },
+	    json: true
+	};
 
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
 
-        var access_token = body.access_token,
-            refresh_token = body.refresh_token;
+        var access_token = body.access_token;
+        var refresh_token = body.refresh_token;
 
-        var options = {
-          url: 'https://api.spotify.com/v1/me',
-          headers: { 'Authorization': 'Bearer ' + access_token },
-          json: true
-        };
+        res.redirect('/spotify-auth-success/' + access_token + '/' + refresh_token );
 
-        // use the access token to access the Spotify Web API
-        request.get(options, function(error, response, body) {
-          console.log(body);
-        });
-
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
       } else {
-        res.redirect('/#' +
-          querystring.stringify({
-            error: 'invalid_token'
-          }));
+        res.status(500).send({ message: 'Error! Invalid spotify token!' });
       }
     });
-  }
 });
 
 

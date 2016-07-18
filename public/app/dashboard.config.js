@@ -20,9 +20,14 @@ function config($httpProvider,$urlRouterProvider,$stateProvider,$locationProvide
     controller: 'DashboardController',
     controllerAs: 'dashboardVm'
   })
-
-  $urlRouterProvider
-  .otherwise('/my-dashboard');
+  .state('spotify-auth-success', {
+    url: '/spotify-auth-success/:token/:refresh_token',
+    templateUrl: '/app/dashboard/dashboard.html',
+    controller: 'DashboardController',
+    controllerAs: 'dashboardVm'
+  })
+  
+  $urlRouterProvider.otherwise('/my-dashboard');
 
   $urlRouterProvider.rule(function($injector, $location) {
 

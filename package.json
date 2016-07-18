@@ -13,7 +13,9 @@
     "serve-favicon": "latest",
     "jsonwebtoken": "latest",
     "nodemon":"latest",
-    "password-hash":"latest"
+    "password-hash":"latest",
+    "querystring": "latest",
+    "request": "latest"
   },
   "scripts": {
     "postinstall": "bower install",

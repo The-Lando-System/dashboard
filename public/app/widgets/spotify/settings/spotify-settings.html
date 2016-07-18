@@ -1,7 +1,7 @@
 <widget-settings-dialog header="Spotify Settings" widget-id="spotify">
-  <form ng-submit="spotifyVm.changeSettings(spotifyVm.something); widgetContainerVm.hideSettingsDialog('spotify');">
+  <form ng-submit="spotifyVm.setUser(spotifyVm.userId); widgetContainerVm.hideSettingsDialog('spotify');">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-      <input id="spotify-setting-id" type="text" class="mdl-textfield__input" ng-model="spotifyVm.something">
+      <input id="spotify-setting-id" type="text" class="mdl-textfield__input" ng-model="spotifyVm.userId">
       <label class="mdl-textfield__label" for="spotify-setting-id">Enter Something</label>
     </div>
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Apply</button>

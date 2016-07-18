@@ -20,6 +20,11 @@ module.exports = function(app) {
 		res.sendFile(index);
 	});
 
+	// Spotify Oauth handling
+	staticRoutes.get('/spotify-auth-success/:token/:refresh_token', function(req,res){
+		res.sendFile(index);
+	});
+
 	// Common View Components ===================
 	staticRoutes.get('/app-shell', function(req,res){
 		res.sendFile(base + '/public/app/shell/shell.html');
