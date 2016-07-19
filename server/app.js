@@ -168,6 +168,30 @@ app.get('/spotify-callback', function(req, res) {
     });
 });
 
+// Spotify refresh token
+app.get('/refresh_token/:refreshToken', function(req, res) {
+
+  // requesting access token from refresh token
+  var refresh_token = req.params.refreshToken;
+  var authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    headers: { 'Authorization': 'Basic ' + (new Buffer(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).toString('base64')) },
+    form: {
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    },
+    json: true
+  };
+
+  request.post(authOptions, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var access_token = body.access_token;
+      res.send({
+        'access_token': access_token
+      });
+    }
+  });
+});
 
 
 // Export the app ======================

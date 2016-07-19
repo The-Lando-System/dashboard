@@ -16,6 +16,7 @@ function SpotifyAuthService($http,$cookies,$rootScope) {
 	spotifyAuthService.getRefreshToken = getRefreshToken;
 	spotifyAuthService.saveTokens = saveTokens;
 	spotifyAuthService.removeTokens = removeTokens;
+	spotifyAuthService.refreshTokens = refreshTokens;
 
 	spotifyAuthService.token = false;
 	spotifyAuthService.refreshToken = false;
@@ -42,11 +43,17 @@ function SpotifyAuthService($http,$cookies,$rootScope) {
 	function saveTokens(token,refreshToken){
 		$cookies.put('spotifyToken',token);
 		$cookies.put('spotifyRefreshToken',refreshToken);
+		spotifyAuthService.token = token;
+		spotifyAuthService.refreshToken = refreshToken;
 	}
 
 	function removeTokens(){
 		$cookies.remove('spotifyToken');
 		$cookies.remove('spotifyRefreshToken');
+	}
+
+	function refreshTokens(){
+		return $http.get('/refresh_token/' + spotifyAuthService.refreshToken);
 	}
 
 	return spotifyAuthService;

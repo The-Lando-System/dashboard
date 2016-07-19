@@ -19,35 +19,60 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar) {
     componentHandler.upgradeAllRegistered();
     spotifyVm.loading = false;
     spotifyVm.spotifyToken = SpotifyAuthService.getToken();
-    getPlaylists();
+    if (spotifyVm.spotifyToken){
+      getSpotifyUser();
+    }
+    
   }
 
   // Interface Function Implementations ==============================
   
   function setUser(userId){
-    spotifyVm.userId = userId;
-    getPlaylists();
+    getPlaylists(userId);
   }
 
   // Helper Functions ==============================
 
-  function getPlaylists(){
-    if (!spotifyVm.userId) { 
-      MdlSnackbar.warn('Please enter a user id in the spotify widget settings!');
-      return;
-    }
-    $http.get('https://api.spotify.com/v1/users/' + spotifyVm.userId + '/playlists',{
+
+  function getSpotifyUser(){
+    $http.get('https://api.spotify.com/v1/me',{
       headers: { 'Authorization': 'Bearer ' + spotifyVm.spotifyToken }
     })
     .success(function(data){
-      console.log(data);
+      getPlaylists(data.id);
+    })
+    .error(function(error){
+      console.warn(error);
+
+      // TODO : Figure out how to handle token expiry based on error
+      SpotifyAuthService.refreshTokens()
+      .success(function(data){
+        initialize();
+      })
+      .error(function(error){
+        console.warn(error);
+      });
+
+
+    });
+  }
+
+  function getPlaylists(userId){
+    if (!userId) { 
+      MdlSnackbar.warn('Please enter a user id in the spotify widget settings!');
+      return;
+    }
+    $http.get('https://api.spotify.com/v1/users/' + userId + '/playlists',{
+      headers: { 'Authorization': 'Bearer ' + spotifyVm.spotifyToken }
+    })
+    .success(function(data){
       spotifyVm.playlists = data.items;
     })
     .error(function(error){
       console.warn(error);
+      MdlSnackbar.error('Failed to get user\'s playlists!');
     });
   }
-
   
 
   // Listen for broadcast events =================================
@@ -57,7 +82,7 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar) {
   });
 
   $scope.$on('refresh', function(event, success) {
-   
+   initialize();
   });
 
   $scope.$on('logout', function(event, success) {

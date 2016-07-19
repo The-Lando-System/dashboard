@@ -3,9 +3,9 @@
 angular.module('dashboard')
 .controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$timeout','$location','$stateParams','SpotifyAuthService','MdlSnackbar'];
+DashboardController.$inject = ['$rootScope','$timeout','$location','$stateParams','SpotifyAuthService','MdlSnackbar'];
 
-function DashboardController($timeout,$location,$stateParams,SpotifyAuthService,MdlSnackbar) {
+function DashboardController($rootScope,$timeout,$location,$stateParams,SpotifyAuthService,MdlSnackbar) {
 	var dashboardVm = this;
 
 	// Initialization ==============================================
@@ -21,6 +21,7 @@ function DashboardController($timeout,$location,$stateParams,SpotifyAuthService,
 			SpotifyAuthService.saveTokens($stateParams.token,$stateParams.refresh_token);
 			$location.path('my-dashboard');
 			MdlSnackbar.notify('Successfully logged into Spotify!');
+			$rootScope.$broadcast('refresh', true);
 		}
 
 	}
