@@ -3,15 +3,16 @@
 angular.module('dashboard')
 .controller('SpotifyWidgetController', SpotifyWidgetController);
 
-SpotifyWidgetController.$inject = ['$scope','SpotifyAuthService','$http','MdlSnackbar'];
+SpotifyWidgetController.$inject = ['$scope','SpotifyAuthService','$http','MdlSnackbar','$sce'];
 
-function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar) {
+function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sce) {
 	var spotifyVm = this;
   var TAG = 'SpotifyWidgetController: ';
 
   // Initialization ==============================================
 
   spotifyVm.setUser = setUser;
+  spotifyVm.selectPlaylist = selectPlaylist;
 
   initialize();
 
@@ -19,6 +20,7 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar) {
     componentHandler.upgradeAllRegistered();
     spotifyVm.loading = false;
     spotifyVm.spotifyToken = SpotifyAuthService.getToken();
+    spotifyVm.selectedPlaylist = $sce.trustAsResourceUrl("https://embed.spotify.com/?uri=spotify:user:matt.voget:playlist:0eT9iQIPVO4xFK04teWkvn");
     if (spotifyVm.spotifyToken){
       getSpotifyUser();
     }
@@ -29,6 +31,11 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar) {
   
   function setUser(userId){
     getPlaylists(userId);
+  }
+
+  function selectPlaylist(playlist){
+    spotifyVm.selectedPlaylist = $sce.trustAsResourceUrl("https://embed.spotify.com/?uri=" + playlist.uri);
+    spotifyVm.showPlaylists = false;
   }
 
   // Helper Functions ==============================
@@ -42,24 +49,22 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar) {
       getPlaylists(data.id);
     })
     .error(function(error){
-      console.warn(error);
-
-      // TODO : Figure out how to handle token expiry based on error
-      SpotifyAuthService.refreshTokens()
-      .success(function(data){
-        initialize();
-      })
-      .error(function(error){
-        console.warn(error);
-      });
-
-
+      if (error.error.status === 401) {
+        SpotifyAuthService.refreshTokens()
+        .success(function(data){
+          SpotifyAuthService.saveTokens(data.access_token);
+          initialize();
+        })
+        .error(function(error){
+          console.warn(error);
+        });
+      }
     });
   }
 
   function getPlaylists(userId){
     if (!userId) { 
-      MdlSnackbar.warn('Please enter a user id in the spotify widget settings!');
+      MdlSnackbar.warn('Failed to get a spotify user ID! Please login to spotify.');
       return;
     }
     $http.get('https://api.spotify.com/v1/users/' + userId + '/playlists',{

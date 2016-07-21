@@ -17,11 +17,11 @@
         </div>
         <div class="mdl-cell mdl-cell--12-col">
           <div ng-hide="spotifyVm.showPlaylists">
-            <iframe src="https://embed.spotify.com/?uri=spotify:user:matt.voget:playlist:0eT9iQIPVO4xFK04teWkvn" frameborder="0" allowtransparency="false" width="300" height="380"></iframe>
+            <iframe ng-src="{{spotifyVm.selectedPlaylist}}" frameborder="0" allowtransparency="false" width="300" height="380"></iframe>
           </div>
           <div ng-show="spotifyVm.showPlaylists">
             <ul class="list-group">
-              <li ng-repeat="playlist in spotifyVm.playlists" class="list-group-item">
+              <li ng-repeat="playlist in spotifyVm.playlists" class="list-group-item clickable" ng-click="spotifyVm.selectPlaylist(playlist)">
                 <strong>{{playlist.name}}</strong>
               </li>
             </ul>
