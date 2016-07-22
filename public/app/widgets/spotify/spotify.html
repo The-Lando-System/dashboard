@@ -5,7 +5,7 @@
     </div>
     <div ng-hide="spotifyVm.loading">
       <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-cell mdl-cell--6-col">
           <button ng-click="spotifyVm.showPlaylists = !spotifyVm.showPlaylists" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
             <span ng-show="spotifyVm.showPlaylists">
               Now Playing
@@ -15,8 +15,12 @@
             </span>
           </button>
         </div>
+        <div class="mdl-cell mdl-cell--6-col">
+          <p>Logged in as <strong>{{spotifyVm.userId}}</strong></p>
+        </div>
         <div class="mdl-cell mdl-cell--12-col">
           <div ng-hide="spotifyVm.showPlaylists">
+            <strong>{{spotifyVm.selectedPlaylistName}}</strong>
             <iframe ng-src="{{spotifyVm.selectedPlaylist}}" frameborder="0" allowtransparency="false" width="300" height="380"></iframe>
           </div>
           <div ng-show="spotifyVm.showPlaylists">

@@ -18,11 +18,14 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sc
 
   function initialize(){
     componentHandler.upgradeAllRegistered();
-    spotifyVm.loading = false;
+    spotifyVm.loading = true;
     spotifyVm.spotifyToken = SpotifyAuthService.getToken();
-    spotifyVm.selectedPlaylist = $sce.trustAsResourceUrl("https://embed.spotify.com/?uri=spotify:user:matt.voget:playlist:0eT9iQIPVO4xFK04teWkvn");
+
+    //spotifyVm.selectedPlaylist = $sce.trustAsResourceUrl("https://embed.spotify.com/?uri=spotify:user:matt.voget:playlist:0eT9iQIPVO4xFK04teWkvn");
     if (spotifyVm.spotifyToken){
       getSpotifyUser();
+    } else {
+      spotifyVm.loading = false;
     }
     
   }
@@ -34,6 +37,7 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sc
   }
 
   function selectPlaylist(playlist){
+    spotifyVm.selectedPlaylistName = playlist.name;
     spotifyVm.selectedPlaylist = $sce.trustAsResourceUrl("https://embed.spotify.com/?uri=" + playlist.uri);
     spotifyVm.showPlaylists = false;
   }
@@ -46,6 +50,7 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sc
       headers: { 'Authorization': 'Bearer ' + spotifyVm.spotifyToken }
     })
     .success(function(data){
+      spotifyVm.userId = data.id;
       getPlaylists(data.id);
     })
     .error(function(error){
@@ -57,6 +62,7 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sc
         })
         .error(function(error){
           console.warn(error);
+          spotifyVm.loading = false;
         });
       }
     });
@@ -65,6 +71,7 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sc
   function getPlaylists(userId){
     if (!userId) { 
       MdlSnackbar.warn('Failed to get a spotify user ID! Please login to spotify.');
+      spotifyVm.loading = false;
       return;
     }
     $http.get('https://api.spotify.com/v1/users/' + userId + '/playlists',{
@@ -72,10 +79,13 @@ function SpotifyWidgetController($scope,SpotifyAuthService,$http,MdlSnackbar,$sc
     })
     .success(function(data){
       spotifyVm.playlists = data.items;
+      selectPlaylist(spotifyVm.playlists[0]);
+      spotifyVm.loading = false;
     })
     .error(function(error){
       console.warn(error);
       MdlSnackbar.error('Failed to get user\'s playlists!');
+      spotifyVm.loading = false;
     });
   }
   
