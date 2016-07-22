@@ -30,6 +30,11 @@ try {
 		console.log('e.g. \'secret\': \'mysecret\'');
 		process.exit();
 	}
+	if (!devConfig.spotifyClientId || !devConfig.spotifyCallback || !devConfig.spotifySecret){
+		console.log('ERROR! Could not find all of the spotify properties in the config file:');
+		console.log('\t\'spotifyClientId\',\'spotifyCallback\',\'spotifySecret\'');
+		process.exit();
+	}
 	console.log('[x] Successfully parsed the config file! Happy Debugging!');
 } catch(err) {
 	if (process.env.NODE_ENV === 'prod'){
@@ -46,10 +51,9 @@ try {
 var dbUrl =  devConfig ? devConfig.db : process.env.DB_URL;
 var secretStr = devConfig ? devConfig.secret : process.env.SECRET;
 var tokenExpiryTime = devConfig ? devConfig.tokenExpiryTime : process.env.TOKEN_EXPIRY_TIME;
-
-var SPOTIFY_CLIENT_ID = '41c831282c0349eb8517cca42b8b9d1d';
-var SPOTIFY_REDIRECT_URI = 'http://localhost:3000/spotify-callback';
-var SPOTIFY_CLIENT_SECRET = '05fe2bbcb38b4e19a6c1dc3c4ccec854';
+var SPOTIFY_CLIENT_ID = devConfig ? devConfig.spotifyClientId : process.env.SPOTIFY_CLIENT_ID;
+var SPOTIFY_REDIRECT_URI = devConfig ? devConfig.spotifyCallback : process.env.SPOTIFY_REDIRECT_URI;
+var SPOTIFY_CLIENT_SECRET = devConfig ? devConfig.spotifySecret : process.env.SPOTIFY_CLIENT_SECRET;
 
 // Try to connect to Mongo
 mongoose.connect(dbUrl, function(err){
