@@ -3,14 +3,15 @@
 angular.module('dashboard')
 .controller('LoginController', LoginController);
 
-LoginController.$inject = ['$http','AuthService','MdlDialog','MdlUtils','MdlSnackbar', 'PreferenceService','$rootScope'];
+LoginController.$inject = ['$http','AuthService','AuthService2','MdlDialog','MdlUtils','MdlSnackbar', 'PreferenceService','$rootScope'];
 
-function LoginController($http, AuthService, MdlDialog, MdlUtils, MdlSnackbar, PreferenceService,$rootScope) {
+function LoginController($http, AuthService, AuthService2, MdlDialog, MdlUtils, MdlSnackbar, PreferenceService,$rootScope) {
 	
 	var loginVm = this;
 
 	loginVm.authFail = false;
 	loginVm.login = login;
+	//loginVm.login = login2;
 	loginVm.hideLoginDialog = hideLoginDialog;
 	loginVm.loading = false;
 
@@ -43,6 +44,12 @@ function LoginController($http, AuthService, MdlDialog, MdlUtils, MdlSnackbar, P
 			});
 		}
 	};
+
+	function login2(formIsValid){
+		if (formIsValid){
+			AuthService2.login(loginVm.creds);
+		}
+	}
 
 	function hideLoginDialog(){
   		MdlDialog.close('login');
