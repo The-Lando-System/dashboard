@@ -88,6 +88,7 @@ app.post('/authenticate', function(req,res){
 	User.findOne({
 		username: req.body.username		
 	}, function(err,user){
+    console.log(user);
 		if (err) throw err;
 		if (!user) {
 			console.log("WARNING: Authentication failed! Could not find user: " + req.body.username);
@@ -97,7 +98,17 @@ app.post('/authenticate', function(req,res){
 				console.log("WARNING: Authentication failed! Wrong password for user: " + req.body.username);
 				res.status(404).send({ message: 'Authentication failed, wrong password!' });
 			} else {
-				var token = jwt.sign(user, app.get('superSecret'), {
+
+        var usr = {
+          'firstName': user.firstName,
+          'lastName':  user.lastName,
+          'email':     user.email,
+          'username':  user.username,
+          'password':  user.password,
+          'role':      user.role
+        };
+
+				var token = jwt.sign(usr, app.get('superSecret'), {
 					expiresIn: 2592000   // 30 days?
 				});
 				res.json({
@@ -109,6 +120,71 @@ app.post('/authenticate', function(req,res){
 		}
 	});
 });
+
+app.post('/authenticate2', function(req,res){
+
+  // Build the post string from an object
+  var post_data = qstring.stringify({
+    'username'   : req.body.username,
+    'password'   : req.body.password,
+    'grant_type' : 'password'
+  });
+
+  var headers = {
+    'Content-Type'   : 'application/x-www-form-urlencoded',
+    'Authorization'  : 'Basic YWNtZTphY21lc2VjcmV0'
+  };
+
+  request({
+    headers: headers,
+    uri: 'http://localhost:8080/oauth/token',
+    body: post_data,
+    method: 'POST'
+  }, getUserDetailsCb);
+
+  function getUserDetailsCb(error, response, body){
+    var resp = JSON.parse(body);
+
+    console.log(resp);
+
+    var headers = {
+      'Authorization'  : 'Bearer ' + resp.access_token
+    };
+
+    request({
+      headers: headers,
+      uri: 'http://localhost:8080/user-details',
+      method: 'GET'
+    }, function (error, response, body) {
+        
+        var resp = JSON.parse(body);
+        console.log(resp);
+
+        var user = {
+          'firstName': resp.firstName,
+          'lastName':  resp.lastName,
+          'email':     resp.email,
+          'username':  resp.username,
+          'password':  resp.password,
+          'role':      resp.role
+        };
+
+        var token = jwt.sign(user, app.get('superSecret'), {
+          expiresIn: 2592000   // 30 days?
+        });
+
+        res.json({
+          success: true,
+          message: 'Enjoy your token!',
+          token: token
+        });
+
+    });
+  }
+
+});
+
+
 
 
 // Spotify Login

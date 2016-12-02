@@ -17,7 +17,7 @@ module.exports = function(app) {
 				if (err) {
 					return res.json({ success: false, message: err.name});
 				} else {
-					req.decoded = decoded._doc;
+					req.decoded = decoded;
 					next();
 				}
 			});

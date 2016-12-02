@@ -17,8 +17,8 @@ module.exports = function(app) {
 				if (err) {
 					return res.json({ success: false, message: err.name});
 				} else {
-					if (decoded._doc.role === 'admin'){
-						req.decoded = decoded._doc;
+					if (decoded.role === 'admin' || decoded.role === 'ADMIN'){
+						req.decoded = decoded;
 						next();
 					} else {
 						return res.json({ success: false, message: 'You do not have an admin role!'});

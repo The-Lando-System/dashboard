@@ -57,11 +57,13 @@ function AuthService($cookies,jwtHelper,$rootScope) {
 
 	function createUserSession(token){
 
-		var user = jwtHelper.decodeToken(token)._doc;
+		//console.log(jwtHelper.decodeToken(token));
+
+		var user = jwtHelper.decodeToken(token);
 		var isAdmin = false;
 
 		if (user.role){
-			isAdmin = (user.role === 'admin') ? true : false;
+			isAdmin = (user.role === 'admin' || user.role === 'ADMIN') ? true : false;
 		} else {
 			console.warn(TAG + 'Could not get the role from the user!')
 		}
